@@ -180,8 +180,8 @@ try :
 
         # 후진 -------------------------------------------------------------------    
         elif (target_direction == 'back'): 
-            IO.output(AIN1, IO.LOW)
-            IO.output(AIN2, IO.HIGH)
+            IO.output(AIN1, IO.HIGH)
+            IO.output(AIN2, IO.LOW)
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
