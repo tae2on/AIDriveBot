@@ -208,10 +208,10 @@ try :
         elif (target_direction == 'right') :  
             IO.output(AIN1, IO.HIGH)
             IO.output(AIN2, IO.LOW)
-            IO.output(BIN3, IO.LOW)
-            IO.output(BIN4, IO.HIGH)
+            IO.output(BIN3, IO.HIGH)
+            IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 0))
+            p1.ChangeDutyCycle(min(abs(controlB), 10))
             p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
