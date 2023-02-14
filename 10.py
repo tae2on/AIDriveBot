@@ -185,7 +185,7 @@ try :
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 100))
+            p1.ChangeDutyCycle(min(abs(controlB), 0))
             p2.ChangeDutyCycle(min(abs(controlB), 100))
         
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
