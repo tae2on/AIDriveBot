@@ -151,8 +151,8 @@ try :
         
         # 전진 -------------------------------------------------
         if (target_direction == 'front') :  
-            IO.output(AIN1, IO.HIGH)
-            IO.output(AIN2, IO.LOW)
+            IO.output(AIN1, IO.LOW)
+            IO.output(AIN2, IO.HIGH)
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
@@ -162,7 +162,7 @@ try :
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
-            print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
+            print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
             print('enc = %5.1f' %(encoderPosB))
 
             if ((motorDegB >= target_deg)):
