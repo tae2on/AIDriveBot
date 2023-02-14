@@ -77,7 +77,7 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-kp = 0.5   #float(input("KP: "))  #3.3 
+kp = 0.33    #float(input("KP: "))  #3.3 
 kd = 0.     #float(input("KD: "))  
 ki = 0.     #float(input("KI: "))  #0.2 
 
@@ -110,29 +110,30 @@ r = 11.5    # 타이어의 반지름
 #----------------------------------- 모터의 이동 거리 -----------------------------------#
 # 모터 이동 거리 (r: 11.5) 
 try :
-    while True:
-        target_direction = str(input("이동하고 싶은 방향을 입력하시오 : ")) 
-        target_distance = int(input("이동하고 싶은 거리를 입력하시오: "))
-        turn_deg = int(input("회전하고 싶은 각도를 입력하시오 : "))
- 
+    target_direction = str(input("이동하고 싶은 방향을 입력하시오 : ")) 
+    target_distance = int(input("이동하고 싶은 거리를 입력하시오: "))
+    while True: 
         wheel = 2*math.pi*r     #원둘레 = 72.26
         target_deg = 360*target_distance / wheel
+        #모터기어비 추가하기 
       
-        # DC 모터 왼쪽
+      # DC 모터 왼쪽
         motorDegA = encoderPosA * ratio  
         errorA = target_deg - motorDegA
         de_A = errorA - error_prev_A
         di_A += errorA * dt
         dt = time.time() - time_prev
 
+        motor_distanceA = motorDegA * wheel / 360
+        # print(motor_distanceA)
+        # print(motorDegA)
+        derrorA = abs(target_distance - motor_distanceA)
+        
         delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A)
         controlA += delta_vA
         error_prev_A = errorA
         error_prev_prev_A = error_prev_A
     
-        motor_distanceA = motorDegA * wheel / 360
-        derrorA = abs(target_distance - motor_distanceA)
-        
         # DC 모터 오른쪽
         motorDegB = abs(encoderPosB * ratio)
         errorB = target_deg - motorDegB
@@ -149,11 +150,11 @@ try :
         derrorB = abs(target_distance - motor_distanceB)
         
         # 전진 -------------------------------------------------
-        if (target_direction == 'front') : 
+        if (target_direction == 'front') :  
             IO.output(AIN1, IO.HIGH)
             IO.output(AIN2, IO.LOW)
-            IO.output(BIN3, IO.HIGH)
-            IO.output(BIN4, IO.LOW)
+            IO.output(BIN3, IO.LOW)
+            IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlB), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
@@ -161,8 +162,8 @@ try :
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
-            print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
-            #print('enc = %5.1f' %(encoderPosB))
+            print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
+            print('enc = %5.1f' %(encoderPosB))
 
             if ((motorDegB >= target_deg)):
                 IO.output(AIN1, IO.LOW)
@@ -177,12 +178,12 @@ try :
             time_prev = time.time()
             time.sleep(dt_sleep)
 
-            # 후진 -------------------------------------------------------------------    
+        # 후진 -------------------------------------------------------------------    
         elif (target_direction == 'back'): 
             IO.output(AIN1, IO.LOW)
             IO.output(AIN2, IO.HIGH)
-            IO.output(BIN3, IO.LOW)
-            IO.output(BIN4, IO.HIGH)
+            IO.output(BIN3, IO.HIGH)
+            IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))
@@ -204,42 +205,56 @@ try :
             time.sleep(dt_sleep)
     
         # 오른쪽 -------------------------------------------------
-        elif (target_direction == 'right') : 
-            if((motorDegB >= turn_deg )): 
-                IO.output(AIN1, IO.LOW)
-                IO.output(AIN2, IO.HIGH)
-                IO.output(BIN3, IO.HIGH)
-                IO.output(BIN4, IO.LOW)
-                time.sleep(0.01)
-                p1.ChangeDutyCycle(min(abs(controlB), 100))
-                p2.ChangeDutyCycle(min(abs(controlB), 100))
-            
-        IO.output(AIN1, IO.LOW)
-        IO.output(AIN2, IO.HIGH)
-        IO.output(BIN3, IO.HIGH)
-        IO.output(BIN4, IO.LOW)
-        time.sleep(0.01)
-        p1.ChangeDutyCycle(min(abs(controlB), 100))
-        p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
-
-        print('각도 = %5.1f' %(motorDegB))
-        print('원하는 각도 = %5.1f' %(target_deg))
-        print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
-        print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
-        #print('enc = %5.1f' %(encoderPosB))
-
-        if ((motorDegB >= target_deg)):
+        elif (target_direction == 'right') :  
             IO.output(AIN1, IO.LOW)
-            IO.output(AIN2, IO.LOW) 
+            IO.output(AIN2, IO.HIGH)
             IO.output(BIN3, IO.LOW)
-            IO.output(BIN4, IO.LOW)
-
+            IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(0)
-            p2.ChangeDutyCycle(0)
+            p1.ChangeDutyCycle(min(abs(controlA), 100))
+            p2.ChangeDutyCycle(min(abs(controlB), 100))
 
-        time_prev = time.time()
-        time.sleep(dt_sleep)
+            print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
+            print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB)) 
+
+            if ((motorDegA >= target_deg) & (controlB <= 0)):
+                IO.output(AIN1, IO.LOW)
+                IO.output(AIN2, IO.LOW) 
+                IO.output(BIN3, IO.LOW)
+                IO.output(BIN4, IO.LOW)
+
+                time.sleep(0.01)
+                p1.ChangeDutyCycle(0)
+                p2.ChangeDutyCycle(0)
+
+            time_prev = time.time()
+            time.sleep(dt_sleep)
+
+        # 왼쪽 -------------------------------------------------------------------    
+        elif (target_direction == 'left'): 
+            IO.output(AIN1, IO.HIGH)
+            IO.output(AIN2, IO.LOW)
+            IO.output(BIN3, IO.LOW)
+            IO.output(BIN4, IO.HIGH)
+            time.sleep(0.01)
+            p1.ChangeDutyCycle(min(abs(controlA), 100))
+            p2.ChangeDutyCycle(min(abs(controlB), 100))
+        
+            print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
+            print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB)) 
+    
+            if ((motorDegA >= target_deg) & (controlA <= 0)):
+                IO.output(AIN1, IO.LOW)
+                IO.output(AIN2, IO.LOW) 
+                IO.output(BIN3, IO.LOW)
+                IO.output(BIN4, IO.LOW)
+
+                time.sleep(0.01)
+                p1.ChangeDutyCycle(0)
+                p2.ChangeDutyCycle(0)
+
+            time_prev = time.time()
+            time.sleep(dt_sleep)
 
 
 # Crtl + c 누르면 모터 작동 멈춤
