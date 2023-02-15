@@ -77,9 +77,9 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-kp = 0.65       #float(input("kp: "))     
-kd = float(input("kd: "))  
-ki = float(input("ki: "))    #0.2 
+kp = float(input("kp: "))       #0.65     
+kd = float(input("kd: "))       #0.2         
+ki = float(input("ki: "))    #
 
 # DC 모터 왼쪽
 di_A = 0.
