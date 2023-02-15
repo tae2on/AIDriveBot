@@ -166,6 +166,10 @@ try :
             print('enc = %5.1f' %(encoderPosB))
 
             if ((motorDegB >= target_deg)):
+                kp = 0.    
+                kd = 0.                
+                ki = 0. 
+
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
@@ -175,9 +179,7 @@ try :
                 p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
 
-                kp = 0.    
-                kd = 0.       #0.2         
-                ki = 0. 
+                print("kp = %7.1f , ki = %7.1f, kd = %7.1f" %(kp, ki, kd))
             
             time_prev = time.time()
             time.sleep(dt_sleep)
