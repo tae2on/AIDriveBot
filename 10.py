@@ -164,7 +164,8 @@ try :
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
             print('enc = %5.1f' %(encoderPosB))
-
+            print("kp = %7.1f , ki = %7.1f, kd = %7.1f" %(kp, ki, kd))
+            
             if ((motorDegB >= target_deg)):
                 kp = 0.    
                 kd = 0.                
@@ -179,7 +180,7 @@ try :
                 p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
 
-                print("kp = %7.1f , ki = %7.1f, kd = %7.1f" %(kp, ki, kd))
+                
             
             time_prev = time.time()
             time.sleep(dt_sleep)
