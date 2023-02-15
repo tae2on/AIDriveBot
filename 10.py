@@ -79,7 +79,7 @@ rad = ratio*math.pi/180
 # PID 상수
 kp = float(input("kp: "))       #0.65     
 kd = float(input("kd: "))       #0.2         
-ki = float(input("ki: "))    #
+ki = float(input("ki: "))       #
 
 # DC 모터 왼쪽
 di_A = 0.
