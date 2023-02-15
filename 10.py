@@ -207,13 +207,13 @@ try :
     
         # 오른쪽 -------------------------------------------------
         elif (target_direction == 'right') :  
-            IO.output(AIN1, IO.LOW)
-            IO.output(AIN2, IO.HIGH)
+            IO.output(AIN1, IO.HIGH)
+            IO.output(AIN2, IO.LOW)
             IO.output(BIN3, IO.LOW)
             IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 10))
-            p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
+            p1.ChangeDutyCycle(min(abs(controlB), 0))
+            p2.ChangeDutyCycle(min(abs(controlB), 30))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
