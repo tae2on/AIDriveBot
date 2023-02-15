@@ -77,7 +77,7 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-kp = float(input("kp: "))    #3.3 
+kp = 0.65       #float(input("kp: "))     
 kd = float(input("kd: "))  
 ki = float(input("ki: "))    #0.2 
 
