@@ -123,7 +123,7 @@ try :
         di_A += errorA * dt
         dt = time.time() - time_prev
 
-        motor_distanceA = motorDegA * wheel / 360
+        motor_distanceA = (motorDegA * wheel / 360) / 2
         # print(motor_distanceA)
         # print(motorDegA)
         derrorA = abs(target_distance - motor_distanceA)
