@@ -170,15 +170,16 @@ try :
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
                 IO.output(BIN4, IO.LOW)
+                
+                kp = 0.    
+                kd = 0.                
+                ki = 0. 
 
                 time.sleep(0.01)
                 p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
 
-                kp = 0.    
-                kd = 0.                
-                ki = 0. 
-            print("kp = %7.1f , ki = %7.1f, kd = %7.1f" %(kp, ki, kd))
+            print("kp = %7.1f ,ki = %7.1f,kd = %7.1f" %(kp, ki, kd))
             
             time_prev = time.time()
             time.sleep(dt_sleep)
