@@ -77,7 +77,7 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-kp = float(input("kp: "))       #0.65     
+kp = float(input("kp: "))       #0.65 #0.60    
 kd = float(input("kd: "))       #0.2         
 ki = float(input("ki: "))       #
 
@@ -175,6 +175,10 @@ try :
                 p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
 
+                kp = 0.    
+                kd = 0.       #0.2         
+                ki = 0. 
+            
             time_prev = time.time()
             time.sleep(dt_sleep)
 
