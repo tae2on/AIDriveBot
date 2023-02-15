@@ -77,9 +77,9 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-kp = 0.33    #float(input("KP: "))  #3.3 
-kd = 0.     #float(input("KD: "))  
-ki = 0.     #float(input("KI: "))  #0.2 
+kp = float(input("kp: "))    #3.3 
+kd = float(input("kd: "))  
+ki = float(input("ki: "))    #0.2 
 
 # DC 모터 왼쪽
 di_A = 0.
@@ -180,12 +180,12 @@ try :
 
         # 후진 -------------------------------------------------------------------    
         elif (target_direction == 'back'): 
-            IO.output(AIN1, IO.HIGH)
-            IO.output(AIN2, IO.LOW)
+            IO.output(AIN1, IO.LOW)
+            IO.output(AIN2, IO.HIGH)
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 0))
+            p1.ChangeDutyCycle(min(abs(controlB), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))
         
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
