@@ -114,7 +114,7 @@ try :
     target_distance = int(input("이동하고 싶은 거리를 입력하시오: "))
     while True: 
         wheel = 2*math.pi*r     #원둘레 = 72.26
-        target_deg = 360*target_distance / wheel
+        target_deg = (360*target_distance / wheel) / 2
     
       # DC 모터 왼쪽
         motorDegA = encoderPosA * ratio  
@@ -123,7 +123,7 @@ try :
         di_A += errorA * dt
         dt = time.time() - time_prev
 
-        motor_distanceA = (motorDegA * wheel / 360) / 2
+        motor_distanceA = motorDegA * wheel / 360
         # print(motor_distanceA)
         # print(motorDegA)
         derrorA = abs(target_distance - motor_distanceA)
@@ -145,7 +145,7 @@ try :
         error_prev_B = errorB
         error_prev_prev_B = error_prev_B
 
-        motor_distanceB = (motorDegB * wheel / 360) / 2
+        motor_distanceB = motorDegB * wheel / 360
         derrorB = abs(target_distance - motor_distanceB)
         
         # 전진 -------------------------------------------------
