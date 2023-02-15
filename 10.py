@@ -77,9 +77,9 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-kp = float(input("kp: "))       #0.65 #0.60    
-kd = float(input("kd: "))       #0.2         
-ki = float(input("ki: "))       #
+kp = 30.0   
+kd = 0.         
+ki = 0.
 
 # DC 모터 왼쪽
 di_A = 0.
@@ -115,8 +115,7 @@ try :
     while True: 
         wheel = 2*math.pi*r     #원둘레 = 72.26
         target_deg = 360*target_distance / wheel
-        #모터기어비 추가하기 
-      
+    
       # DC 모터 왼쪽
         motorDegA = encoderPosA * ratio  
         errorA = target_deg - motorDegA
@@ -146,7 +145,7 @@ try :
         error_prev_B = errorB
         error_prev_prev_B = error_prev_B
 
-        motor_distanceB = motorDegB * wheel / 360
+        motor_distanceB = (motorDegB * wheel / 360) / 2
         derrorB = abs(target_distance - motor_distanceB)
         
         # 전진 -------------------------------------------------
@@ -170,10 +169,6 @@ try :
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
                 IO.output(BIN4, IO.LOW)
-                
-                kp = 0.    
-                kd = 0.                
-                ki = 0. 
 
                 time.sleep(0.01)
                 p1.ChangeDutyCycle(0)
