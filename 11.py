@@ -19,7 +19,7 @@ IO.setup(AIN2,IO.OUT, initial=IO.LOW)
 
 
 p = IO.PWM(14, 100)
-p.start(0)
+p.start(100)
 
 IO.output(AIN1, IO.HIGH)
 # IO.output(AIN2, IO.LOW)
