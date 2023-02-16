@@ -26,6 +26,5 @@ IO.output(AIN1, IO.HIGH)
 p.ChangeDutyCycle(100)
 
 print('회전')
-    
-time.sleep(0.5)
+
 
