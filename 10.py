@@ -77,9 +77,9 @@ ratio = 360./264./52. # 한 바퀴에 약 4100펄스
 rad = ratio*math.pi/180
 
 # PID 상수
-#kp = 30.0   
-#kd = 0.         
-#ki = 0.
+kp = 30.0   
+kd = 0.         
+ki = 0.
 
 # DC 모터 왼쪽
 di_A = 0.
@@ -119,31 +119,31 @@ try :
       # DC 모터 왼쪽
         motorDegA = encoderPosA * ratio  
         errorA = target_deg - motorDegA
-        #de_A = errorA - error_prev_A
-        #di_A += errorA * dt
-        #dt = time.time() - time_prev
+        de_A = errorA - error_prev_A
+        di_A += errorA * dt
+        dt = time.time() - time_prev
 
         motor_distanceA = motorDegA * wheel / 360
         # print(motor_distanceA)
         # print(motorDegA)
         derrorA = abs(target_distance - motor_distanceA)
         
-        #delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A)
-        #controlA += delta_vA
-        #error_prev_A = errorA
-        #error_prev_prev_A = error_prev_A
+        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A)
+        controlA += delta_vA
+        error_prev_A = errorA
+        error_prev_prev_A = error_prev_A
     
         # DC 모터 오른쪽
         motorDegB = abs(encoderPosB * ratio)
         errorB = target_deg - motorDegB
-        #de_B = errorB - error_prev_B
-        #di_B += errorB * dt
-        #dt = time.time() - time_prev
+        de_B = errorB - error_prev_B
+        di_B += errorB * dt
+        dt = time.time() - time_prev
 
-        #delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B)
-        #controlB += delta_vB
-        #error_prev_B = errorB
-        #error_prev_prev_B = error_prev_B
+        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B)
+        controlB += delta_vB
+        error_prev_B = errorB
+        error_prev_prev_B = error_prev_B
 
         motor_distanceB = motorDegB * wheel / 360
         derrorB = abs(target_distance - motor_distanceB)
@@ -155,8 +155,8 @@ try :
             IO.output(BIN3, IO.LOW)
             IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 101))
-            p2.ChangeDutyCycle(min(abs(controlB), 101))     #controlA 
+            p1.ChangeDutyCycle(min(abs(controlB), 100))
+            p2.ChangeDutyCycle(min(abs(controlB), 0))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
@@ -213,7 +213,7 @@ try :
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlB), 100))    #오른쪽    
-            p2.ChangeDutyCycle(min(abs(controlB), 0))     #controlA 
+            p2.ChangeDutyCycle(min(abs(controlB), 50))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
