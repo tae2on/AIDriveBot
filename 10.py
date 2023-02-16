@@ -150,10 +150,10 @@ try :
         
         # 전진 -------------------------------------------------
         if (target_direction == 'front') :  
-            IO.output(AIN1, IO.LOW)
-            IO.output(AIN2, IO.HIGH)
-            IO.output(BIN3, IO.HIGH)
-            IO.output(BIN4, IO.LOW)
+            IO.output(AIN1, IO.HIGH)
+            IO.output(AIN2, IO.LOW)
+            IO.output(BIN3, IO.LOW)
+            IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlB), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
@@ -174,8 +174,6 @@ try :
                 p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
 
-            print("kp = %7.1f ,ki = %7.1f,kd = %7.1f" %(kp, ki, kd))
-            
             time_prev = time.time()
             time.sleep(dt_sleep)
 
