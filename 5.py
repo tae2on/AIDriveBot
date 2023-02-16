@@ -11,7 +11,7 @@ encPinB = 3 # 파랑색 (B)
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
-IO.setup(encPinA, IO.IN, epull_up_down=IO.PUD_UP)
+IO.setup(encPinA, IO.IN, pull_up_down=IO.PUD_UP)
 IO.setup(encPinB, IO.IN, pull_up_down=IO.PUD_UP)
 IO.setup(pwmPin, IO.OUT, initial=IO.LOW)
 IO.setup(AIN1, IO.OUT, initial=IO.LOW)
