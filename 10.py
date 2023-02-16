@@ -74,7 +74,7 @@ IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
 
 # PID 제어
-ratio = 360./264./52. # 한 바퀴에 약 6864펄스 (정확하지 않음)
+ratio = 360./264./52. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 # PID 상수
 kp = 30.0
@@ -154,7 +154,7 @@ try :
             IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 100))
-            p2.ChangeDutyCycle(min(abs(controlA), 100))     #controlA 
+            p2.ChangeDutyCycle(min(abs(controlA), 100))
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
