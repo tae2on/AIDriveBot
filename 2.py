@@ -66,7 +66,7 @@ def encoderD(encPinD):
         encoderPosB -= 1
     else:
         encoderPosB += 1
-        
+
 IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
@@ -78,7 +78,7 @@ while True:
     IO.output(BIN3, IO.LOW)
     IO.output(BIN4, IO.HIGH)
     time.sleep(0.01)
-    p1.ChangeDutyCycle(min(abs(controlB), 101))
-    p2.ChangeDutyCycle(min(abs(controlB), 101))     #controlA 
+    p1.ChangeDutyCycle(101)
+    p2.ChangeDutyCycle(101)     #controlA 
 
     print('전진')
