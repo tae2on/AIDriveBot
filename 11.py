@@ -50,7 +50,7 @@ try:
         # IO.output(AIN2, IO.LOW)
         p.ChangeDutyCycle(100)
 
-        RPM = (60*edge)/(t*PPR)
+        RPM = (60*edge)/(t*PPR*4)
 
         print('RPM : %d' %(RPM))
         print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
