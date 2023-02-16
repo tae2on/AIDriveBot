@@ -118,7 +118,7 @@ try :
     
       # DC 모터 왼쪽
         motorDegA = encoderPosA * ratio  
-        #errorA = target_deg - motorDegA
+        errorA = target_deg - motorDegA
         #de_A = errorA - error_prev_A
         #di_A += errorA * dt
         #dt = time.time() - time_prev
@@ -135,7 +135,7 @@ try :
     
         # DC 모터 오른쪽
         motorDegB = abs(encoderPosB * ratio)
-        #errorB = target_deg - motorDegB
+        errorB = target_deg - motorDegB
         #de_B = errorB - error_prev_B
         #di_B += errorB * dt
         #dt = time.time() - time_prev
