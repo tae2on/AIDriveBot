@@ -22,7 +22,7 @@ p = IO.PWM(14, 100)
 p.start(100)
 
 IO.output(AIN1, IO.HIGH)
-# IO.output(AIN2, IO.LOW)
+IO.output(AIN2, IO.LOW)
 p.ChangeDutyCycle(100)
 
 print('회전')
