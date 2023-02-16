@@ -212,7 +212,7 @@ try :
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 100))
+            p1.ChangeDutyCycle(min(abs(controlB), 50))
             p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
