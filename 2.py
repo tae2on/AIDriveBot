@@ -42,7 +42,7 @@ IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 while True:
     IO.output(AIN1, IO.HIGH)
     # IO.output(AIN2, IO.LOW)
-    p.ChangeDutyCycle(15)
+    p.ChangeDutyCycle(100)
 
     print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
     print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
