@@ -4,14 +4,14 @@ import RPi.GPIO as IO
 import time
 import math 
 
-# DC 모터 왼쪽 
+# DC 모터 왼쪽 (엔코더 O)
 pwmPinA = 14 # 모터드라이버 ENA
 AIN1 = 15 # IN 1
 AIN2 = 18 # IN 2
 encPinA = 2 # 보라색 (A)  
 encPinB = 3 # 파랑색 (B)
 
-# DC 모터 오른쪽
+# DC 모터 오른쪽 (엔코더 X)
 pwmPinB = 17 # 모터드라이버 ENB
 BIN3 = 27 # IN 3
 BIN4 = 22 # IN 4
@@ -39,6 +39,7 @@ p2.start(0)
 encoderPosA = 0
 encoderPosB = 0
 
+# 인터럽트
 def encoderA(encPinA):
     global encoderPosA
     if IO.input(encPinA) == IO.input(encPinB):
@@ -73,11 +74,10 @@ IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
 
 # PID 제어
-ratio = 360./264./52. # 한 바퀴에 약 4100펄스
-rad = ratio*math.pi/180
+ratio = 360./264./52. # 한 바퀴에 약 6864펄스 (정확하지 않음)
 
 # PID 상수
-kp = 30.0   
+kp = 30.0
 kd = 0.         
 ki = 0.
 
@@ -114,28 +114,26 @@ try :
     target_distance = int(input("이동하고 싶은 거리를 입력하시오: "))
     while True: 
         wheel = 2*math.pi*r     #원둘레 = 72.26
-        target_deg = (360*target_distance / wheel) / 2
+        target_deg = (360*target_distance / wheel) / 2    # 목표 각도
     
       # DC 모터 왼쪽
-        motorDegA = encoderPosA * ratio  
-        errorA = target_deg - motorDegA
+        motorDegA = encoderPosA * ratio     # 모터 움직인 각도
+        errorA = target_deg - motorDegA     # 각도 오차값 
         de_A = errorA - error_prev_A
         di_A += errorA * dt
         dt = time.time() - time_prev
-
-        motor_distanceA = motorDegA * wheel / 360
-        # print(motor_distanceA)
-        # print(motorDegA)
-        derrorA = abs(target_distance - motor_distanceA)
         
         delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A)
         controlA += delta_vA
         error_prev_A = errorA
         error_prev_prev_A = error_prev_A
     
+        motor_distanceA = motorDegA * wheel / 360            # 모터 움직인 거리
+        derrorA = abs(target_distance - motor_distanceA)     # 거리 오차값
+
         # DC 모터 오른쪽
-        motorDegB = abs(encoderPosB * ratio)
-        errorB = target_deg - motorDegB
+        motorDegB = abs(encoderPosB * ratio)     # 모터 움직인 각도
+        errorB = target_deg - motorDegB          # 각도 오차값 
         de_B = errorB - error_prev_B
         di_B += errorB * dt
         dt = time.time() - time_prev
@@ -145,9 +143,9 @@ try :
         error_prev_B = errorB
         error_prev_prev_B = error_prev_B
 
-        motor_distanceB = motorDegB * wheel / 360
-        derrorB = abs(target_distance - motor_distanceB)
-        
+        motor_distanceB = motorDegB * wheel / 360           # 모터 움직인 거리
+        derrorB = abs(target_distance - motor_distanceB)    # 거리 오차값
+
         # 전진 -------------------------------------------------
         if (target_direction == 'front') :  
             IO.output(AIN1, IO.LOW)
@@ -155,16 +153,16 @@ try :
             IO.output(BIN3, IO.LOW)
             IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 100))
-            p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
+            p1.ChangeDutyCycle(min(abs(controlA), 100))
+            p2.ChangeDutyCycle(min(abs(controlA), 100))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
-            print('enc = %5.1f' %(encoderPosB))
+            print('enc = %5.1f' %(encoderPosA))
 
-            if ((motorDegB >= target_deg)):
+            if ((motorDegA >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
@@ -179,18 +177,18 @@ try :
 
         # 후진 -------------------------------------------------------------------    
         elif (target_direction == 'back'): 
-            IO.output(AIN1, IO.LOW)
-            IO.output(AIN2, IO.HIGH)
+            IO.output(AIN1, IO.HIGH)
+            IO.output(AIN2, IO.LOW)
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 100))
-            p2.ChangeDutyCycle(min(abs(controlB), 100))
+            p1.ChangeDutyCycle(min(abs(controlA), 100))
+            p2.ChangeDutyCycle(min(abs(controlA), 100))
         
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB)) 
 
-            if ((motorDegB >= target_deg) & (controlB <= 0)):
+            if ((motorDegA >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
@@ -205,21 +203,21 @@ try :
     
         # 오른쪽 -------------------------------------------------
         elif (target_direction == 'right') :  
-            IO.output(AIN1, IO.HIGH)
-            IO.output(AIN2, IO.LOW)
-            IO.output(BIN3, IO.LOW)
-            IO.output(BIN4, IO.HIGH)
+            IO.output(AIN1, IO.LOW)
+            IO.output(AIN2, IO.HIGH)
+            IO.output(BIN3, IO.HIGH)
+            IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 0))    #오른쪽    
-            p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
+            p1.ChangeDutyCycle(min(abs(controlA), 100))    
+            p2.ChangeDutyCycle(min(abs(controlA), 100))  
 
-            print('각도 = %5.1f' %(motorDegB))
+            print('각도 = %5.1f' %(motorDegA))
             print('원하는 각도 = %5.1f' %(target_deg))
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
-            print('enc = %5.1f' %(encoderPosB))
+            print('enc = %5.1f' %(encoderPosA))
 
-            if ((motorDegB >= target_deg)):
+            if ((motorDegA >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
@@ -240,12 +238,12 @@ try :
             IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 100))
-            p2.ChangeDutyCycle(min(abs(controlB), 100))
+            p2.ChangeDutyCycle(min(abs(controlA), 100))
         
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f, errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB)) 
     
-            if ((motorDegA >= target_deg) & (controlA <= 0)):
+            if ((motorDegA >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
