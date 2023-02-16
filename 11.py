@@ -22,10 +22,11 @@ p = IO.PWM(PWMA, 100)
 p.start(0)
 
 try:
-	while 1:
-		IO.output(AIN1, IO.HIGH)
-        # IO.output(AIN2, IO.LOW)
-        p.ChangeDutyCycle(100)
+	while True:
+            IO.output(AIN1, IO.HIGH)
+            # IO.output(AIN2, IO.LOW)
+            p.ChangeDutyCycle(100)
+
 
 except KeyboardInterrupt: 
 	pass 
