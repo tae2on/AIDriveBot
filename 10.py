@@ -234,7 +234,7 @@ try :
         elif (target_direction == 'left'): 
             IO.output(AIN1, IO.HIGH)  
             IO.output(AIN2, IO.LOW)
-            IO.output(BIN3, IO.HIGh)
+            IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 30))
