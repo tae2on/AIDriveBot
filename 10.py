@@ -232,10 +232,10 @@ try :
 
         # 왼쪽 -------------------------------------------------------------------    
         elif (target_direction == 'left'): 
-            IO.output(AIN1, IO.HIGH)  
-            IO.output(AIN2, IO.LOW)
-            IO.output(BIN3, IO.HIGH)
-            IO.output(BIN4, IO.LOW)
+            IO.output(AIN1, IO.LOW)  
+            IO.output(AIN2, IO.HIGH)
+            IO.output(BIN3, IO.LOW)
+            IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 30))
             p2.ChangeDutyCycle(min(abs(controlA), 100))
