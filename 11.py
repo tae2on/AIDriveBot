@@ -92,8 +92,7 @@ def go_front():
     p1.ChangeDutyCycle(min(abs(controlA), 100))
     p2.ChangeDutyCycle(min(abs(controlA), 100))
 
-    print('각도 = %5.1f' %(motorDegB))
-    print('원하는 각도 = %5.1f' %(target_deg))
+    print('각도 = %5.1f' %(motorDegB))  
     print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
     print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
 
@@ -110,7 +109,6 @@ def go_back():
     p2.ChangeDutyCycle(min(abs(controlA), 100))
 
     print('각도 = %5.1f' %(motorDegB))
-    print('원하는 각도 = %5.1f' %(target_deg))
     print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
     print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
 
@@ -126,6 +124,7 @@ def stop():
     p1.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
 
+    print('정지') 
     print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
     print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
 
