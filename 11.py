@@ -72,14 +72,11 @@ def encoderD(encPinD):
 
 # 방향 설정하기 
 def call():
-    # 전진 -> ==앞에 변수 적어주기   
-    if( == 'front'):
+    if( goFront == '1'):
         return go_front()
-    # 후진 -> ==앞에 변수 적어주기 
-    elif( == 'back'):
+    elif( goBack == '1'):
         return go_back() 
-    # 정지 -> ==앞에 변수 적어주기 
-    elif( == 'stop'): 
+    elif( Stop == '1'): 
         return stop()
 
 # 전진
