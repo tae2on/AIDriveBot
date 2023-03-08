@@ -171,7 +171,7 @@ r = 11.5    # 타이어의 반지름
 try :
     while True: 
         wheel = 2*math.pi*r     #원둘레 = 72.26
-        target_deg = (360*target_distance / wheel) / 2    # 목표 각도
+        target_deg = (360*target_distance / wheel)        # 목표 각도
     
       # DC 모터 왼쪽
         motorDegA = encoderPosA * ratio     # 모터 움직인 각도
