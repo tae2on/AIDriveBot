@@ -15,18 +15,18 @@ using namespace std;
 
 /* 핀 번호가 아니라 GPIO 번호 ! ----------------------------> 핀 설정 다시하기 
    DC 모터 왼쪽 (엔코더 O) */                                                     
-#define pwmPinA 14      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번
-#define AIN1 15         // IN1 
-#define AIN2 18         // IN2 
-#define encPinA 2       // 보라색 (A) 
-#define encPinB 3       // 파랑색 (B) 
+#define pwmPinA 15      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번
+#define AIN1 16         // IN1 
+#define AIN2 1          // IN2 
+#define encPinA 8       // 보라색 (A) 
+#define encPinB 9       // 파랑색 (B) 
 
 /* DC모터 오른쪽 (엔코더 X) */
-#define pwmPinB 17      // 모터 드라이버 ENB 
-#define BIN3 27         // IN3
-#define BIN4 22         // IN4
-#define encPinC 20      // 보라색 (C) - 20
-#define encPinD 21      // 파랑색 (D) - 21
+#define pwmPinB 0       // 모터 드라이버 ENB 
+#define BIN3 2          // IN3
+#define BIN4 3          // IN4
+#define encPinC 28      // 보라색 (C) - 20
+#define encPinD 29      // 파랑색 (D) - 21
 
 /* PID 제어 */
 const float ratio = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
