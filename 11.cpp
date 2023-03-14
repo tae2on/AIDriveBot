@@ -1,5 +1,5 @@
 /* 라이다 센서 연동 */ 
-// p1,p2 수정하기
+// control -> 실수 ? 
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -80,13 +80,6 @@ double error_prev_prev_B = 0.;
 double delta_vB;
 double motor_distanceB;
 double derrorB;
-
-/*p1 = IO.PWM(pwmPinA, 100)
-p2 = IO.PWM(pwmPinB, 100)
-
-p1.start(0)
-p2.start(0)*/
-
 
 int frequency = 100;            // PWM 주파수 
 gpioHardwarePWM(pwmPinA, frequency, 0);  // PWM 시작
@@ -250,11 +243,11 @@ int main () {
     call("goFront");
     delay(1000);
     call("Stop");
-    Stop(1000);
+    delay(1000);
     call("goBack");
     delay(1000);
     call("Stop");
-    Stop(1000);
+    delay(1000);
 }
 
 p1.join()
