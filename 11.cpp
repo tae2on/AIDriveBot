@@ -10,7 +10,7 @@
 #include <cmath>                    // pi 사용 
 #include <thread>
 #include <chrono>
-#include <pigpio.h>
+// #include <pigpio.h>
 
 using namespace std;
 
