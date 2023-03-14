@@ -1,5 +1,5 @@
 /* 라이다 센서 연동 */ 
-// time.time 변경하기, while문에 사용 -> 방향 변경하기, 그 외 오류 수정하기 
+// p1,p2 수정하기
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -9,6 +9,7 @@
 #include <cmath>                    // pi 사용 
 #include <thread>
 #include <chrono>
+#include <pigpio.h>
 
 using namespace std;
 
@@ -45,8 +46,8 @@ float motorDegB = 0;
 float errorA = 0;
 float errorB = 0;
 
-double controlA = 0.;
-double controlB = 0.;
+float controlA = 0.;
+float controlB = 0.;
 
 int pwm;
 int encoderPosA = 0;
@@ -80,6 +81,20 @@ double delta_vB;
 double motor_distanceB;
 double derrorB;
 
+/*p1 = IO.PWM(pwmPinA, 100)
+p2 = IO.PWM(pwmPinB, 100)
+
+p1.start(0)
+p2.start(0)*/
+
+
+int frequency = 100;            // PWM 주파수 
+gpioHardwarePWM(pwmPinA, frequency, 0);  // PWM 시작
+gpioHardwarePWM(pwmPinB, frequency, 0);
+
+gpioPWM(pwmPinA, 0);  // duty cycle을 0으로 설정
+gpioPWM(pwmPinB, 0);
+
 std::time_t start_time = std::time(nullptr);
 
 /* 전진 */
@@ -89,8 +104,8 @@ void goFront() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, HIGH);
     delay(10);
-    analogWrite(y1, min(abs(controlA), 255));
-    analogWrite(y2, min(abs(controlA), 255));
+    analogWrite(p1, min(abs(controlA), 255));
+    analogWrite(p2, min(abs(controlA), 255));
     
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -106,8 +121,8 @@ void goBack() {
     digitalWrite(BIN3, HIGH);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(y1, min(abs(controlA), 255));
-    analogWrite(y2, min(abs(controlA), 255));
+    analogWrite(p1, min(abs(controlA), 255));
+    analogWrite(p2, min(abs(controlA), 255));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -123,8 +138,8 @@ void Stop() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(y1, min(abs(controlA), 255));
-    analogWrite(y2, min(abs(controlA), 255));
+    analogWrite(p1, min(abs(controlA), 255));
+    analogWrite(p2, min(abs(controlA), 255));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -155,6 +170,9 @@ void call(string vector) {
 int main () {
     wiringPiSetup();
     
+    gpioSetMode(pwmPinA, PI_OUTOUT);
+    gpioSetMode(pwmPinB, PI_OUTOUT);
+
     pinMode(encPinA, INPUT_PULLUP);
     pinMode(encPinB, INPUT_PULLUP);
     pinMode(encPinC, INPUT_PULLUP);
