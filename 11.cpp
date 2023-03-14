@@ -8,6 +8,7 @@
 #include <ctime>                    // 현재 시간 사용 
 #include <cmath>                    // pi 사용 
 #include <thread>
+#include <chrono>
 
 using namespace std;
 
@@ -44,9 +45,8 @@ float motorDegB = 0;
 float errorA = 0;
 float errorB = 0;
 
-float kp;
-float controlA = 0.;
-float controlB = 0.;
+double controlA = 0.;
+double controlB = 0.;
 
 int pwm;
 int encoderPosA = 0;
@@ -68,7 +68,6 @@ double di_A = 0.;
 double error_prev_A = 0.;
 double error_prev_prev_A = 0.;
 double delta_vA;
-double controlA;
 double motor_distanceA;
 double derrorA;
 
@@ -78,66 +77,84 @@ double di_B = 0.;
 double error_prev_B = 0.;
 double error_prev_prev_B = 0.;
 double delta_vB;
-double controlB;
 double motor_distanceB;
 double derrorB;
 
 std::time_t start_time = std::time(nullptr);
 
 /* 전진 */
-void go_front() {
+void goFront() {
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, HIGH);
     delay(10);
-    analogWrite(p1, min(abs(controlA), 100));
-    analogWrite(p2, min(abs(controlA), 100));
+    analogWrite(y1, min(abs(controlA), 255));
+    analogWrite(y2, min(abs(controlA), 255));
     
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call();
+    return call(string vector);
 }
 
 /* 후진 */
-void go_back() {
+void goBack() {
     digitalWrite(AIN1, HIGH);
     digitalWrite(AIN2, LOW);
     digitalWrite(BIN3, HIGH);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(p1, min(abs(controlA), 100));
-    analogWrite(p2, min(abs(controlA), 100));
+    analogWrite(y1, min(abs(controlA), 255));
+    analogWrite(y2, min(abs(controlA), 255));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call();
+    return call(string vector);
 }
 
 /* 정지 */
-void go_stop() {
+void Stop() {
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, LOW);
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(p1, min(abs(controlA), 100));
-    analogWrite(p2, min(abs(controlA), 100));
+    analogWrite(y1, min(abs(controlA), 255));
+    analogWrite(y2, min(abs(controlA), 255));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
     
-    return call();
+    return call(string vector);
+}
+
+/* 방향 설정하기 */
+// 변수명 수정하기 
+void call(string vector) {
+    // 전진
+    if (vector == "goFront") {
+        goFront();
+    }
+    // 후진
+    else if (vector == "goBack") {
+        goBack();
+    }
+    // 정지 
+    else if (vector == "Stop"){
+        Stop();
+    }
 }
 
 /* ---------------------------- 모터의 이동거리 ---------------------------- */
 /* 모터 이동거리 (r: 11.5) */
 int main () {
+    wiringPiSetup();
+    
     pinMode(encPinA, INPUT_PULLUP);
     pinMode(encPinB, INPUT_PULLUP);
     pinMode(encPinC, INPUT_PULLUP);
@@ -148,11 +165,13 @@ int main () {
     pinMode(AIN2, OUTPUT);
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
+
     interruptInit();
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, LOW);
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
+
     analogWrite(pwmPinA, 0);  
     analogWrite(pwmPinB, 0); 
 
@@ -176,23 +195,6 @@ int main () {
     wiringPiISR(PhaseD, INT_EDGE_BOTH, &encoderD);
 
     while (true) {
-        /* 방향 설정하기 */
-        // 변수명을 다시 짓기 (영어로)
-        void call() {
-            // 전진
-            if (/* 변수명 */ == "goFront") {
-                return go_front()
-            }
-            // 후진
-            else if ( /* 변수명 */ == "goBack") {
-                return go_back()
-            }
-        // 정지 
-            else if ( /* 변수명 */ == "Stop"){
-                return stop()
-            }
-        }
-
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
@@ -227,10 +229,14 @@ int main () {
         derrorB = abs(target_distance - motor_distanceB);   // 거리 오차값
     }
 
-    call();
-    go_front();
-    go_back();
-    stop();
+    call("goFront");
+    delay(1000);
+    call("Stop");
+    Stop(1000);
+    call("goBack");
+    delay(1000);
+    call("Stop");
+    Stop(1000);
 }
 
 p1.join()
