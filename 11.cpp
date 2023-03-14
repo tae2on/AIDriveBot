@@ -1,5 +1,6 @@
 /* 라이다 센서 연동 */ 
-// control -> 실수 ? 
+// 1. control -> 실수 ?로 바꿔도 되나 ? 
+// 2. 함수도 선언해주어야 하나 ? 
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -57,7 +58,6 @@ double wheel;
 double target_deg;                      // 목표 각도 
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
-// double rotation = 0.; ------------> 필요 X ?
 double dt = 0.;
 double dt_sleep = 0.01;
 double tolerance = 0.1;
@@ -81,14 +81,21 @@ double delta_vB;
 double motor_distanceB;
 double derrorB;
 
-int frequency = 100;            // PWM 주파수 
-gpioHardwarePWM(pwmPinA, frequency, 0);  // PWM 시작
+int frequency = 100;                // PWM 주파수
+
+gpioHardwarePWM(pwmPinA, frequency, 0);        // PWM 시작
 gpioHardwarePWM(pwmPinB, frequency, 0);
 
-gpioPWM(pwmPinA, 0);  // duty cycle을 0으로 설정
+gpioPWM(pwmPinA, 0);                        // duty cycle을 0으로 설정
 gpioPWM(pwmPinB, 0);
 
 std::time_t start_time = std::time(nullptr);
+
+/* 함수 선언 */
+void call(string vector);
+void goFront();
+void goBack();
+void Stop()
 
 /* 전진 */
 void goFront() {
@@ -97,8 +104,9 @@ void goFront() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, HIGH);
     delay(10);
-    analogWrite(p1, min(abs(controlA), 255));
-    analogWrite(p2, min(abs(controlA), 255));
+    analogWrite(pwmPinA, min(abs(int(controlA)), 255));
+    analogWrite(pwmPinB, min(abs(int(controlA)), 255));
+    // gpioPWM(pwmPinB, min(abs(int(controlA)), 255));
     
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -114,8 +122,8 @@ void goBack() {
     digitalWrite(BIN3, HIGH);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(p1, min(abs(controlA), 255));
-    analogWrite(p2, min(abs(controlA), 255));
+    analogWrite(pwmPinA, min(abs(int(controlA)), 255));
+    analogWrite(pwmPinB, min(abs(int(controlA)), 255));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -131,8 +139,8 @@ void Stop() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(p1, min(abs(controlA), 255));
-    analogWrite(p2, min(abs(controlA), 255));
+    pwmWrite(p1, 0);
+    pwmWrite(p2, 0);
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
