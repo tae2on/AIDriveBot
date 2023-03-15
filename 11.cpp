@@ -89,13 +89,7 @@ gpioHardwarePWM(pwmPinB, frequency, 0);
 gpioPWM(pwmPinA, 0);                        // duty cycle을 0으로 설정
 gpioPWM(pwmPinB, 0);
 
-std::time_t start_time = std::time(nullptr);
-
-/* 함수 선언 */
-void call(string vector);
-void goFront();
-void goBack();
-void Stop()
+time_t start_time = time(nullptr);
 
 /* 전진 */
 void goFront() {
@@ -104,8 +98,8 @@ void goFront() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, HIGH);
     delay(10);
-    analogWrite(pwmPinA, min(abs(int(controlA)), 255));
-    analogWrite(pwmPinB, min(abs(int(controlA)), 255));
+    analogWrite(pwmPinA, min(abs(controlA), 255.));
+    analogWrite(pwmPinB, min(abs(controlA), 255.));
     // gpioPWM(pwmPinB, min(abs(int(controlA)), 255));
     
     cout << "각도 = " << motorDegB << endl;
@@ -122,8 +116,8 @@ void goBack() {
     digitalWrite(BIN3, HIGH);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(pwmPinA, min(abs(int(controlA)), 255));
-    analogWrite(pwmPinB, min(abs(int(controlA)), 255));
+    analogWrite(pwmPinA, min(abs(controlA), 255.));
+    analogWrite(pwmPinB, min(abs(controlA), 255.));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
