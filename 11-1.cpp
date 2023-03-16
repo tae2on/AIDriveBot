@@ -67,6 +67,23 @@ void doEncoderD() {
   encoderPosLeft  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
+/* 방향 설정하기 */
+// 변수명 수정하기 
+void call() {
+    // 전진
+    if (lidar_way == "goFront") {
+        goFront();
+    }
+    // 후진
+    else if (lidar_way == "goBack") {
+        goBack();
+    }
+    // 정지 
+    else if (lidar_way == "Stop"){
+        Stop();
+    }
+}
+
 /* 전진 */
 void goFront() {
     digitalWrite(AIN1, LOW);
@@ -117,24 +134,6 @@ void Stop() {
 
     return call();
 }
-
-/* 방향 설정하기 */
-// 변수명 수정하기 
-void call() {
-    // 전진
-    if (lidar_way == "goFront") {
-        goFront();
-    }
-    // 후진
-    else if (lidar_way == "goBack") {
-        goBack();
-    }
-    // 정지 
-    else if (lidar_way == "Stop"){
-        Stop();
-    }
-}
-
 
 int main(){
     wiringPiSetup();
