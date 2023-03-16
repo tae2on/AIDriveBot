@@ -6,6 +6,7 @@
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
+#include <vector>
 
 #define M_PI 3.14159265358979323846
 
@@ -49,6 +50,8 @@ double wheel;
 double target_deg;                      // 목표 각도 
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
+
+
 
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
