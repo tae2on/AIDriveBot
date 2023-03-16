@@ -115,7 +115,7 @@ void Stop() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call(lidar_way);
+    return call(string(lidar_way));
 }
 
 /* 방향 설정하기 */
