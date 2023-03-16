@@ -38,10 +38,14 @@ void doEncoderD() {
 int main(){
     wiringPiSetup();
 
-    pinMode(encPinA, INPUT_PULLUP);
-    pinMode(encPinB, INPUT_PULLUP);
-    pinMode(encPinC, INPUT_PULLUP);
-    pinMode(encPinD, INPUT_PULLUP);
+    pinMode(encPinA, INPUT);
+    pullUpDnControl(encPinA, PUD_UP);
+    pinMode(encPinB, INPUT);
+    pullUpDnControl(encPinB, PUD_UP);
+    pinMode(encPinC, INPUT);
+    pullUpDnControl(encPinC, PUD_UP);
+    pinMode(encPinD, INPUT);
+    pullUpDnControl(encPinD, PUD_UP);
     pinMode(pwmPinA, OUTPUT);
     pinMode(pwmPinB, OUTPUT);
     pinMode(AIN1, OUTPUT);
