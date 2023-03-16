@@ -74,6 +74,21 @@ void goFront() {
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 }
 
+/* 후진 */
+void goBack() {
+    digitalWrite(AIN1, HIGH);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, HIGH);
+    digitalWrite(BIN4, LOW);
+    delay(10);
+    analogWrite(pwmPinA, min(abs(controlA), 255.0));
+    analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+    cout << "각도 = " << motorDegB << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+}
+
 int main(){
     wiringPiSetup();
 
@@ -106,5 +121,7 @@ int main(){
 
     while(true) {
         goFront();
+        delay(1000);
+        goBack();
     }
 }
