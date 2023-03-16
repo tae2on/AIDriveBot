@@ -24,6 +24,9 @@ using namespace std;
 #define encPinC 28      // 보라색 (C) - 20
 #define encPinD 29      // 파랑색 (D) - 21
 
+/* PID 제어 */
+const float ratio = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+
 float encoderPosRight = 0;
 float encoderPosLeft = 0;
 
