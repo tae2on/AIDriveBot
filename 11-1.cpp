@@ -33,13 +33,13 @@ float motorDegB = 0;
 float motor_distanceA = 0;
 float motor_distanceB = 0;
 
-float controlA = 0.;
-float controlB = 0.;
-
 float errorA = 0;
 float errorB = 0;
 float derrorA = 0;
 float derrorB = 0;
+
+double controlA = 0.;
+double controlB = 0.;
 
 double wheel; 
 
