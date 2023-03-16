@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <wiringPi.h>               // analogRead(), pinMode(), delay() 함수 등 사용 
 
-/* 핀 번호가 아니라 GPIO 번호 ! ----------------------------> 핀 설정 다시하기 
+/* 핀 번호가 아니라 wiringPi 번호 ! ----------------------------> 핀 설정 다시하기 
    DC 모터 왼쪽 (엔코더 O) */                                                     
-#define pwmPinA 15      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번
+#define pwmPinA 15      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
 #define AIN1 16         // IN1 
 #define AIN2 1          // IN2 
 #define encPinA 8       // 보라색 (A) 
@@ -36,6 +36,8 @@ void doEncoderD() {
 }
 
 int main(){
+    wiringPiSetup();
+
     pinMode(encPinA, INPUT_PULLUP);
     pinMode(encPinB, INPUT_PULLUP);
     pinMode(encPinC, INPUT_PULLUP);
@@ -54,11 +56,10 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
-
-    wiringPiSetup();
-
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
+
+    return 0;
 }
