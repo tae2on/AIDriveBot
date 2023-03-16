@@ -51,7 +51,8 @@ double target_deg;                      // 목표 각도
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
 
-
+/* 방향 설정하기 */
+void call(string vector);
 
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
