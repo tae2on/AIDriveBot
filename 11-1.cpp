@@ -103,6 +103,6 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
     while(true) {
-        goFront()
+        goFront();
     }
 }
