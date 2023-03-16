@@ -10,7 +10,7 @@
 #include <cmath>                    // pi 사용 
 #include <thread>
 #include <chrono>
-// #include <pigpio.h>
+ #include <pigpio.h>
 
 using namespace std;
 
@@ -83,8 +83,8 @@ double derrorB;
 
 int frequency = 100;                // PWM 주파수
 
-gpioHardwarePWM(pwmPinA, frequency, 0);        // PWM 시작
-gpioHardwarePWM(pwmPinB, frequency, 0);
+gpioSetPWMfrequency(pwmPinA, frequency);        // PWM 시작
+gpioSetPWMfrequency(pwmPinB, frequency);
 
 gpioPWM(pwmPinA, 0);                        // duty cycle을 0으로 설정
 gpioPWM(pwmPinB, 0);
@@ -98,8 +98,8 @@ void goFront() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, HIGH);
     delay(10);
-    analogWrite(pwmPinA, min(abs(controlA), 255.));
-    analogWrite(pwmPinB, min(abs(controlA), 255.));
+    analogWrite(pwmPinA, min(abs(controlA), 255.0));
+    analogWrite(pwmPinB, min(abs(controlA), 255.0));
     // gpioPWM(pwmPinB, min(abs(int(controlA)), 255));
     
     cout << "각도 = " << motorDegB << endl;
@@ -116,8 +116,8 @@ void goBack() {
     digitalWrite(BIN3, HIGH);
     digitalWrite(BIN4, LOW);
     delay(10);
-    analogWrite(pwmPinA, min(abs(controlA), 255.));
-    analogWrite(pwmPinB, min(abs(controlA), 255.));
+    analogWrite(pwmPinA, min(abs(controlA), 255.0));
+    analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -133,8 +133,8 @@ void Stop() {
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
     delay(10);
-    pwmWrite(p1, 0);
-    pwmWrite(p2, 0);
+    pwmWrite(pwmPinA, 0);
+    pwmWrite(pwmPinB, 0);
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -165,8 +165,8 @@ void call(string vector) {
 int main () {
     wiringPiSetup();
     
-    gpioSetMode(pwmPinA, PI_OUTOUT);
-    gpioSetMode(pwmPinB, PI_OUTOUT);
+    gpioSetMode(pwmPinA, PWM_OUTPUT);
+    gpioSetMode(pwmPinB, PWM_OUTPUT);
 
     pinMode(encPinA, INPUT_PULLUP);
     pinMode(encPinB, INPUT_PULLUP);
@@ -202,10 +202,10 @@ int main () {
         encoderPosRight += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
     }
 
-    wiringPiISR(PhaseA, INT_EDGE_BOTH, &encoderA);
-    wiringPiISR(PhaseB, INT_EDGE_BOTH, &encoderB);
-    wiringPiISR(PhaseC, INT_EDGE_BOTH, &encoderC);
-    wiringPiISR(PhaseD, INT_EDGE_BOTH, &encoderD);
+    wiringPiISR(PhaseA, INT_EDGE_BOTH, &Interrupt_A);
+    wiringPiISR(PhaseB, INT_EDGE_BOTH, &Interrupt_B);
+    wiringPiISR(PhaseC, INT_EDGE_BOTH, &Interrupt_C);
+    wiringPiISR(PhaseD, INT_EDGE_BOTH, &Interrupt_D);
 
     while (true) {
         wheel = 2*M_PI*11.5;
