@@ -82,7 +82,7 @@ void goFront() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call(string(lidar_way));
+    return call(lidar_way);
 }
 
 /* 후진 */
@@ -99,7 +99,7 @@ void goBack() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
-    return call(string(lidar_way));
+    return call(lidar_way);
 }
 
 /* 정지 */
@@ -116,12 +116,12 @@ void Stop() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call(string(lidar_way));
+    return call(lidar_way);
 }
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(string(lidar_way)) {
+void call(string lidar_way) {
     // 전진
     if (lidar_way == "goFront") {
         goFront();
