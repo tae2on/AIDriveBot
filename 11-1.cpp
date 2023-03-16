@@ -52,10 +52,10 @@ double target_deg;                      // 목표 각도
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
 
-char lidar_way = [];
+std::string lidar_way;
 
 /* 방향 설정하기 */
-void call(char lidar_way);
+void call(lidar_way);
 
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -123,7 +123,7 @@ void Stop() {
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(char lidar_way) {
+void call(lidar_way) {
     // 전진
     if (lidar_way == "goFront") {
         goFront();
