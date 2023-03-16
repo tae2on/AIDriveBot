@@ -46,7 +46,9 @@ double controlA = 0.;
 double controlB = 0.;
 
 double wheel; 
-
+double target_deg;                      // 목표 각도 
+double target_direction = 0.;           // 목표 방향 
+double target_distance = 0.;            // 목표 거리 
 
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -74,6 +76,8 @@ void goFront() {
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+
+    return call(string vector);
 }
 
 /* 후진 */
@@ -89,6 +93,8 @@ void goBack() {
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+   
+    return call(string vector);
 }
 
 /* 정지 */
@@ -104,6 +110,8 @@ void Stop() {
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+
+    return call(string vector);
 }
 
 /* 방향 설정하기 */
@@ -155,6 +163,10 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
     while(true) {
+        wheel = 2*M_PI*11.5;
+        target_deg = (360*target_distance / wheel) ;      // 목표 각도
+        
+
         call("goFront");
         delay(1000);
         call("goBack");
