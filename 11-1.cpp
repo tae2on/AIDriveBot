@@ -3,6 +3,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <wiringPi.h>               // analogRead(), pinMode(), delay() 함수 등 사용 
+#include <iostream>                 // C++ 입출력 라이브러리
 #include <iostream>
 
 #define M_PI 3.14159265358979323846
