@@ -174,11 +174,7 @@ int main(){
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
 
-        call("goFront");
+        call();
         delay(1000);
-        call("goBack");
-        delay(1000);
-        call("Stop");
-        delay(1000);
-    }
+
 }
