@@ -106,6 +106,24 @@ void Stop() {
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 }
 
+/* 방향 설정하기 */
+// 변수명 수정하기 
+void call(string vector) {
+    // 전진
+    if (vector == "goFront") {
+        goFront();
+    }
+    // 후진
+    else if (vector == "goBack") {
+        goBack();
+    }
+    // 정지 
+    else if (vector == "Stop"){
+        Stop();
+    }
+}
+
+
 int main(){
     wiringPiSetup();
 
@@ -137,10 +155,11 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
     while(true) {
-        goFront();
+        call("goFront");
         delay(1000);
-        goBack();
+        call("goBack");
         delay(1000);
-        Stop();
+        call(Stop);
+        delay(1000);
     }
 }
