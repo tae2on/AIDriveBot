@@ -35,6 +35,9 @@ void doEncoderD() {
   encoderPosLeft  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 int main()
+
+    wiringPiSetup();
+
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
