@@ -170,6 +170,9 @@ int main(){
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
+        string lidar_way;
+        std::cout << "값을 입력하시오 : ";
+        std::cin >> lidar_way;
 
         call("goFront");
         delay(1000);
