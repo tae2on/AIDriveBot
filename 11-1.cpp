@@ -120,7 +120,7 @@ void Stop() {
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(string lidar_way) {
+void call() {
     // 전진
     if (lidar_way == "goFront") {
         goFront();
