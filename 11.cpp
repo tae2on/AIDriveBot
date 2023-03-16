@@ -51,8 +51,6 @@ float controlA = 0.;
 float controlB = 0.;
 
 int pwm;
-int encoderPosA = 0;
-int encoderPosB = 0;
 
 double wheel;
 double target_deg;                      // 목표 각도 
@@ -202,17 +200,16 @@ int main () {
         encoderPosRight += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
     }
 
-    wiringPiISR(PhaseA, INT_EDGE_BOTH, &Interrupt_A);
-    wiringPiISR(PhaseB, INT_EDGE_BOTH, &Interrupt_B);
-    wiringPiISR(PhaseC, INT_EDGE_BOTH, &Interrupt_C);
-    wiringPiISR(PhaseD, INT_EDGE_BOTH, &Interrupt_D);
-
+    wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
+    wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
+    wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
+    wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
     while (true) {
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
         /* DC모터 왼쪽 */
-        motorDegA = encoderPosA * ratio;                        // 모터 움직인 각도
+        motorDegA = encoderPosRight * ratio;                        // 모터 움직인 각도
         errorA = target_deg - motorDegA;                        // 각도 오차값 
         de_A = errorA - error_prev_A;
         di_A += errorA * dt;
@@ -227,7 +224,7 @@ int main () {
         derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
 
         /* DC 모터 오른쪽 */
-        motorDegB = abs(encoderPosB * ratio);               // 모터 움직인 각도
+        motorDegB = abs(encoderPosLeft * ratio);               // 모터 움직인 각도
         errorB = target_deg - motorDegB;                    // 각도 오차값 
         de_B = errorB - error_prev_B;
         di_B += errorB * dt;
