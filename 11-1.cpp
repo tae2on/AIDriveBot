@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include <wiringPi.h>               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <iostream>
-#include <cmath>                    // pi 사용 
 
 #define M_PI 3.14159265358979323846
 
