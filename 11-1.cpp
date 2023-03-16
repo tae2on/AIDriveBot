@@ -53,7 +53,7 @@ double target_direction = 0.;           // 목표 방향
 double target_distance = 0.;            // 목표 거리 
 
 /* 방향 설정하기 */
-void call(string vector);
+void call(string way);
 
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -82,7 +82,7 @@ void goFront() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call(string vector);
+    return call(string way);
 }
 
 /* 후진 */
@@ -99,7 +99,7 @@ void goBack() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
-    return call(string vector);
+    return call(string way);
 }
 
 /* 정지 */
@@ -116,22 +116,22 @@ void Stop() {
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    return call(string vector);
+    return call(string way);
 }
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(string vector) {
+void call(string way) {
     // 전진
-    if (vector == "goFront") {
+    if (way == "goFront") {
         goFront();
     }
     // 후진
-    else if (vector == "goBack") {
+    else if (way == "goBack") {
         goBack();
     }
     // 정지 
-    else if (vector == "Stop"){
+    else if (way == "Stop"){
         Stop();
     }
 }
