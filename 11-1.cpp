@@ -11,8 +11,6 @@
 
 using namespace std;
 
-
-
 /* 핀 번호가 아니라 wiringPi 번호 ! ----------------------------> 핀 설정 다시하기 
    DC 모터 왼쪽 (엔코더 O) */                                                     
 #define pwmPinA 15      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
@@ -51,8 +49,6 @@ double wheel;
 double target_deg;                      // 목표 각도 
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
-
-void call(string vector);
 
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
