@@ -54,6 +54,11 @@ double target_distance = 0.;            // 목표 거리
 
 std::string lidar_way;
 
+void call();
+void goFront();
+void goBack();
+void Stop();
+
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
@@ -66,75 +71,6 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosLeft  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
-/* 전진 */
-void goFront() {
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, HIGH);
-    digitalWrite(BIN3, LOW);
-    digitalWrite(BIN4, HIGH);
-    delay(10);
-    analogWrite(pwmPinA, min(abs(controlA), 255.0));
-    analogWrite(pwmPinB, min(abs(controlA), 255.0));
-
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-
-    return call();
-}
-
-/* 후진 */
-void goBack() {
-    digitalWrite(AIN1, HIGH);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, HIGH);
-    digitalWrite(BIN4, LOW);
-    delay(10);
-    analogWrite(pwmPinA, min(abs(controlA), 255.0));
-    analogWrite(pwmPinB, min(abs(controlA), 255.0));
-
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-   
-    return call();
-}
-
-/* 정지 */
-void Stop() {
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, LOW);
-    digitalWrite(BIN4, LOW);
-    delay(10);
-    pwmWrite(pwmPinA, 0);
-    pwmWrite(pwmPinB, 0);
-
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-
-    return call();
-}
-
-/* 방향 설정하기 */
-// 변수명 수정하기 
-void call() {
-    // 전진
-    if (lidar_way == "goFront") {
-        goFront();
-    }
-    // 후진
-    else if (lidar_way == "goBack") {
-        goBack();
-    }
-    // 정지 
-    else if (lidar_way == "Stop"){
-        Stop();
-    }
-}
-
 
 int main(){
     wiringPiSetup();
@@ -173,6 +109,75 @@ int main(){
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
+
+        
+        /* 전진 */
+        void goFront() {
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, HIGH);
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, HIGH);
+            delay(10);
+            analogWrite(pwmPinA, min(abs(controlA), 255.0));
+            analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+            cout << "각도 = " << motorDegB << endl;
+            out << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+
+            return call();
+        }
+
+        /* 후진 */
+        void goBack() {
+            digitalWrite(AIN1, HIGH);
+            digitalWrite(AIN2, LOW);
+            digitalWrite(BIN3, HIGH);
+            digitalWrite(BIN4, LOW);
+            delay(10);
+            analogWrite(pwmPinA, min(abs(controlA), 255.0));
+            analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+            cout << "각도 = " << motorDegB << endl;
+            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+   
+            return call();
+        }
+
+        /* 정지 */
+        void Stop() {
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, LOW);
+            delay(10);
+            pwmWrite(pwmPinA, 0);
+            pwmWrite(pwmPinB, 0);
+
+            cout << "각도 = " << motorDegB << endl;
+            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+
+            return call();
+        }
+
+        /* 방향 설정하기 */
+        // 변수명 수정하기 
+        void call() {
+            // 전진
+            if (lidar_way == "goFront") {
+                goFront();
+            }
+            // 후진
+            else if (lidar_way == "goBack") {
+                goBack();
+            }
+            // 정지 
+            else if (lidar_way == "Stop"){
+                Stop();
+            }
+        }
 
         call();
         delay(1000);
