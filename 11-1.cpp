@@ -54,9 +54,6 @@ double target_distance = 0.;            // 목표 거리
 
 std::string lidar_way;
 
-/* 방향 설정하기 */
-void call(lidar_way);
-
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
