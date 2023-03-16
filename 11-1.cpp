@@ -3,6 +3,12 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <wiringPi.h>               // analogRead(), pinMode(), delay() 함수 등 사용 
+#include <iostream>
+#include <cmath>                    // pi 사용 
+
+#define M_PI 3.14159265358979323846
+
+using namespace std;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! ----------------------------> 핀 설정 다시하기 
    DC 모터 왼쪽 (엔코더 O) */                                                     
@@ -22,6 +28,22 @@
 float encoderPosRight = 0;
 float encoderPosLeft = 0;
 
+float motorDegA = 0;
+float motorDegB = 0;
+float motor_distanceA = 0;
+float motor_distanceB = 0;
+
+float controlA = 0.;
+float controlB = 0.;
+
+float errorA = 0;
+float errorB = 0;
+float derrorA = 0;
+float derrorB = 0;
+
+double wheel; 
+
+
 void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
@@ -33,6 +55,21 @@ void doEncoderC() {
 }
 void doEncoderD() {
   encoderPosLeft  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
+}
+
+/* 전진 */
+void goFront() {
+    digitalWrite(AIN1, LOW);
+    digitalWrite(AIN2, HIGH);
+    digitalWrite(BIN3, LOW);
+    digitalWrite(BIN4, HIGH);
+    delay(10);
+    analogWrite(pwmPinA, min(abs(controlA), 255.0));
+    analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+    cout << "각도 = " << motorDegB << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 }
 
 int main(){
@@ -65,5 +102,7 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
-    return 0;
+    while(true) {
+        goFront()
+    }
 }
