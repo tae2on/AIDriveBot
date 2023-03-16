@@ -36,6 +36,25 @@ void doEncoderD() {
 }
 
 int main(){
+    pinMode(encPinA, INPUT_PULLUP);
+    pinMode(encPinB, INPUT_PULLUP);
+    pinMode(encPinC, INPUT_PULLUP);
+    pinMode(encPinD, INPUT_PULLUP);
+    pinMode(pwmPinA, OUTPUT);
+    pinMode(pwmPinB, OUTPUT);
+    pinMode(AIN1, OUTPUT);
+    pinMode(AIN2, OUTPUT);
+    pinMode(BIN3, OUTPUT);
+    pinMode(BIN4, OUTPUT);
+   
+    digitalWrite(pwmPinA, LOW);
+    digitalWrite(pwmPinB, LOW);
+    digitalWrite(AIN1, LOW);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, LOW);
+    digitalWrite(BIN4, LOW);
+
+
     wiringPiSetup();
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
