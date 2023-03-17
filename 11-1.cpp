@@ -1,5 +1,5 @@
 /* 라이다 센서 연동 */ 
-// 핀 번호, 함수 이름, 변수이름 
+/* cirl+z를 누르면 강제종료 */
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -40,10 +40,10 @@ float ki = 0.;
 float encoderPosRight = 0;
 float encoderPosLeft = 0;
 
-float motorDegA = 0;
-float motorDegB = 0;
-float motor_distanceA;
-float motor_distanceB;
+float motorDegA = 0;                   // 모터 각도A
+float motorDegB = 0;                   // 모터 각도B
+float motor_distanceA;                 // 모터 거리 
+float motor_distanceB;                 // 모터 거리 
 
 float errorA = 0;
 float errorB = 0;
@@ -77,6 +77,7 @@ int frequency = 1024;                    // PWM 주파수
 std::time_t start_time = std::time(nullptr);
 std::string lidar_way;
 
+/* 인터럽트 */
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
@@ -218,7 +219,6 @@ int main(){
         motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
         derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
 
-
         /* DC모터 오른쪽 */
         motorDegB = encoderPosRight * proportion;
         errorB = target_deg - motorDegB;
@@ -233,10 +233,12 @@ int main(){
 
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
-
+        
+        /*
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
+        */
 
         void call();
         void goFront();
@@ -247,3 +249,4 @@ int main(){
         delay(1000);
     }
 }
+
