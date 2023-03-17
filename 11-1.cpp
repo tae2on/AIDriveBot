@@ -72,6 +72,8 @@ double delta_vA;
 double delta_vB;
 double time_prev = 0;
 
+int frequency = 1024;                    // PWM 주파수 
+
 std::time_t start_time = std::time(nullptr);
 std::string lidar_way;
 
@@ -172,8 +174,8 @@ int main(){
     pullUpDnControl(encPinC, PUD_UP);
     pinMode(encPinD, INPUT);
     pullUpDnControl(encPinD, PUD_UP);
-    pinMode(pwmPinA, OUTPUT);
-    pinMode(pwmPinB, OUTPUT);
+    pinMode(pwmPinA, PWM_OUTPUT); // PWM 출력으로 사용할 핀을 설정합니다.
+    pinMode(pwmPinB, PWM_OUTPUT); // PWM 출력으로 사용할 핀을 설정합니다.
     pinMode(AIN1, OUTPUT);
     pinMode(AIN2, OUTPUT);
     pinMode(BIN3, OUTPUT);
@@ -186,10 +188,16 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
+    pwmSetRange(frequency); // PWM 값의 범위를 설정합니다.
+
+    pwmWrite(pwmPinA, 0); // PWM 신호의 듀티 사이클을 0으로 설정합니다.
+    pwmWrite(pwmPinB, 0); // PWM 신호의 듀티 사이클을 0으로 설정합니다.
+
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
+
 
     while(true) {
         wheel = 2*M_PI*11.5;
