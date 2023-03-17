@@ -51,8 +51,8 @@ float error_prev_A = 0.;
 float error_prev_B = 0.;
 float error_prev_prev_A = 0;
 float error_prev_prev_B = 0;
-float derrorA = 0;
-float derrorB = 0;
+float derrorA;
+float derrorB;
 
 double controlA = 0.;
 double controlB = 0.;
@@ -72,6 +72,7 @@ double delta_vA;
 double delta_vB;
 double time_prev = 0;
 
+std::time_t start_time = std::time(nullptr);
 std::string lidar_way;
 
 void doEncoderA() {
@@ -200,8 +201,11 @@ int main(){
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
         dt = std::time(nullptr) - time_prev;
+        
         delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
         controlA += delta_vA;
+        error_prev_A = errorA;
+        error_prev_prev_A = error_prev_A;
 
         motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
         derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
@@ -213,8 +217,11 @@ int main(){
         de_B = errorB -error_prev_B;
         di_B += errorB * dt;
         dt = std::time(nullptr) - time_prev;
+        
         delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
         controlB += delta_vB;
+        error_prev_B = errorB;
+        error_prev_prev_B = error_prev_B;
 
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
