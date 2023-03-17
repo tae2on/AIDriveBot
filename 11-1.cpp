@@ -209,7 +209,7 @@ int main(){
         errorA = target_deg - motorDegA;
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
-        dt = std::time(nullptr) - time_prev;
+        dt = time(nullptr) - time_prev;
         
         delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
         controlA += delta_vA;
@@ -224,7 +224,7 @@ int main(){
         errorB = target_deg - motorDegB;
         de_B = errorB -error_prev_B;
         di_B += errorB * dt;
-        dt = std::time(nullptr) - time_prev;
+        dt = time(nullptr) - time_prev;
         
         delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
         controlB += delta_vB;
