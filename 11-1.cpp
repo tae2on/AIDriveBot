@@ -42,6 +42,8 @@ float motor_distanceB = 0;
 
 float errorA = 0;
 float errorB = 0;
+float error_prev_A = 0.;
+float error_prev_B = 0.;
 float derrorA = 0;
 float derrorB = 0;
 
@@ -53,7 +55,11 @@ double target_deg;                      // 목표 각도
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
 
-/* DC모터 왼쪽 */
+double de_A;
+double de_B;
+double di_A = 0;
+double di_B = 0;
+double dt = 0;
 
 std::string lidar_way;
 
@@ -180,10 +186,14 @@ int main(){
         /* DC모터 왼쪽 */
         motorDegA = encoderPosLeft * proportion;
         errorA = target_deg - motorDegA;
-        
+        de_A = errorA -error_prev_A;
+        di_A += errorA * dt;
+
         /* DC모터 오른쪽 */
         motorDegB = encoderPosRight * proportion;
         errorB = target_deg - motorDegB;
+        de_B = errorB -error_prev_B;
+        di_B += errorB * dt;
 
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
