@@ -30,7 +30,7 @@ using namespace std;
 #define encPinD 29      // 파랑색 (D) - 21
 
 /* PID 제어 */
-float ratio = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 float encoderPosRight = 0;
 float encoderPosLeft = 0;
@@ -178,11 +178,11 @@ int main(){
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
         /* DC모터 왼쪽 */
-        motorDegA = encoderPosLeft * ratio;
+        motorDegA = encoderPosLeft * proportion;
         errorA = target_deg - motorDegA;
         
         /* DC모터 오른쪽 */
-        motorDegB = encoderPosRight * ratio;
+        motorDegB = encoderPosRight * proportion;
         errorB = target_deg - motorDegB;
 
         string lidar_way;
