@@ -30,7 +30,7 @@ using namespace std;
 #define encPinD 29      // 파랑색 (D) - 21
 
 /* PID 제어 */
-const float ratio = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+float ratio = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 float encoderPosRight = 0;
 float encoderPosLeft = 0;
@@ -181,7 +181,7 @@ int main(){
         motorDegA = encoderPosLeft * ratio;
         errorA = target_deg - motorDegA;
         
-        /* DC모터 왼쪽 */
+        /* DC모터 오른쪽 */
         motorDegB = encoderPosRight * ratio;
         errorB = target_deg - motorDegB;
 
