@@ -1,4 +1,5 @@
 /* 라이다 센서 연동 */ 
+// 핀 번호, 함수 이름, 변수이름 
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -52,19 +53,21 @@ double target_deg;                      // 목표 각도
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
 
+/* DC모터 왼쪽 */
+
 std::string lidar_way;
 
 void doEncoderA() {
-  encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderB() {
-  encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 void doEncoderC() {
-  encoderPosLeft  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
+  encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
 }
 void doEncoderD() {
-  encoderPosLeft  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
+  encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
 void call();
@@ -174,6 +177,14 @@ int main(){
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
+        /* DC모터 왼쪽 */
+        motorDegA = encoderPosLeft * ratio;
+        errorA = target_deg - motorDegA;
+        
+        /* DC모터 왼쪽 */
+        motorDegB = encoderPosRight * ratio;
+        errorB = target_deg - motorDegB;
+
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
