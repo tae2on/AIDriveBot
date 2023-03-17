@@ -7,7 +7,7 @@
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
-#include <vector>
+#include <ctime>
 #include <string>
 
 #define M_PI 3.14159265358979323846
@@ -32,6 +32,11 @@ using namespace std;
 /* PID 제어 */
 const float proportion = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
+/* PID 상수 */
+float kp = 30.0; 
+float kd = 0.;         
+float ki = 0.;
+
 float encoderPosRight = 0;
 float encoderPosLeft = 0;
 
@@ -44,6 +49,8 @@ float errorA = 0;
 float errorB = 0;
 float error_prev_A = 0.;
 float error_prev_B = 0.;
+float error_prev_prev_A = 0;
+float error_prev_prev_B = 0;
 float derrorA = 0;
 float derrorB = 0;
 
@@ -60,6 +67,10 @@ double de_B;
 double di_A = 0;
 double di_B = 0;
 double dt = 0;
+
+double delta_vA;
+double delta_vB;
+double time_prev = 0;
 
 std::string lidar_way;
 
@@ -188,12 +199,18 @@ int main(){
         errorA = target_deg - motorDegA;
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
+        dt = std::time(nullptr) - time_prev;
+
+
+        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
+        controlA += delta_vA;
 
         /* DC모터 오른쪽 */
         motorDegB = encoderPosRight * proportion;
         errorB = target_deg - motorDegB;
         de_B = errorB -error_prev_B;
         di_B += errorB * dt;
+        dt = std::time(nullptr) - time_prev;
 
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
