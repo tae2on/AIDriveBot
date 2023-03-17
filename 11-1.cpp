@@ -42,8 +42,8 @@ float encoderPosLeft = 0;
 
 float motorDegA = 0;
 float motorDegB = 0;
-float motor_distanceA = 0;
-float motor_distanceB = 0;
+float motor_distanceA;
+float motor_distanceB;
 
 float errorA = 0;
 float errorB = 0;
@@ -200,10 +200,12 @@ int main(){
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
         dt = std::time(nullptr) - time_prev;
-
-
         delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
         controlA += delta_vA;
+
+        motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
+        derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
+
 
         /* DC모터 오른쪽 */
         motorDegB = encoderPosRight * proportion;
@@ -211,6 +213,11 @@ int main(){
         de_B = errorB -error_prev_B;
         di_B += errorB * dt;
         dt = std::time(nullptr) - time_prev;
+        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
+        controlB += delta_vB;
+
+        motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
+        derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
 
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
