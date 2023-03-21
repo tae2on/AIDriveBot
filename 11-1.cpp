@@ -92,7 +92,6 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
-
 void call(int x);
 void goFront();
 void goBack();
@@ -104,6 +103,7 @@ void call(int x) {
     // 전진
     if (x == 1) {
         goFront();
+        sleep(5)
     }
     // 후진
     else if (x == 2) {
