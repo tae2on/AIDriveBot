@@ -9,6 +9,7 @@
 #include <chrono>
 #include <ctime>
 #include <string>
+#include <unistd.h>
 
 #define M_PI 3.14159265358979323846
 
@@ -103,7 +104,7 @@ void call(int x) {
     // 전진
     if (x == 1) {
         goFront();
-        sleep(5)
+        sleep(5);
     }
     // 후진
     else if (x == 2) {
