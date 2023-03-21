@@ -75,6 +75,7 @@ double time_prev = 0;
 
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
+int x;
 
 std::time_t start_time = std::time(nullptr);
 
@@ -130,7 +131,7 @@ void goFront() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-        if(int x != 1){
+        if(x != 1){
             break;
         }
     }
@@ -151,7 +152,7 @@ void goBack() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
-        if(int x != 2){
+        if(x != 2){
             break;
         }        
     }
@@ -172,7 +173,7 @@ void Stop() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-        if(int x != 0){
+        if(x != 0){
             break;
         }
     }
