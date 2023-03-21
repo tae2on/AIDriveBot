@@ -101,15 +101,15 @@ void Stop();
 // 변수명 수정하기 
 void call(int lidar_way) {
     // 전진
-    if (lidar_way == "1") {
+    if (lidar_way == 1) {
         goFront();
     }
     // 후진
-    else if (lidar_way == "2") {
+    else if (lidar_way == 2) {
         goBack();
     }
     // 정지 
-    else if (lidar_way == "0"){
+    else if (lidar_way == 0){
         Stop();
     }
 }
