@@ -165,6 +165,11 @@ void Stop() {
     return call();
 }
 
+void call(int x);
+void goFront();
+void goBack();
+void Stop();
+
 int main(){
     wiringPiSetup();
 
@@ -239,10 +244,7 @@ int main(){
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
         
-        void call(int x);
-        void goFront();
-        void goBack();
-        void Stop();
+      
 
         call(lidar_way);
         delay(1000);
