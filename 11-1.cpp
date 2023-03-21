@@ -73,9 +73,10 @@ double delta_vB;
 double time_prev = 0;
 
 int frequency = 1024;                    // PWM 주파수 
+int lidar_way;
 
 std::time_t start_time = std::time(nullptr);
-std::string lidar_way;
+
 
 /* 인터럽트 */
 void doEncoderA() {
@@ -98,17 +99,17 @@ void Stop();
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(string lidar_way) {
+void call(int lidar_way) {
     // 전진
-    if (lidar_way == "goFront") {
+    if (lidar_way == "1") {
         goFront();
     }
     // 후진
-    else if (lidar_way == "goBack") {
+    else if (lidar_way == "2") {
         goBack();
     }
     // 정지 
-    else if (lidar_way == "Stop"){
+    else if (lidar_way == "0"){
         Stop();
     }
 }
@@ -234,7 +235,7 @@ int main(){
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
-        string lidar_way;
+        int lidar_way;
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
         
