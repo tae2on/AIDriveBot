@@ -130,42 +130,46 @@ void goFront() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    //return call();
+        //return call();
     }
 }
 
 /* 후진 */
 void goBack() {
-    digitalWrite(AIN1, HIGH);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, HIGH);
-    digitalWrite(BIN4, LOW);
-    delay(10);
-    analogWrite(pwmPinA, min(abs(controlA), 255.0));
-    analogWrite(pwmPinB, min(abs(controlA), 255.0));
+    while(true) {
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
+        delay(10);
+        analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
-    //return call();
+        //return call();
+    }
 }
 
 /* 정지 */
 void Stop() {
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, LOW);
-    digitalWrite(BIN4, LOW);
-    delay(10);
-    pwmWrite(pwmPinA, 0);
-    pwmWrite(pwmPinB, 0);
+    while(true) {
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, LOW);
+        delay(10);
+        pwmWrite(pwmPinA, 0);
+        pwmWrite(pwmPinB, 0);
 
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-    //return call();
+        //return call();
+    }
 }
 
 
