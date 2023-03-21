@@ -92,10 +92,6 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
-void call();
-void goFront();
-void goBack();
-void Stop();
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
