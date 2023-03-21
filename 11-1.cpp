@@ -1,5 +1,5 @@
 /* 라이다 센서 연동 */ 
-/* cirl+z를 누르면 강제종료 */
+/* while문  */
 
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -113,7 +113,9 @@ void call(int x) {
     }
     // 정지 
     else if (x == 0){
+        while(true){
         Stop();
+        }
     }
 }
 
