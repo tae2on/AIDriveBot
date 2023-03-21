@@ -93,6 +93,11 @@ void doEncoderD() {
 }
 
 
+void call(int x);
+void goFront();
+void goBack();
+void Stop();
+
 /* 방향 설정하기 */
 // 변수명 수정하기 
 void call(int x) {
@@ -161,10 +166,7 @@ void Stop() {
     return call();
 }
 
-void call(int x);
-void goFront();
-void goBack();
-void Stop();
+
 
 int main(){
     wiringPiSetup();
