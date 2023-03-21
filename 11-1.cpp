@@ -24,7 +24,7 @@ using namespace std;
 #define encPinB 9       // 파랑색 (B) 
 
 /* DC모터 오른쪽 (엔코더 X) */
-#define pwmPinB 27       // 모터 드라이버 ENB 
+#define pwmPinB 4       // 모터 드라이버 ENB 
 #define BIN3 2          // IN3
 #define BIN4 3          // IN4
 #define encPinC 28      // 보라색 (C) - 20
