@@ -103,8 +103,9 @@ void Stop();
 void call(int x) {
     // 전진
     if (x == 1) {
+        while(true){
         goFront();
-        sleep(5);
+        }
     }
     // 후진
     else if (x == 2) {
