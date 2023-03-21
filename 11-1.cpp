@@ -99,17 +99,17 @@ void Stop();
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(int lidar_way) {
+void call(int x) {
     // 전진
-    if (lidar_way == 1) {
+    if (x == 1) {
         goFront();
     }
     // 후진
-    else if (lidar_way == 2) {
+    else if (x == 2) {
         goBack();
     }
     // 정지 
-    else if (lidar_way == 0){
+    else if (x == 0){
         Stop();
     }
 }
