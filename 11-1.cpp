@@ -172,8 +172,6 @@ void Stop() {
     }
 }
 
-
-
 int main(){
     wiringPiSetup();
 
@@ -199,10 +197,10 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
-    pwmSetRange(frequency); // PWM 값의 범위를 설정합니다.
+    pwmSetRange(frequency);     // PWM 값의 범위를 설정합니다.
 
-    pwmWrite(pwmPinA, 0); // PWM 신호의 듀티 사이클을 0으로 설정합니다.
-    pwmWrite(pwmPinB, 0); // PWM 신호의 듀티 사이클을 0으로 설정합니다.
+    pwmWrite(pwmPinA, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
+    pwmWrite(pwmPinB, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
@@ -248,8 +246,6 @@ int main(){
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
         
-      
-
         call(lidar_way);
         delay(1000);
     }
