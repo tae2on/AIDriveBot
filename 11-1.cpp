@@ -118,39 +118,6 @@ void call(int x) {
 /* 전진 */
 void goFront() {
     while(true) {
-        wheel = 2*M_PI*11.5;
-        target_deg = (360*target_distance / wheel) ;      // 목표 각도
-        
-        /* DC모터 왼쪽 */
-        motorDegA = encoderPosLeft * proportion;
-        errorA = target_deg - motorDegA;
-        de_A = errorA -error_prev_A;
-        di_A += errorA * dt;
-        dt = time(nullptr) - time_prev;
-        
-        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
-        controlA += delta_vA;
-        error_prev_A = errorA;
-        error_prev_prev_A = error_prev_A;
-
-        motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
-        derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
-
-        /* DC모터 오른쪽 */
-        motorDegB = encoderPosRight * proportion;
-        errorB = target_deg - motorDegB;
-        de_B = errorB -error_prev_B;
-        di_B += errorB * dt;
-        dt = time(nullptr) - time_prev;
-        
-        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
-        controlB += delta_vB;
-        error_prev_B = errorB;
-        error_prev_prev_B = error_prev_B;
-
-        motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
-        derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
-        
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, LOW);
@@ -163,7 +130,7 @@ void goFront() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-        if(x != 1){
+        if(int x != 1){
             break;
         }
     }
@@ -184,7 +151,7 @@ void goBack() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
-        if(x != 2){
+        if(int x != 2){
             break;
         }        
     }
@@ -205,7 +172,7 @@ void Stop() {
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
-        if(x != 0){
+        if(int x != 0){
             break;
         }
     }
