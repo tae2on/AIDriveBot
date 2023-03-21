@@ -98,7 +98,7 @@ void Stop();
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
-void call(lidar_way) {
+void call(string lidar_way) {
     // 전진
     if (lidar_way == "goFront") {
         goFront();
@@ -237,15 +237,13 @@ int main(){
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
-        return call(lidar_way);
         
-
         void call();
         void goFront();
         void goBack();
         void Stop();
 
-        call();
+        call(lidar_way);
         delay(1000);
     }
 }
