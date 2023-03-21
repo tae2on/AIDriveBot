@@ -239,7 +239,7 @@ int main(){
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
         
-        void call();
+        void call(int x);
         void goFront();
         void goBack();
         void Stop();
