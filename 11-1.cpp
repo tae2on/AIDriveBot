@@ -103,7 +103,6 @@ void Stop();
 void call(int x) {
     // 전진
     if (x == 1) {
-        while(true){
         goFront();
         }
     }
@@ -117,23 +116,24 @@ void call(int x) {
     else if (x == 0){
         Stop();
     }
-}
 
 /* 전진 */
 void goFront() {
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, HIGH);
-    digitalWrite(BIN3, LOW);
-    digitalWrite(BIN4, HIGH);
-    delay(10);
-    analogWrite(pwmPinA, min(abs(controlA), 255.0));
-    analogWrite(pwmPinB, min(abs(controlA), 255.0));
+    while(true) {
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
+        delay(10);
+        analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
     //return call();
+    }
 }
 
 /* 후진 */
