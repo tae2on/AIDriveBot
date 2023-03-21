@@ -91,6 +91,10 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
+void call();
+void goFront();
+void goBack();
+void Stop();
 
 /* 방향 설정하기 */
 // 변수명 수정하기 
@@ -230,11 +234,10 @@ int main(){
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
-        /*
         string lidar_way;
         std::cout << "값을 입력하시오 : ";
         std::cin >> lidar_way;
-        */
+        
 
         void call();
         void goFront();
