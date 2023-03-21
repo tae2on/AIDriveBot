@@ -104,7 +104,6 @@ void call(int x) {
     // 전진
     if (x == 1) {
         goFront();
-        }
     }
     // 후진
     else if (x == 2) {
@@ -114,6 +113,7 @@ void call(int x) {
     else if (x == 0){
         Stop();
     }
+}
 
 /* 전진 */
 void goFront() {
