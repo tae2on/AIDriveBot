@@ -109,13 +109,13 @@ void call(int x) {
     }
     // 후진
     else if (x == 2) {
+        while(true){
         goBack();
+        }       
     }
     // 정지 
     else if (x == 0){
-        while(true){
         Stop();
-        }
     }
 }
 
