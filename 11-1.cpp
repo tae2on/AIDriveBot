@@ -1,8 +1,6 @@
 /* 라이다 센서 연동 */ 
 /* while문  */
 
-#define _CRT_SECURE_NO_WARNINGS
-#include <stdio.h>
 #include <wiringPi.h>               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
@@ -153,7 +151,7 @@ void goBack() {
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
         if(x != 2){
-            break;
+          b  reak;
         }        
     }
 }
@@ -250,8 +248,8 @@ int main(){
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
         int lidar_way;
-        std::cout << "값을 입력하시오 : ";
-        std::cin >> lidar_way;
+        cout << "값을 입력하시오 : ";
+        cin >> lidar_way;
         
         call(lidar_way);
         delay(1000);
