@@ -7,7 +7,7 @@
 #include <ctime>
 #include <string>
 #include <unistd.h>
-#include <algorithm"
+#include <algorithm>
 #define M_PI 3.14159265358979323846
 using namespace std;
 
