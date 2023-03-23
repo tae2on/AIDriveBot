@@ -1,16 +1,14 @@
 /* 라이다 센서 연동 */ 
-/* while문  */
 
-#include <wiringPi.h>               // analogRead(), pinMode(), delay() 함수 등 사용 
+#include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
 #include <ctime>
 #include <string>
 #include <unistd.h>
-
+#include <algorithm"
 #define M_PI 3.14159265358979323846
-
 using namespace std;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! ----------------------------> 핀 설정 다시하기 
@@ -92,38 +90,49 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
-void call(int x);
-void goFront();
-void goBack();
-void Stop();
 
-/* 방향 설정하기 */
-// 변수명 수정하기 
-void call(int x) {
+class MotorControl{
+public:
+    void call(int x);
+    void goFront();
+    void goBack();
+    void goRight();
+    void Stop();
+};
+
+void MotorControl::call(int x){
+    // 정지
+    if (x == 0){
+        Stop();
+    }
     // 전진
-    if (x == 1) {
+    else if (x == 1) {
         goFront();
     }
     // 후진
     else if (x == 2) {
         goBack();     
     }
-    // 정지 
-    else if (x == 0){
-        Stop();
+    // 오른쪽
+    else if (x == 3){
+        goRight();
     }
+    // 왼쪽
+    //else if (x == 4){
+    //    goLeft();
+    //}
 }
 
 /* 전진 */
-void goFront() {
+void MotorControl::goFront() {
     while(true) {
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
-        analogWrite(pwmPinA, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, std::min(abs(controlA), 255.0));
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -136,7 +145,7 @@ void goFront() {
 }
 
 /* 후진 */
-void goBack() {
+void MotorControl::goBack() {
     while(true) {
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
@@ -151,13 +160,34 @@ void goBack() {
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
         if(x != 2){
-          b  reak;
+            break;
+        }        
+    }
+}
+
+/* 오른쪽 */
+void MotorControl::goRight() {
+    while(true) {
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
+        delay(10);
+        analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+   
+        if(x != 3){
+            break;
         }        
     }
 }
 
 /* 정지 */
-void Stop() {
+void MotorControl::Stop() {
     while(true) {
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, LOW);
@@ -179,6 +209,8 @@ void Stop() {
 
 int main(){
     wiringPiSetup();
+
+    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -251,8 +283,7 @@ int main(){
         cout << "값을 입력하시오 : ";
         cin >> lidar_way;
         
-        call(lidar_way);
+        control.call(lidar_way);
         delay(1000);
     }
 }
-
