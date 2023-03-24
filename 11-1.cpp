@@ -189,6 +189,10 @@ void MotorControl::goRight() {
             cout << "각도 = " << motorDegB << endl;
             cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
             cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+            cout << "encA = " << encoderPosRight << endl;
+            cout << "encB = " << encoderPosLeft << endl;           
+            cout << "회전 각도 = " << turn_deg << endl; 
+            
         }
         else if ((turn_deg > target_deg) || (x != 3)){
             break;
@@ -199,8 +203,6 @@ void MotorControl::goRight() {
 /* 왼쪽 */
 void MotorControl::goLeft() {
     while(true) {
-        cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_deg; 
         if (target_deg > turn_deg){
             digitalWrite(AIN1, HIGH);
             digitalWrite(AIN2, LOW);
@@ -215,6 +217,7 @@ void MotorControl::goLeft() {
             cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
             cout << "encA = " << encoderPosRight << endl;
             cout << "encB = " << encoderPosLeft << endl;
+            cout << "회전 각도 = " << turn_deg << endl; 
        
         }
         else if ((turn_deg > target_deg) || (x != 4)){
