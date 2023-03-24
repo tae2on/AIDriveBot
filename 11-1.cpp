@@ -257,7 +257,7 @@ void MotorControl::goLeft() {
         
         if ((turn_deg >= target_turn_deg)){
             Stop();
-            count << "stop" << endl;
+            std::cout << "stop" << std::endl;
             break;
         }       
     }
