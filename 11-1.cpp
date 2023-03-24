@@ -256,11 +256,10 @@ void MotorControl::goLeft() {
         Calculation();
         
         if ((turn_deg >= target_turn_deg)){
-            Stop();
-            std::cout << "stop" << std::endl;
             break;
         }       
     }
+    Stop();
 }
 
 /* 정지 */
