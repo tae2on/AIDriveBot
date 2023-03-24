@@ -260,6 +260,9 @@ void MotorControl::goRight() {
             Calculation();
         }
     
+         // turn_deg 업데이트
+        turn_deg = distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0;
+
         if ((turn_deg >= target_turn_deg)){
             Stop();
             break;
