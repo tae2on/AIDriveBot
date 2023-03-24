@@ -148,8 +148,8 @@ void Calculation() {
         /* 회전 각도 구하기 */
         left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
         right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
-
-        radius = (wheelbase / 2.0) * abs(right_wheel_deg - left_wheel_deg) / 360;
+        
+        radius = (wheelbase / 2.0) * (left_wheel_deg - right_wheel_deg) / 360;
 
         turn_deg = atan(wheelbase / (2.0 * radius)) * 180.0 / M_PI;  // 회전 각도
 
