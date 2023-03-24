@@ -69,9 +69,9 @@ double delta_vA;
 double delta_vB;
 double time_prev = 0;
 
-double left_wheel_deg;                   // 왼쪽 바퀴 회전 각도 
-double right_wheel_deg;                  // 오른쪽 바퀴 회전 각도
-double turn_deg;                         //  모터가 회전한 각도
+double left_wheel_deg = 0;                   // 왼쪽 바퀴 회전 각도 
+double right_wheel_deg = 0;                  // 오른쪽 바퀴 회전 각도
+double turn_deg = 0;                         //  모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
 
 int encoderPos_resolution = 26;          // 엔코더 해상도 - 왼쪽   
