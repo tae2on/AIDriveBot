@@ -145,7 +145,7 @@ void Calculation() {
         left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
         right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
  
-        turn_deg = abs((right_wheel_deg - left_wheel_deg) / 2);  // 회전 각도
+        turn_deg = (right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -255,7 +255,6 @@ void MotorControl::goLeft() {
         Calculation();
         
         if ((turn_deg >= target_turn_deg)){
-            Stop();
             break;
         }       
     }
