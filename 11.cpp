@@ -190,7 +190,7 @@ void MotorControl::goRight() {
             cout << "encA = " << encoderPosRight << endl;
             cout << "encB = " << encoderPosLeft << endl;
 
-        else if (x != 3){
+        if (x != 3){
             break;
         }        
     }
@@ -213,7 +213,7 @@ void MotorControl::goLeft() {
             cout << "encA = " << encoderPosRight << endl;
             cout << "encB = " << encoderPosLeft << endl;
        
-        else if (x != 4){
+        if (x != 4){
             break;
         }       
     }
