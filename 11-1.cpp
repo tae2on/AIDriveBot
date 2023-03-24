@@ -256,6 +256,7 @@ void MotorControl::goLeft() {
         Calculation();
         
         if ((turn_deg >= target_turn_deg)){
+            Stop();
             break;
         }       
     }
