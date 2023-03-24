@@ -213,6 +213,9 @@ void MotorControl::goLeft() {
             cout << "각도 = " << motorDegB << endl;
             cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
             cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+            cout << "encA = " << encoderPosRight << endl;
+            cout << "encB = " << encoderPosLeft << endl;
+       
         }
         else if ((turn_deg > target_deg) || (x != 4)){
             break;
@@ -318,7 +321,7 @@ int main(){
         right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
 
         turn_deg = (right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
-        
+
         int lidar_way;
         cout << "값을 입력하시오 : ";
         cin >> lidar_way; 
