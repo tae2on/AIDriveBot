@@ -253,7 +253,12 @@ void MotorControl::goBack() {
 
 /* 오른쪽 */
 void MotorControl::goRight() {
-    while(true) {            
+    while(true) {         
+        doEncoderA();
+        doEncoderB();
+        doEncoderC();
+        doEncoderD();      
+
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
