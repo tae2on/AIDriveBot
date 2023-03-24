@@ -38,6 +38,8 @@ float ki = 0.;
 
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+float prev_encoderPosRight; 
+float prev_encoderPosLeft;
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
@@ -245,12 +247,18 @@ void MotorControl::goRight() {
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(BIN4, LOW);  
         delay(10);
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
+        // 엔코더 값이 변경될 때마다  Calculation() 함수 호출하여 업데이트
+        prev_encoderPosRight = encoderPosRight;
+        prev_encoderPosLeft = encoderPosLeft;
         Calculation();
+        if (encoderPosLeft != prevEncoderPosLeft || encoderPosRight != prevEncoderPosRight) {
+            Calculation();
+        }
     
         if ((turn_deg >= target_turn_deg)){
             Stop();
