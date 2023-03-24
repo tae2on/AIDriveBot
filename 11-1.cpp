@@ -244,6 +244,7 @@ void MotorControl::goRight() {
     
         
         if ((turn_deg >= target_turn_deg)){
+            Stop();
             break;
         }
     }            
