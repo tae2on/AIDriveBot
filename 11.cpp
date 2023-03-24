@@ -335,10 +335,6 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
-    attachInterrupt(digitalPinToInterrupt(encPinA), doEncoderA, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinB), doEncoderB, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinC), doEncoderC, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinD), doEncoderD, CHANGE);
 
     while(true) {
 
