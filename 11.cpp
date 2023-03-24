@@ -338,7 +338,7 @@ int main(){
     attachInterrupt(digitalPinToInterrupt(encPinA), doEncoderA, CHANGE);
     attachInterrupt(digitalPinToInterrupt(encPinB), doEncoderB, CHANGE);
     attachInterrupt(digitalPinToInterrupt(encPinC), doEncoderC, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinD), doEncodeD, CHANGE);
+    attachInterrupt(digitalPinToInterrupt(encPinD), doEncoderD, CHANGE);
 
     while(true) {
 
