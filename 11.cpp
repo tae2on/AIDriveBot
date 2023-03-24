@@ -83,7 +83,7 @@ double turn_arclengthRight;              // 오른쪽 DC모터의 회전 반지�
 double turn_arclengthLeft;               // 왼쪽 DC모터의 회전 반지름에 해당하는 회전 호의 길이 계산
 double distanceDiff;                     // 왼쪽 DC모터와 오른쪽 DC모터의 회전 거리 차이 계산
 
-//int encoderPos_resolution = 26;          // 엔코더 해상도   
+//int encoderPos_resolution = 26;        // 엔코더 해상도   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
@@ -150,6 +150,23 @@ void Calculation() {
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
 
+        // 차축 길이
+        wheelbase = 56;
+
+        // 차체의 회전 반지름 계산
+        carBody_turn_radiusRight = wheelbase / tan(target_turn_deg*M_PI / 360.0);
+        carBody_turn_radiusLeft = wheelbase / tan(target_turn_deg*M_PI / 360.0);
+
+        // 회전 반지름에 해당하는 회전 호 길이 계산
+        turn_arclengthRight = 2.0 * M_PI * carBody_turn_radiusRight * ((double)encoderPosRight / 360.0);
+        turn_arclengthLeft = 2.0 * M_PI * carBody_turn_radiusLeft * ((double)encoderPosLeft / 360.0);
+
+        // 왼쪽 모터와 오른쪽 모터의 회전 거리 차이 계산
+        distanceDiff = 2.0 * M_PI * (wheelbase / 2.0) * ((double)(encoderPosLeft - encoderPosRight) / 360.0);
+
+        // 회전 거리 차이에 해당하는 회전 각도 계산
+        turn_deg = distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0;
+
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
@@ -158,7 +175,7 @@ void Calculation() {
         cout << "회전 각도 = " << turn_deg << endl;
 } 
 
-/* 자동차 회전 각도 계산 함수 */
+/* 자동차 회전 각도 계산 함수 
 int carBodyturn(int target_turn_deg, int wheelbase){
     // 차축 길이
     wheelbase = 56;
@@ -179,7 +196,7 @@ int carBodyturn(int target_turn_deg, int wheelbase){
 
     return (int) turn_deg;
 }
-
+*/
 
 void MotorControl::call(int x){
     // 정지
