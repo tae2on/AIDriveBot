@@ -174,7 +174,7 @@ void MotorControl::goRight() {
         digitalWrite(BIN4, HIGH);
         delay(10);
         // analogWrite(pwmPinA, min(abs(controlA), 120.0));
-        pwmWrite(pwmPinB, 120);
+        pwmWrite(pwmPinB, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         cout << "각도 = " << motorDegB << endl;
