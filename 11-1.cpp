@@ -245,7 +245,7 @@ void MotorControl::goRight() {
         
     if ((turn_deg > target_turn_deg) || (x != 3)){
         Stop();
-        break
+        break;
     }        
 }
 
@@ -273,7 +273,7 @@ void MotorControl::goLeft() {
         }
         else if ((turn_deg >= target_turn_deg)){
             Stop();
-            break
+            break;
         }       
     }
 }
