@@ -250,6 +250,8 @@ void MotorControl::goRight() {
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
+        Calculation();
+
         if ((turn_deg >= target_turn_deg)){
             Stop();
             break;
