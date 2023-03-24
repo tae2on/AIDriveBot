@@ -253,13 +253,11 @@ void MotorControl::goRight() {
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         // 엔코더 값이 변경될 때마다  Calculation() 함수 호출하여 업데이트
-    
-        int curr_encoderPosRight = encoderPosRight;
-        int curr_encoderPosLeft = encoderPosLeft;
-        if (curr_encoderPosLeft != prev_encoderPosLeft || curr_encoderPosRight != prev_encoderPosRight) {
+        prev_encoderPosRight = encoderPosRight;
+        prev_encoderPosLeft = encoderPosLeft;
+        Calculation();
+        if (encoderPosLeft != prev_encoderPosLeft || encoderPosRight != prev_encoderPosRight) {
             Calculation();
-            prev_encoderPosLeft = curr_encoderPosLeft;
-            prev_encoderPosRight = curr_encoderPosRight;
         }
     
         if ((turn_deg >= target_turn_deg)){
