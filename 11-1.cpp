@@ -241,12 +241,13 @@ void MotorControl::goRight() {
         cout << "encA = " << encoderPosRight << endl;
         cout << "encB = " << encoderPosLeft << endl;           
         cout << "회전 각도 = " << turn_deg << endl; 
-    }
+    
         
-   if ((turn_deg >= target_turn_deg)){
-        Stop();
-        break;
-    }        
+        if ((turn_deg >= target_turn_deg)){
+            Stop();
+            break;
+        }
+    }            
 }
 
 
