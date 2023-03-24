@@ -344,5 +344,7 @@ int main(){
         
         control.call(lidar_way);
         delay(1000);
+
+        Calculation();
     }
 }
