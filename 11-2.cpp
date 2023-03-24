@@ -8,8 +8,6 @@
 #include <string>
 #include <unistd.h>
 #include <algorithm>
-#include <math.h>
-
 #define M_PI 3.14159265358979323846
 using namespace std;
 
@@ -73,7 +71,7 @@ double time_prev = 0;
 
 double left_wheel_deg = 0;               // 왼쪽 바퀴 회전 각도 
 double right_wheel_deg = 0;              // 오른쪽 바퀴 회전 각도
-double turn_deg = 0;                     // 모터가 회전한 각도
+double turn_deg = 0;                     //  모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
 
 double wheelbase = 56;                   // 차체 길이 (cm)
@@ -83,7 +81,6 @@ double turn_arclengthRight;              // 오른쪽 DC모터의 회전 반지�
 double turn_arclengthLeft;               // 왼쪽 DC모터의 회전 반지름에 해당하는 회전 호의 길이 계산
 double distanceDiff;                     // 왼쪽 DC모터와 오른쪽 DC모터의 회전 거리 차이 계산
 
-//int encoderPos_resolution = 26;        // 엔코더 해상도   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
@@ -149,7 +146,7 @@ void Calculation() {
 
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
-
+        
         // 차체의 회전 반지름 계산
         carBody_turn_radiusRight = wheelbase / tan(target_turn_deg*M_PI / 360.0);
         carBody_turn_radiusLeft = wheelbase / tan(target_turn_deg*M_PI / 360.0);
@@ -162,8 +159,7 @@ void Calculation() {
         distanceDiff = 2.0 * M_PI * (wheelbase / 2.0) * ((double)(encoderPosLeft - encoderPosRight) / 360.0);
 
         // 회전 거리 차이에 해당하는 회전 각도 계산
-        turn_deg = abs(distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0);
-
+        turn_deg = distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0;
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -171,8 +167,8 @@ void Calculation() {
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
-} 
 
+} 
 
 void MotorControl::call(int x){
     // 정지
@@ -241,7 +237,7 @@ void MotorControl::goBack() {
 
 /* 오른쪽 */
 void MotorControl::goRight() {
-    while(true) {         
+    while(true) {            
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
@@ -335,10 +331,6 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
-    attachInterrupt(digitalPinToInterrupt(encPinA), doEncoderA, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinB), doEncoderB, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinC), doEncoderC, CHANGE);
-    attachInterrupt(digitalPinToInterrupt(encPinD), doEncoderD, CHANGE);
 
     while(true) {
 
