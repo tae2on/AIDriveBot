@@ -273,8 +273,6 @@ void MotorControl::Stop() {
         pwmWrite(pwmPinA, 0);
         pwmWrite(pwmPinB, 0);
 
-        Calculation();
-
         if(x != 0){
             break;
         }
