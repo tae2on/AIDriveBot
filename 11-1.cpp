@@ -122,14 +122,10 @@ void MotorControl::call(int x){
     }
     // 오른쪽
     else if (x == 3){
-        cout << "원하는 각도를 입력하시오 : ";
-            cin >> target_deg; 
         goRight();
     }
     // 왼쪽
     else if (x == 4){
-        cout << "원하는 각도를 입력하시오 : ";
-            cin >> target_deg; 
         goLeft();
     }
 }
@@ -325,6 +321,11 @@ int main(){
         int lidar_way;
         cout << "값을 입력하시오 : ";
         cin >> lidar_way; 
+        
+        if((target_deg == 3) || (target_deg == 4)){  
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_deg; 
+        }
 
         control.call(lidar_way);
         delay(1000);
