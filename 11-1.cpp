@@ -187,7 +187,7 @@ void MotorControl::goFront() {
         analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
         analogWrite(pwmPinB, std::min(abs(controlA), 255.0));
 
-        Calculation()
+        Calculation();
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -210,7 +210,7 @@ void MotorControl::goBack() {
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-        Calculation()
+        Calculation();
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -234,7 +234,7 @@ void MotorControl::goRight() {
             analogWrite(pwmPinA, min(abs(controlA), 255.0));
             analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-            Calculation()
+            Calculation();
 
             cout << "각도 = " << motorDegB << endl;
             cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -262,7 +262,7 @@ void MotorControl::goLeft() {
             analogWrite(pwmPinA, min(abs(controlA), 255.0));
             analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-            Calculation()
+            Calculation();
 
             cout << "각도 = " << motorDegB << endl;
             cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
