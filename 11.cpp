@@ -256,7 +256,7 @@ void MotorControl::goRight() {
         prev_encoderPosRight = encoderPosRight;
         prev_encoderPosLeft = encoderPosLeft;
         Calculation();
-        if (encoderPosLeft != prevEncoderPosLeft || encoderPosRight != prevEncoderPosRight) {
+        if (encoderPosLeft != prev_encoderPosLeft || encoderPosRight != prev_encoderPosRight) {
             Calculation();
         }
     
