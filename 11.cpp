@@ -245,13 +245,13 @@ void MotorControl::goRight() {
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);  
+        digitalWrite(BIN4, LOW);
         delay(10);
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
-
+    
         if ((turn_deg >= target_turn_deg)){
             Stop();
             break;
