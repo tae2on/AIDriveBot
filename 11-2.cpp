@@ -37,8 +37,8 @@ float ki = 0.;
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
-float motorDegA = 0;                   // 모터 각도A
-float motorDegB = 0;                   // 모터 각도B
+float motorDegA;                   // 모터 각도A
+float motorDegB;                   // 모터 각도B
 float motor_distanceA;                 // 모터 거리 
 float motor_distanceB;                 // 모터 거리 
 
