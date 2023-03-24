@@ -175,6 +175,8 @@ void MotorControl::goBack() {
 /* 오른쪽 */
 void MotorControl::goRight() {
     while(true) {
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_deg;         
         if (target_deg > turn_deg){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, HIGH);
@@ -197,6 +199,8 @@ void MotorControl::goRight() {
 /* 왼쪽 */
 void MotorControl::goLeft() {
     while(true) {
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_deg; 
         if (target_deg > turn_deg){
             digitalWrite(AIN1, HIGH);
             digitalWrite(AIN2, LOW);
@@ -322,11 +326,6 @@ int main(){
         cout << "값을 입력하시오 : ";
         cin >> lidar_way; 
         
-        if((target_deg == 3) || (target_deg == 4)){  
-        cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_deg; 
-        }
-
         control.call(lidar_way);
         delay(1000);
     }
