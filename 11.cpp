@@ -165,7 +165,7 @@ void Calculation() {
         distanceDiff = 2.0 * M_PI * (wheelbase / 2.0) * ((double)(encoderPosLeft - encoderPosRight) / 360.0);
 
          // 회전 거리 차이에 해당하는 회전 각도 계산
-        turn_deg = distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0;
+        turn_deg = abs(distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0);
 
 
         cout << "각도 = " << motorDegB << endl;
