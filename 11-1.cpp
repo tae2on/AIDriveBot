@@ -225,30 +225,30 @@ void MotorControl::goBack() {
 /* 오른쪽 */
 void MotorControl::goRight() {
     while(true) {            
-        if (target_turn_deg > 0){
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
-            digitalWrite(BIN3, HIGH);
-            digitalWrite(BIN4, LOW);
-            delay(10);
-            analogWrite(pwmPinA, min(abs(controlA), 255.0));
-            analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
+        delay(10);
+        analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-            Calculation();
+        Calculation();
 
-            cout << "각도 = " << motorDegB << endl;
-            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-            cout << "encA = " << encoderPosRight << endl;
-            cout << "encB = " << encoderPosLeft << endl;           
-            cout << "회전 각도 = " << turn_deg << endl; 
-        }
-
-        else if ((turn_deg > target_turn_deg) || (x != 3)){
-            break;
-        }        
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        cout << "encA = " << encoderPosRight << endl;
+        cout << "encB = " << encoderPosLeft << endl;           
+        cout << "회전 각도 = " << turn_deg << endl; 
     }
+        
+    if ((turn_deg > target_turn_deg) || (x != 3)){
+        Stop();
+        break;
+    }        
 }
+
 
 /* 왼쪽 */
 void MotorControl::goLeft() {
