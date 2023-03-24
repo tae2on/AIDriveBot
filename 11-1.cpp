@@ -13,14 +13,14 @@ using namespace std;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! ----------------------------> 핀 설정 다시하기 
    DC 모터 왼쪽 (엔코더 O) */                                                     
-#define pwmPinA 24      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
+#define pwmPinA 22      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
 #define AIN1 16         // IN1 
 #define AIN2 1          // IN2 
 #define encPinA 8       // 보라색 (A) 
 #define encPinB 9       // 파랑색 (B) 
 
 /* DC모터 오른쪽 (엔코더 X) */
-#define pwmPinB 4       // 모터 드라이버 ENB 
+#define pwmPinB 21       // 모터 드라이버 ENB 
 #define BIN3 2          // IN3
 #define BIN4 3          // IN4
 #define encPinC 28      // 보라색 (C) - 20
