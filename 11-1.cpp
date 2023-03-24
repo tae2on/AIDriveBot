@@ -34,8 +34,8 @@ float kp = 30.0;
 float kd = 0.;         
 float ki = 0.;
 
-float encoderPosRight = 0;
-float encoderPosLeft = 0;
+float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
+float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
@@ -69,6 +69,12 @@ double delta_vA;
 double delta_vB;
 double time_prev = 0;
 
+double left_wheel_deg;                   // 왼쪽 바퀴 회전 각도 
+double right_wheel_deg;                  // 오른쪽 바퀴 회전 각도
+double turn_deg;                         //  모터가 회전한 각도
+double target_turn_deg;                  // 원하는 회전한 각도   
+
+int encoderPos_resolution = ;               // 엔코더 해상도 - 왼쪽   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
@@ -97,6 +103,7 @@ public:
     void goFront();
     void goBack();
     void goRight();
+    void goLeft();
     void Stop();
 };
 
@@ -118,9 +125,9 @@ void MotorControl::call(int x){
         goRight();
     }
     // 왼쪽
-    //else if (x == 4){
-    //    goLeft();
-    //}
+    else if (x == 4){
+        goLeft();
+    }
 }
 
 /* 전진 */
@@ -168,22 +175,44 @@ void MotorControl::goBack() {
 /* 오른쪽 */
 void MotorControl::goRight() {
     while(true) {
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, HIGH);
-        delay(10);
-        // analogWrite(pwmPinA, min(abs(controlA), 120.0));
-        pwmWrite(pwmPinB, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        if (target_deg > turn_deg){
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, HIGH);
+            digitalWrite(BIN3, HIGH);
+            digitalWrite(BIN4, LOW);
+            delay(10);
+            analogWrite(pwmPinA, min(abs(controlA), 255.0));
+            analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-        cout << "각도 = " << motorDegB << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-   
-        if(x != 3){
+            cout << "각도 = " << motorDegB << endl;
+            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        }
+        else if ((turn_deg > target_deg) || (x != 3)){
             break;
         }        
+    }
+}
+
+/* 왼쪽 */
+void MotorControl::goLeft() {
+    while(true) {
+        if (target_deg > turn_deg){
+            digitalWrite(AIN1, HIGH);
+            digitalWrite(AIN2, LOW);
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, HIGH);
+            delay(10);
+            analogWrite(pwmPinA, min(abs(controlA), 255.0));
+            analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+            cout << "각도 = " << motorDegB << endl;
+            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        }
+        else if ((turn_deg > target_deg) || (x != 4)){
+            break;
+        }       
     }
 }
 
@@ -280,9 +309,20 @@ int main(){
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
+        /* 회전 각도 구하기 */
+        left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
+        right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
+
+        turn_deg = (right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
+        
         int lidar_way;
         cout << "값을 입력하시오 : ";
         cin >> lidar_way;
+
+        if((x == 3)||(x == 4)): 
+        
+            cout << "원하는 각도를 입력하시오 : ";
+            cin >> target_deg; 
         
         control.call(lidar_way);
         delay(1000);
