@@ -172,13 +172,13 @@ void MotorControl::call(int x){
     // 오른쪽
     else if (x == 3){
         cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_deg;
+        cin >> target_turn_deg;
         goRight();
     }
     // 왼쪽
     else if (x == 4){
         cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_deg;        
+        cin >> target_turn_deg;        
         goLeft();
     }
 }
