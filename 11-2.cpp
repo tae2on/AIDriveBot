@@ -80,6 +80,7 @@ double turn_arclengthRight;              // 오른쪽 DC모터의 회전 반지�
 double turn_arclengthLeft;               // 왼쪽 DC모터의 회전 반지름에 해당하는 회전 호의 길이 계산
 double distanceDiff;                     // 왼쪽 DC모터와 오른쪽 DC모터의 회전 거리 차이 계산
 
+int encoderPos_resolution = 26;          // 엔코더 해상도   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
