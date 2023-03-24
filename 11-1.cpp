@@ -243,7 +243,7 @@ void MotorControl::goRight() {
         cout << "회전 각도 = " << turn_deg << endl; 
     }
         
-    if ((turn_deg > target_turn_deg) || (x != 3)){
+   if ((turn_deg >= target_turn_deg)){
         Stop();
         break;
     }        
