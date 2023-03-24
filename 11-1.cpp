@@ -74,7 +74,7 @@ double right_wheel_deg = 0;              // 오른쪽 바퀴 회전 각도
 double turn_deg = 0;                     //  모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
 
-int encoderPos_resolution = 26;          // 엔코더 해상도   
+int encoderPos_resolution = 264;          // 엔코더 해상도   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
@@ -153,6 +153,7 @@ void Calculation() {
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
+        cout << "회전 각도 = " << left_wheel_deg<< endl;
 
 } 
 
@@ -233,12 +234,12 @@ void MotorControl::goRight() {
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
-    
+        
         if ((turn_deg >= target_turn_deg)){
-            Stop();
             break;
-        }
-    }            
+        }       
+    }
+    Stop();        
 }
 
 
