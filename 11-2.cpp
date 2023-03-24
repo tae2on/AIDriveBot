@@ -8,9 +8,6 @@
 #include <string>
 #include <unistd.h>
 #include <algorithm>
-#include <math.h>
-
-
 #define M_PI 3.14159265358979323846
 using namespace std;
 
@@ -76,7 +73,6 @@ double left_wheel_deg = 0;               // 왼쪽 바퀴 회전 각도
 double right_wheel_deg = 0;              // 오른쪽 바퀴 회전 각도
 double turn_deg = 0;                     //  모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
-
 double wheelbase = 56;                   // 차체 길이 (cm)
 double carBody_turn_radiusRight;         // 차체의 오른쪽 회전 반지름 
 double carBody_turn_radiusLeft;          // 차체의 왼쪽 회전 반지름                       
@@ -150,19 +146,11 @@ void Calculation() {
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
-        // 차체의 회전 반지름 계산
-        carBody_turn_radiusRight = wheelbase / tan(target_turn_deg*M_PI / 360.0);
-        carBody_turn_radiusLeft = wheelbase / tan(target_turn_deg*M_PI / 360.0);
-    
-        // 회전 반지름에 해당하는 회전 호 길이 계산
-        turn_arclengthRight = 2.0 * M_PI * carBody_turn_radiusRight * ((double)encoderPosRight / 360.0);
-        turn_arclengthLeft = 2.0 * M_PI * carBody_turn_radiusLeft * ((double)encoderPosLeft / 360.0);
-
-        // 왼쪽 모터와 오른쪽 모터의 회전 거리 차이 계산
-        distanceDiff = 2.0 * M_PI * (wheelbase / 2.0) * ((double)(encoderPosLeft - encoderPosRight) / 360.0);
-
-        // 회전 거리 차이에 해당하는 회전 각도 계산
-        turn_deg = distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0;
+        /* 회전 각도 구하기 */
+        left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
+        right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
+ 
+        turn_deg = abs(right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
