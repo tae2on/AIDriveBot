@@ -107,6 +107,48 @@ public:
     void Stop();
 };
 
+void Calculation() {
+        wheel = 2*M_PI*11.5;
+        target_deg = (360*target_distance / wheel) ;      // 목표 각도
+        
+        /* DC모터 왼쪽 */
+        motorDegA = encoderPosLeft * proportion;
+        errorA = target_deg - motorDegA;
+        de_A = errorA -error_prev_A;
+        di_A += errorA * dt;
+        dt = time(nullptr) - time_prev;
+        
+        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
+        controlA += delta_vA;
+        error_prev_A = errorA;
+        error_prev_prev_A = error_prev_A;
+
+        motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
+        derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
+
+        /* DC모터 오른쪽 */
+        motorDegB = encoderPosRight * proportion;
+        errorB = target_deg - motorDegB;
+        de_B = errorB -error_prev_B;
+        di_B += errorB * dt;
+        dt = time(nullptr) - time_prev;
+        
+        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
+        controlB += delta_vB;
+        error_prev_B = errorB;
+        error_prev_prev_B = error_prev_B;
+
+        motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
+        derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
+        
+        /* 회전 각도 구하기 */
+        left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
+        right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
+ 
+        turn_deg = (right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
+
+} 
+
 void MotorControl::call(int x){
     // 정지
     if (x == 0){
@@ -128,6 +170,8 @@ void MotorControl::call(int x){
     }
     // 왼쪽
     else if (x == 4){
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_deg;        
         goLeft();
     }
 }
@@ -142,6 +186,8 @@ void MotorControl::goFront() {
         delay(10);
         analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
         analogWrite(pwmPinB, std::min(abs(controlA), 255.0));
+
+        Calculation()
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -163,6 +209,8 @@ void MotorControl::goBack() {
         delay(10);
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
+
+        Calculation()
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
@@ -186,14 +234,16 @@ void MotorControl::goRight() {
             analogWrite(pwmPinA, min(abs(controlA), 255.0));
             analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
+            Calculation()
+
             cout << "각도 = " << motorDegB << endl;
             cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
             cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
             cout << "encA = " << encoderPosRight << endl;
             cout << "encB = " << encoderPosLeft << endl;           
             cout << "회전 각도 = " << turn_deg << endl; 
-            
         }
+
         else if ((turn_deg > target_deg) || (x != 3)){
             break;
         }        
@@ -212,13 +262,14 @@ void MotorControl::goLeft() {
             analogWrite(pwmPinA, min(abs(controlA), 255.0));
             analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
+            Calculation()
+
             cout << "각도 = " << motorDegB << endl;
             cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
             cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
             cout << "encA = " << encoderPosRight << endl;
             cout << "encB = " << encoderPosLeft << endl;
             cout << "회전 각도 = " << turn_deg << endl; 
-       
         }
         else if ((turn_deg > target_deg) || (x != 4)){
             break;
@@ -286,44 +337,6 @@ int main(){
 
 
     while(true) {
-        wheel = 2*M_PI*11.5;
-        target_deg = (360*target_distance / wheel) ;      // 목표 각도
-        
-        /* DC모터 왼쪽 */
-        motorDegA = encoderPosLeft * proportion;
-        errorA = target_deg - motorDegA;
-        de_A = errorA -error_prev_A;
-        di_A += errorA * dt;
-        dt = time(nullptr) - time_prev;
-        
-        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
-        controlA += delta_vA;
-        error_prev_A = errorA;
-        error_prev_prev_A = error_prev_A;
-
-        motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
-        derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
-
-        /* DC모터 오른쪽 */
-        motorDegB = encoderPosRight * proportion;
-        errorB = target_deg - motorDegB;
-        de_B = errorB -error_prev_B;
-        di_B += errorB * dt;
-        dt = time(nullptr) - time_prev;
-        
-        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
-        controlB += delta_vB;
-        error_prev_B = errorB;
-        error_prev_prev_B = error_prev_B;
-
-        motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
-        derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
-        
-        /* 회전 각도 구하기 */
-        left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
-        right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
-
-        turn_deg = (right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
 
         int lidar_way;
         cout << "값을 입력하시오 : ";
