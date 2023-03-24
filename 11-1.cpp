@@ -259,13 +259,7 @@ void MotorControl::goLeft() {
             break;
         }       
     }
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, LOW);
-    digitalWrite(BIN4, LOW);
-    delay(10);
-    pwmWrite(pwmPinA, 0);
-    pwmWrite(pwmPinB, 0);
+    Stop();
 }
 
 /* 정지 */
@@ -278,6 +272,8 @@ void MotorControl::Stop() {
         delay(10);
         pwmWrite(pwmPinA, 0);
         pwmWrite(pwmPinB, 0);
+
+        Calculation();
 
         if(x != 0){
             break;
