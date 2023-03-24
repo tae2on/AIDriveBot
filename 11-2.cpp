@@ -156,7 +156,7 @@ void Calculation() {
         turn_arclengthLeft = 2.0 * M_PI * carBody_turn_radiusLeft * ((double)encoderPosLeft / 360.0);
 
         // 왼쪽 모터와 오른쪽 모터의 회전 거리 차이 계산
-        distanceDiff = 2.0 * M_PI * (wheelbase / 2.0) * ((double)(encoderPosLeft - encoderPosRight) / 360.0);
+        distanceDiff = abs(2.0 * M_PI * (wheelbase / 2.0) * ((double)(encoderPosLeft - encoderPosRight) / 360.0));
 
         // 회전 거리 차이에 해당하는 회전 각도 계산
         turn_deg = distanceDiff / (turn_arclengthLeft + turn_arclengthRight) * 360.0;
