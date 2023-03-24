@@ -74,7 +74,7 @@ double right_wheel_deg;                  // 오른쪽 바퀴 회전 각도
 double turn_deg;                         //  모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
 
-int encoderPos_resolution = ;               // 엔코더 해상도 - 왼쪽   
+int encoderPos_resolution = 26;          // 엔코더 해상도 - 왼쪽   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
