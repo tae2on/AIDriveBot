@@ -122,6 +122,8 @@ void MotorControl::call(int x){
     }
     // 오른쪽
     else if (x == 3){
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_deg;
         goRight();
     }
     // 왼쪽
@@ -174,9 +176,7 @@ void MotorControl::goBack() {
 
 /* 오른쪽 */
 void MotorControl::goRight() {
-    while(true) {
-        cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_deg;         
+    while(true) {            
         if (target_deg > turn_deg){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, HIGH);
