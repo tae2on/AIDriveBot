@@ -145,7 +145,7 @@ void Calculation() {
         left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
         right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
  
-        abs(turn_deg) = (right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
+        turn_deg = abs((right_wheel_deg - left_wheel_deg) / 2);  // 회전 각도
 
 } 
 
