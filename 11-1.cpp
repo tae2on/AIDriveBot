@@ -225,7 +225,7 @@ void MotorControl::goBack() {
 /* 오른쪽 */
 void MotorControl::goRight() {
     while(true) {            
-        if (target_turn_deg > turn_deg){
+        if (target_turn_deg > 0){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, HIGH);
             digitalWrite(BIN3, HIGH);
@@ -253,7 +253,7 @@ void MotorControl::goRight() {
 /* 왼쪽 */
 void MotorControl::goLeft() {
     while(true) {
-        if (target_turn_deg > turn_deg){
+        if (target_turn_deg > 0){
             digitalWrite(AIN1, HIGH);
             digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
