@@ -235,7 +235,6 @@ void MotorControl::goRight() {
         Calculation();
     
         if ((turn_deg >= target_turn_deg)){
-            Stop();
             break;
         }
     }            
@@ -272,10 +271,6 @@ void MotorControl::Stop() {
         delay(10);
         pwmWrite(pwmPinA, 0);
         pwmWrite(pwmPinB, 0);
-
-        cout << "각도 = " << motorDegB << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
 
         if(x != 0){
             break;
@@ -329,5 +324,7 @@ int main(){
         
         control.call(lidar_way);
         delay(1000);
+
+        Calculation();
     }
 }
