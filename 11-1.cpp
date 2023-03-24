@@ -271,7 +271,7 @@ void MotorControl::goLeft() {
             cout << "encB = " << encoderPosLeft << endl;
             cout << "회전 각도 = " << turn_deg << endl; 
         }
-        else if ((turn_deg > target_turn_deg) || (x != 4)){
+        else if ((turn_deg >= target_turn_deg)){
             Stop();
             break;
         }       
