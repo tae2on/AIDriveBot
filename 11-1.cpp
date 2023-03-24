@@ -147,6 +147,13 @@ void Calculation() {
  
         turn_deg = abs((right_wheel_deg - left_wheel_deg) / 2);  // 회전 각도
 
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+        cout << "encA = " << encoderPosRight << endl;
+        cout << "encB = " << encoderPosLeft << endl;           
+        cout << "회전 각도 = " << turn_deg << endl;
+
 } 
 
 void MotorControl::call(int x){
@@ -189,10 +196,6 @@ void MotorControl::goFront() {
 
         Calculation();
 
-        cout << "각도 = " << motorDegB << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-
         if(x != 1){
             break;
         }
@@ -211,10 +214,6 @@ void MotorControl::goBack() {
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
-
-        cout << "각도 = " << motorDegB << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
    
         if(x != 2){
             break;
@@ -234,15 +233,7 @@ void MotorControl::goRight() {
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
-
-        cout << "각도 = " << motorDegB << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-        cout << "encA = " << encoderPosRight << endl;
-        cout << "encB = " << encoderPosLeft << endl;           
-        cout << "회전 각도 = " << turn_deg << endl; 
     
-        
         if ((turn_deg >= target_turn_deg)){
             Stop();
             break;
@@ -254,25 +245,17 @@ void MotorControl::goRight() {
 /* 왼쪽 */
 void MotorControl::goLeft() {
     while(true) {
-        if (target_turn_deg > 0){
-            digitalWrite(AIN1, HIGH);
-            digitalWrite(AIN2, LOW);
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, HIGH);
-            delay(10);
-            analogWrite(pwmPinA, min(abs(controlA), 255.0));
-            analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
+        delay(10);
+        analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-            Calculation();
-
-            cout << "각도 = " << motorDegB << endl;
-            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
-            cout << "encA = " << encoderPosRight << endl;
-            cout << "encB = " << encoderPosLeft << endl;
-            cout << "회전 각도 = " << turn_deg << endl; 
-        }
-        else if ((turn_deg >= target_turn_deg)){
+        Calculation();
+        
+        if ((turn_deg >= target_turn_deg)){
             Stop();
             break;
         }       
