@@ -256,16 +256,16 @@ void MotorControl::goLeft() {
         Calculation();
         
         if ((turn_deg >= target_turn_deg)){
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, LOW);
-            delay(10);
-            pwmWrite(pwmPinA, 0);
-            pwmWrite(pwmPinB, 0);
             break;
         }       
     }
+    digitalWrite(AIN1, LOW);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, LOW);
+    digitalWrite(BIN4, LOW);
+    delay(10);
+    pwmWrite(pwmPinA, 0);
+    pwmWrite(pwmPinB, 0);
 }
 
 /* 정지 */
