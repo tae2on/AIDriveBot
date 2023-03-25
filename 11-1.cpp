@@ -79,6 +79,7 @@ double wheelbase = 59;                   // 바퀴 사이 거리
 double radius;                           // 회전 반지름
 double deltaEnc;                         // 엔코더 값의 차이 
 double carDistance;
+double carMoving_filter;
 
 int encoderPos_resolution = 52;          // 엔코더 해상도
 int encoderPos_PR= 26;                  // 엔코더 분해능   
@@ -156,6 +157,10 @@ void Calculation() {
 
         // 자동차가 회전한 각도
         turn_deg = carDistance / wheelbase;
+
+        // 보정 계수
+        carMoving_filter = 0.2;
+        turn_deg *= carMoving_filter;
 
         cout << "각도 = " << motorDegA << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
