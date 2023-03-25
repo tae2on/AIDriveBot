@@ -77,8 +77,11 @@ double turn_deg = 0;                     // 모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
 double wheelbase = 59;                   // 바퀴 사이 거리
 double radius;                           // 회전 반지름
+double deltaEnc;                         // 엔코더 값의 차이 
+double carDistance;
 
-int encoderPos_resolution = 480;         // 엔코더 분해능   
+int encoderPos_resolution = 52;          // 엔코더 해상도
+int encoderPos_P/R= 26;                  // 엔코더 분해능   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
@@ -145,17 +148,14 @@ void Calculation() {
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
-        /* 회전량 구하기 */
-        left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
-        right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
-        
-        // 회전 반지름 
-        radius = wheelbase * (left_wheel_deg - right_wheel_deg) / (2.0 * (left_wheel_deg + right_wheel_deg));
+        // 두 엔코더 값의 차이
+        deltaEnc = encoderPosRight - encoderPosLeft;
 
-        // 회전방향에 따른 각도 계산
-        double rotationAngle = ((right_wheel_deg - left_wheel_deg) / wheelbase) * 180.0 / M_PI;
-        // 자동차 앞 중심부에서의 회전 각도 계산 
-        turn_deg = atan(wheelbase / (2.0 * radius)) * 180.0 / M_PI;  // 회전 각도
+        // 자동차가 이동한 거리 
+        carDistance = deltaEnc * (M_PI * 23.0 / encoderPos_resolution);
+
+        // 자동차가 회전한 각도
+        turn_deg = carDistance / wheelbase;
 
         cout << "각도 = " << motorDegA << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
