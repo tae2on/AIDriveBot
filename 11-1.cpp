@@ -122,7 +122,6 @@ void Calculation() {
         /* DC모터 왼쪽 */
         motorDegA = encoderPosLeft * proportion;
         errorA = target_deg - motorDegA;
-        turn_errorA  = target_turn_deg - 
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
         dt = time(nullptr) - time_prev;
