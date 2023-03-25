@@ -159,7 +159,7 @@ void Calculation() {
         turn_deg = carDistance / wheelbase;
 
         // 보정 계수
-        carMoving_filter = 0.6;     //0.4<x<0.5  
+        carMoving_filter = 0.4;     //0.4<x<0.5  
         turn_deg *= carMoving_filter;
 
         cout << "각도 = " << motorDegA << endl;
