@@ -159,7 +159,7 @@ void Calculation() {
         turn_deg = carDistance / wheelbase;
 
         // 보정 계수
-        carMoving_filter = 0.45;     //0.4<x<0.5  
+        carMoving_filter = 0.47;     //0.4<x<0.5  
         turn_deg *= carMoving_filter;
 
         cout << "각도 = " << motorDegA << endl;
@@ -168,7 +168,6 @@ void Calculation() {
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
-
 } 
 
 void MotorControl::call(int x){
