@@ -157,7 +157,7 @@ void Calculation() {
         // 자동차 앞 중심부에서의 회전 각도 계산 
         turn_deg = atan(wheelbase / (2.0 * radius)) * 180.0 / M_PI;  // 회전 각도
 
-        cout << "각도 = " << motorDegB << endl;
+        cout << "각도 = " << motorDegA << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
         cout << "encA = " << encoderPosLeft<< endl;
