@@ -81,7 +81,7 @@ double deltaEnc;                         // 엔코더 값의 차이
 double carDistance;
 
 int encoderPos_resolution = 52;          // 엔코더 해상도
-int encoderPos_P/R= 26;                  // 엔코더 분해능   
+int encoderPos_PR= 26;                  // 엔코더 분해능   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
