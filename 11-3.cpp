@@ -201,7 +201,8 @@ void MotorControl::call(int x){
 void MotorControl::goFront() {
     while(true) {
         digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
+        // digitalWrite(AIN2, HIGH);
+        digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
@@ -221,13 +222,13 @@ void MotorControl::goFront() {
 void MotorControl::goBack() {
     while(true) {
         digitalWrite(AIN1, HIGH);
+        // digitalWrite(AIN2, LOW);
         digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
         // analogWrite(pwmPinA, min(abs(controlA), 255.0));
         pwmWrite(pwmPinA, 0);
-
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
