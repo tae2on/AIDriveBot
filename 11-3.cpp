@@ -170,6 +170,8 @@ void Calculation() {
         cout << "회전 각도 = " << turn_deg << endl;
         cout << "controlA = " << controlA << endl;
         cout << "controlB = " << controlB << endl;
+        cout << "controlB = " << delta_vB << endl;
+        cout << "controlB = " << delta_vA << endl;
 
 } 
 
