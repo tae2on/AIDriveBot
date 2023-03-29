@@ -221,8 +221,8 @@ void MotorControl::goFront() {
 /* 후진 */
 void MotorControl::goBack() {
     while(true) {
-        digitalWrite(AIN1, HIGH);
-        // digitalWrite(AIN2, LOW);
+        //digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
