@@ -168,6 +168,7 @@ void Calculation() {
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
+        cout << "controlB = " << controlB << endl;
 } 
 
 void MotorControl::call(int x){
