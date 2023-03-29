@@ -169,6 +169,8 @@ void Calculation() {
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
         cout << "controlA = " << controlA << endl;
+        cout << "controlB = " << controlB << endl;
+
 } 
 
 void MotorControl::call(int x){
@@ -213,6 +215,9 @@ void MotorControl::goFront() {
 
         Calculation();
 
+        cout << "controlA = " << controlA << endl;
+        cout << "controlB = " << controlB << endl;
+
         if(x != 1){
             break;
         }
@@ -234,6 +239,9 @@ void MotorControl::goBack() {
 
         Calculation();
    
+        cout << "controlA = " << controlA << endl;
+        cout << "controlB = " << controlB << endl;
+
         if(x != 2){
             break;
         }        
