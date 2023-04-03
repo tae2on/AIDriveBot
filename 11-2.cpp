@@ -8,6 +8,8 @@
 #include <string>
 #include <unistd.h>
 #include <algorithm>
+#include <math.h>
+
 #define M_PI 3.14159265358979323846
 using namespace std;
 
@@ -37,8 +39,8 @@ float ki = 0.;
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
-float motorDegA;                   // 모터 각도A
-float motorDegB;                   // 모터 각도B
+float motorDegA = 0;                   // 모터 각도A
+float motorDegB = 0;                   // 모터 각도B
 float motor_distanceA;                 // 모터 거리 
 float motor_distanceB;                 // 모터 거리 
 
@@ -71,16 +73,16 @@ double time_prev = 0;
 
 double left_wheel_deg = 0;               // 왼쪽 바퀴 회전 각도 
 double right_wheel_deg = 0;              // 오른쪽 바퀴 회전 각도
-double turn_deg = 0;                     //  모터가 회전한 각도
+double turn_deg = 0;                     // 모터가 회전한 각도
 double target_turn_deg;                  // 원하는 회전한 각도   
-double wheelbase = 56;                   // 차체 길이 (cm)
-double carBody_turn_radiusRight;         // 차체의 오른쪽 회전 반지름 
-double carBody_turn_radiusLeft;          // 차체의 왼쪽 회전 반지름                       
-double turn_arclengthRight;              // 오른쪽 DC모터의 회전 반지름에 해당하는 회전 호의 길이 계산
-double turn_arclengthLeft;               // 왼쪽 DC모터의 회전 반지름에 해당하는 회전 호의 길이 계산
-double distanceDiff;                     // 왼쪽 DC모터와 오른쪽 DC모터의 회전 거리 차이 계산
+double wheelbase = 59;                   // 바퀴 사이 거리
+double radius;                           // 회전 반지름
+double deltaEnc;                         // 엔코더 값의 차이 
+double carDistance;
+double carMoving_filter;
 
-int encoderPos_resolution = 26;          // 엔코더 해상도   
+int encoderPos_resolution = 52;          // 엔코더 해상도
+int encoderPos_PR= 26;                  // 엔코더 분해능   
 int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
@@ -147,19 +149,25 @@ void Calculation() {
         motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
-        /* 회전 각도 구하기 */
-        left_wheel_deg = (encoderPosLeft / encoderPos_resolution) * 360;    // 엔코더 값 -> 각도 단위로 변환   
-        right_wheel_deg = (encoderPosRight / encoderPos_resolution) * 360;
- 
-        turn_deg = abs(right_wheel_deg - left_wheel_deg) / 2;  // 회전 각도
+        // 두 엔코더 값의 차이
+        deltaEnc = encoderPosRight - encoderPosLeft;
 
-        cout << "각도 = " << motorDegB << endl;
+        // 자동차가 이동한 거리 
+        carDistance = deltaEnc * (M_PI * 23.0 / encoderPos_resolution);
+
+        // 자동차가 회전한 각도
+        turn_deg = carDistance / wheelbase;
+
+        // 보정 계수
+        carMoving_filter = 0.44;     //0.4<x<0.5  
+        turn_deg *= carMoving_filter;
+
+        cout << "각도 = " << motorDegA << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
-
 } 
 
 void MotorControl::call(int x){
@@ -198,7 +206,7 @@ void MotorControl::goFront() {
         digitalWrite(BIN4, HIGH);
         delay(10);
         analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, std::min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, std::min(abs(controlB), 255.0));
 
         Calculation();
 
@@ -216,8 +224,10 @@ void MotorControl::goBack() {
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
-        analogWrite(pwmPinA, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        pwmWrite(pwmPinA, 50);
+        pwmWrite(pwmPinB, 255);       
+        //analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
    
@@ -239,12 +249,12 @@ void MotorControl::goRight() {
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
         Calculation();
-    
+        
         if ((turn_deg >= target_turn_deg)){
-            Stop();
             break;
-        }
-    }            
+        }       
+    }
+    Stop();        
 }
 
 
@@ -265,6 +275,7 @@ void MotorControl::goLeft() {
             break;
         }       
     }
+    Stop();
 }
 
 /* 정지 */
@@ -286,7 +297,12 @@ void MotorControl::Stop() {
     }
 }
 
+
+
 int main(){
+    pwmCreat(pwmPinA, 0, 255);
+    pwmCreat(pwmPinB, 0, 255);
+
     wiringPiSetup();
 
     MotorControl control;
