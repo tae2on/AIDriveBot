@@ -314,12 +314,10 @@ void MotorControl::Stop() {
     }
 }
 
-
+pwmCreate(pwmPinA, 0, 255);
+pwmCreate(pwmPinB, 0, 255);
 
 int main(){
-    pwmCreate(pwmPinA, 0, 255);
-    pwmCreate(pwmPinB, 0, 255);
-
     wiringPiSetup();
 
     MotorControl control;
