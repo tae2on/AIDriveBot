@@ -90,7 +90,7 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
-
+/*
 //인터럽트
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -104,7 +104,7 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
+*/
 
 class MotorControl{
 public:
@@ -116,6 +116,7 @@ public:
     void Stop();
 };
 
+/*
 void Calculation() {
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
@@ -180,6 +181,7 @@ void Calculation() {
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
 } 
+*/
 
 void MotorControl::call(int x){
     // 정지
