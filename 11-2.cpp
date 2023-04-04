@@ -1,6 +1,7 @@
 /* 라이다 센서 연동 - 앞뒤좌우 회전 */ 
 
 #include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
+// #include <wiringPi.h>
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
@@ -256,14 +257,21 @@ void MotorControl::goBack() {
 
 /* 오른쪽 */
 void MotorControl::goRight() {
+    // pwm 출력 생성
+    pwmCreate(pwmPinA, 0, 255);
+    pwmCreate(pwmPinB, 0, 255);
+
+    // pwm 범위 설정
+    pwmSetRange(255);    
+    
     while(true) {            
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
-        analogWrite(pwmPinA, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        pwmWrite(pwmPinA, 50);
+        pwmWrite(pwmPinB, 255);
 
         Calculation();
         
@@ -277,6 +285,13 @@ void MotorControl::goRight() {
 
 /* 왼쪽 */
 void MotorControl::goLeft() {
+    // pwm 출력 생성
+    pwmCreate(pwmPinA, 0, 255);
+    pwmCreate(pwmPinB, 0, 255);
+
+    // pwm 범위 설정
+    pwmSetRange(255);
+
     while(true) {
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
@@ -314,8 +329,7 @@ void MotorControl::Stop() {
     }
 }
 
-pwmCreate(pwmPinA, 0, 255);
-pwmCreate(pwmPinB, 0, 255);
+
 
 int main(){
     wiringPiSetup();
