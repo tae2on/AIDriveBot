@@ -242,8 +242,8 @@ void MotorControl::goBack() {
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
-        pwmWrite(pwmPinA, 100);
-        pwmWrite(pwmPinB, 0);       
+        SoftPwmWrite(pwmPinA, 100);
+        SoftPwmWrite(pwmPinB, 0);       
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
@@ -335,8 +335,8 @@ void MotorControl::Stop() {
 int main(){
     wiringPiSetup();
     
-    pwmCreate(pwmPinA, 0, 100);
-    pwmCreate(pwmPinB, 0, 100);
+    SoftPwmCreate(pwmPinA, 0, 100);
+    SoftPwmCreate(pwmPinB, 0, 100);
 
     MotorControl control;
 
