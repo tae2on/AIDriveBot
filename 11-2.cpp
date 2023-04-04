@@ -360,12 +360,29 @@ int main(){
 
 
     while(true) {
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
+        delay(10);
+        softPwmWrite(pwmPinA, 100);
+        softPwmWrite(pwmPinB, 30);       
+        //analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
+        Calculation();
+   
+        if(x != 2){
+            break;
+        }
+      
+        /*
         int lidar_way;
         cout << "값을 입력하시오 : ";
         cin >> lidar_way; 
         
         control.call(lidar_way);
         delay(1000);
+    */
     }
 }
