@@ -371,9 +371,9 @@ int main(){
 
         //Calculation();
    
-        if(x != 2){
-            break;
-        }
+        //if(x != 2){
+        //    break;
+        //}
       
         
         int lidar_way;
