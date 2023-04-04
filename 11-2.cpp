@@ -90,7 +90,7 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
-/*
+
 //인터럽트
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -315,7 +315,7 @@ void MotorControl::Stop() {
         }
     }
 }
-*/
+
 
 
 int main(){
@@ -323,7 +323,7 @@ int main(){
     
     
 
-    //MotorControl control;
+    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -357,11 +357,11 @@ int main(){
     //pwmWrite(pwmPinA, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
     //pwmWrite(pwmPinB, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
 
-    /*wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
+    wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
-*/
+
 
     while(true) {
         digitalWrite(AIN1, HIGH);
@@ -374,20 +374,20 @@ int main(){
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-        //Calculation();
+        Calculation();
    
-        //if(x != 2){
-        //    break;
-        //}
+        if(x != 2){
+            break;
+        }
       
-        /*
+        
         int lidar_way;
         cout << "값을 입력하시오 : ";
         cin >> lidar_way; 
         
         control.call(lidar_way);
         delay(1000);
-    */
+    
     }
     return 0;
 }
