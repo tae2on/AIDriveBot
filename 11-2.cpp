@@ -1,4 +1,4 @@
-/* 라이다 센서 연동 */ 
+/* 라이다 센서 연동 - 앞뒤좌우 회전 */ 
 
 #include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <iostream>                 // C++ 입출력 라이브러리
@@ -162,6 +162,16 @@ void Calculation() {
         carMoving_filter = 0.44;     //0.4<x<0.5  
         turn_deg *= carMoving_filter;
 
+        // 왼쪽으로 회전하는 경우 
+        if(turn_deg > 0){
+            turn_deg *= 1.0/ carMoving_filter;
+        }
+
+        // 오른쪽으로 회전하는 경우 
+        else if(turn_deg < 0){
+            turn_deg *=-1.0 / carMoving_filter;
+        }
+
         cout << "각도 = " << motorDegA << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
@@ -300,8 +310,8 @@ void MotorControl::Stop() {
 
 
 int main(){
-    pwmCreat(pwmPinA, 0, 255);
-    pwmCreat(pwmPinB, 0, 255);
+    pwmCreate(pwmPinA, 0, 255);
+    pwmCreate(pwmPinB, 0, 255);
 
     wiringPiSetup();
 
