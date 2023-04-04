@@ -321,8 +321,7 @@ void MotorControl::Stop() {
 int main(){
     wiringPiSetup();
     
-    softPwmCreate(pwmPinA, 0, 100);
-    softPwmCreate(pwmPinB, 0, 100);
+    
 
     MotorControl control;
 
@@ -348,10 +347,15 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
-    pwmSetRange(frequency);     // PWM 값의 범위를 설정합니다.
+    //pwmSetRange(frequency);     // PWM 값의 범위를 설정합니다.
 
-    pwmWrite(pwmPinA, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
-    pwmWrite(pwmPinB, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
+    softPwmCreate(pwmPinA, 0, 100);
+    softPwmCreate(pwmPinB, 0, 100);
+    softPwmWrite(pwmPinA, 0);
+    softPwmWrite(pwmPinB, 0); 
+
+    //pwmWrite(pwmPinA, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
+    //pwmWrite(pwmPinB, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
