@@ -15,16 +15,16 @@ BL-----BR
 using namespace std;
 
 // FL-MOTER
-#define EN_FL 26
-#define IN_FL_1 16
-#define IN_FL_2 1
+#define EN_FL 23    
+#define IN_FL_1 22
+#define IN_FL_2 21
 int OUT_FL_1 = LOW;
 int OUT_FL_2 = LOW;
 
 // BL-MOTER
-#define EN_BL 4
-#define IN_BL_1 2
-#define IN_BL_2 3
+#define EN_BL 29
+#define IN_BL_1 28
+#define IN_BL_2 27
 int OUT_BL_1 = LOW;
 int OUT_BL_2 = LOW;
 
@@ -38,7 +38,7 @@ int OUT_BL_2 = LOW;
     else if (state == "go") {
       OUT_FL_1 = OUT_BL_1 = LOW;
       OUT_FL_2 = OUT_BL_2 = HIGH;
-      softPwmWrite(EN_FL, 50);
+      softPwmWrite(EN_FL, 30);
       softPwmWrite(EN_BL, 100);
 
     }
