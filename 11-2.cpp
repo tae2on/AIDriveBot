@@ -1,7 +1,7 @@
 /* 라이다 센서 연동 - 앞뒤좌우 회전 */ 
 
 #include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
- #include <softPwm.h>
+#include <softPwm.h>
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
@@ -340,12 +340,12 @@ int main(){
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
    
-    digitalWrite(pwmPinA, LOW);
-    digitalWrite(pwmPinB, LOW);
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, LOW);
-    digitalWrite(BIN4, LOW);
+    // digitalWrite(pwmPinA, LOW);
+    // digitalWrite(pwmPinB, LOW);
+    // digitalWrite(AIN1, LOW);
+    // digitalWrite(AIN2, LOW);
+    // digitalWrite(BIN3, LOW);
+    // digitalWrite(BIN4, LOW);
 
     //pwmSetRange(frequency);     // PWM 값의 범위를 설정합니다.
 
