@@ -90,8 +90,8 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
-
-/* 인터럽트 */
+/*
+//인터럽트
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
@@ -120,7 +120,7 @@ void Calculation() {
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
-        /* DC모터 왼쪽 */
+        //DC모터 왼쪽
         motorDegA = encoderPosLeft * proportion;
         errorA = target_deg - motorDegA;
         de_A = errorA -error_prev_A;
@@ -135,7 +135,7 @@ void Calculation() {
         motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
         derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
 
-        /* DC모터 오른쪽 */
+        //DC모터 오른쪽
         motorDegB = encoderPosRight * proportion;
         errorB = target_deg - motorDegB;
         de_B = errorB -error_prev_B;
@@ -208,7 +208,7 @@ void MotorControl::call(int x){
     }
 }
 
-/* 전진 */
+//전진
 void MotorControl::goFront() {
     while(true) {
         digitalWrite(AIN1, LOW);
@@ -227,7 +227,7 @@ void MotorControl::goFront() {
     }
 }
 
-/* 후진 */
+//후진
 void MotorControl::goBack() {
     while(true) {
         digitalWrite(AIN1, HIGH);
@@ -248,16 +248,16 @@ void MotorControl::goBack() {
     }
 }
 
-/* 오른쪽 */
+//오른쪽
 void MotorControl::goRight() {
    
-   /*// pwm 출력 생성
+   // pwm 출력 생성
     pwmCreate(pwmPinA, 0, 255);
     pwmCreate(pwmPinB, 0, 255);
 
     // pwm 범위 설정
     pwmSetRange(255);    
-    */
+    
     while(true) {            
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
@@ -277,7 +277,7 @@ void MotorControl::goRight() {
 }
 
 
-/* 왼쪽 */
+//왼쪽
 void MotorControl::goLeft() {
     while(true) {
         digitalWrite(AIN1, HIGH);
@@ -297,7 +297,7 @@ void MotorControl::goLeft() {
     Stop();
 }
 
-/* 정지 */
+//정지
 void MotorControl::Stop() {
     while(true) {
         digitalWrite(AIN1, LOW);
@@ -315,7 +315,7 @@ void MotorControl::Stop() {
         }
     }
 }
-
+*/
 
 
 int main(){
@@ -323,7 +323,7 @@ int main(){
     
     
 
-    MotorControl control;
+    //MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -333,8 +333,8 @@ int main(){
     pullUpDnControl(encPinC, PUD_UP);
     pinMode(encPinD, INPUT);
     pullUpDnControl(encPinD, PUD_UP);
-    pinMode(pwmPinA, PWM_OUTPUT); // PWM 출력으로 사용할 핀을 설정합니다.
-    pinMode(pwmPinB, PWM_OUTPUT); // PWM 출력으로 사용할 핀을 설정합니다.
+    pinMode(pwmPinA, OUTPUT); // PWM 출력으로 사용할 핀을 설정합니다.
+    pinMode(pwmPinB, OUTPUT); // PWM 출력으로 사용할 핀을 설정합니다.
     pinMode(AIN1, OUTPUT);
     pinMode(AIN2, OUTPUT);
     pinMode(BIN3, OUTPUT);
