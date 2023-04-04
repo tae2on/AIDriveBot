@@ -1,7 +1,6 @@
 /* 라이다 센서 연동 - 앞뒤좌우 회전 */ 
 
-// #include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
-#include <wiringPi.h>
+#include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
