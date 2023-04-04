@@ -90,7 +90,7 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
-/*
+
 //인터럽트
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -104,7 +104,7 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-*/
+
 
 class MotorControl{
 public:
@@ -351,12 +351,12 @@ int main(){
     //pwmWrite(pwmPinA, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
     //pwmWrite(pwmPinB, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
 
-/*
+
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
-*/
+
 
     while(true) {
         digitalWrite(AIN1, HIGH);
@@ -364,8 +364,8 @@ int main(){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
-        softPwmWrite(pwmPinA, 100);
-        softPwmWrite(pwmPinB, 30);       
+        softPwmWrite(pwmPinA, 100); // 왼쪽 
+        softPwmWrite(pwmPinB, 30);  // 오른쪽      
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
