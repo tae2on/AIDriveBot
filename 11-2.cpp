@@ -357,11 +357,11 @@ int main(){
     //pwmWrite(pwmPinA, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
     //pwmWrite(pwmPinB, 0);       // PWM 신호의 듀티 사이클을 0으로 설정합니다.
 
-    wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
+    /*wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
-
+*/
 
     while(true) {
         digitalWrite(AIN1, HIGH);
