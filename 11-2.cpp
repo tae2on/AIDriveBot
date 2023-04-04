@@ -374,11 +374,11 @@ int main(){
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-        Calculation();
+        //Calculation();
    
-        if(x != 2){
-            break;
-        }
+        //if(x != 2){
+        //    break;
+        //}
       
         /*
         int lidar_way;
