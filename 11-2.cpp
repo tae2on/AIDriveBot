@@ -218,8 +218,10 @@ void MotorControl::goFront() {
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
-        analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, std::min(abs(controlB), 255.0));
+        softPwmWrite(pwmPinA, 100);
+        softPwmWrite(pwmPinB, 30);   
+        //analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
+        //analogWrite(pwmPinB, std::min(abs(controlB), 255.0));
 
         //Calculation();
 
