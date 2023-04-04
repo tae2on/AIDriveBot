@@ -31,34 +31,34 @@ int OUT_BL_2 = LOW;
 
  void state_value(string state) {
     if (state == "ready") {
-      OUT_FL_1 = OUT_FL_2 = OUT_FR_1 = OUT_FR_2 = OUT_BL_1 =  OUT_BL_2 = OUT_BR_1 = OUT_BR_2 = LOW;
+      OUT_FL_1 = OUT_FL_2 = OUT_BL_1 =  OUT_BL_2 = LOW;
       softPwmWrite(EN_FL, 0);
       softPwmWrite(EN_BL, 0);
     }
     else if (state == "go") {
-      OUT_FL_1 = OUT_FR_2 = OUT_BL_1 = OUT_BR_2 = LOW;
-      OUT_FL_2 = OUT_FR_1 = OUT_BL_2 = OUT_BR_1 = HIGH;
+      OUT_FL_1 = OUT_BL_1 = LOW;
+      OUT_FL_2 = OUT_BL_2 = HIGH;
       softPwmWrite(EN_FL, 100);
       softPwmWrite(EN_BL, 100);
 
     }
     else if (state == "back") {
-      OUT_FL_1 = OUT_FR_2 = OUT_BL_1 = OUT_BR_2 = HIGH;
-      OUT_FL_2 = OUT_FR_1 = OUT_BL_2 = OUT_BR_1 = LOW;
+      OUT_FL_1 = OUT_BL_1 =  HIGH;
+      OUT_FL_2 = OUT_BL_2 = LOW;
       softPwmWrite(EN_FL, 100);
       softPwmWrite(EN_BL, 100);
 
     }
     else if (state == "right") {
-      OUT_FL_1 = OUT_FR_1 = OUT_BL_1 = OUT_BR_1 = HIGH;
-      OUT_FL_2 = OUT_FR_2 = OUT_BL_2 = OUT_BR_2 = LOW;
+      OUT_FL_1 = OUT_BL_1 = HIGH;
+      OUT_FL_2 = OUT_BL_2 = LOW;
       softPwmWrite(EN_FL, 100);
       softPwmWrite(EN_BL, 100);
 
     }
     else if (state == "left") {
-      OUT_FL_2 = OUT_FR_2 = OUT_BL_2 = OUT_BR_2 = HIGH;
-      OUT_FL_1 = OUT_FR_1 = OUT_BL_1 = OUT_BR_1 = LOW;
+      OUT_FL_2 = OUT_BL_2 = HIGH;
+      OUT_FL_1 = OUT_BL_1 = LOW;
       softPwmWrite(EN_FL, 100);
       softPwmWrite(EN_BL, 100);
 
