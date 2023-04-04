@@ -116,7 +116,12 @@ public:
     void Stop();
 };
 
-void pwmCreate(int )
+void pwmCreate(int pin, int range, int clock) {
+    pinMode(pin, PWM_OUTPUT);
+    pwmSetRange(range);
+    pwmSetClock(clock);
+}
+
 
 void Calculation() {
         wheel = 2*M_PI*11.5;
