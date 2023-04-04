@@ -252,11 +252,11 @@ void MotorControl::goBack() {
 void MotorControl::goRight() {
    
    // pwm 출력 생성
-    pwmCreate(pwmPinA, 0, 255);
-    pwmCreate(pwmPinB, 0, 255);
+    //pwmCreate(pwmPinA, 0, 255);
+    //pwmCreate(pwmPinB, 0, 255);
 
     // pwm 범위 설정
-    pwmSetRange(255);    
+    //pwmSetRange(255);    
     
     while(true) {            
         digitalWrite(AIN1, LOW);
