@@ -239,8 +239,8 @@ void MotorControl::goBack() {
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
-        softPwmWrite(pwmPinA, 100);
-        softPwmWrite(pwmPinB, 30);       
+        softPwmWrite(pwmPinA, min(abs(controlA), 255.0));
+        softPwmWrite(pwmPinB, min(abs(controlA), 255.0));
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
