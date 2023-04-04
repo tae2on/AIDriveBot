@@ -90,7 +90,7 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
-
+/*
 //인터럽트
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -104,7 +104,7 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
+*/
 
 class MotorControl{
 public:
@@ -342,12 +342,12 @@ int main(){
     softPwmCreate(pwmPinB, 0, 100);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
-
+/*
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
-
+*/
 
     while(true) {
    
