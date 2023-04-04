@@ -257,13 +257,14 @@ void MotorControl::goBack() {
 
 /* 오른쪽 */
 void MotorControl::goRight() {
-    // pwm 출력 생성
+   
+   /*// pwm 출력 생성
     pwmCreate(pwmPinA, 0, 255);
     pwmCreate(pwmPinB, 0, 255);
 
     // pwm 범위 설정
     pwmSetRange(255);    
-    
+    */
     while(true) {            
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
@@ -333,6 +334,10 @@ void MotorControl::Stop() {
 
 int main(){
     wiringPiSetup();
+    pwmCreate(pwmPinA, 0, 255);
+    pwmCreate(pwmPinB, 0, 255);
+
+
 
     MotorControl control;
 
