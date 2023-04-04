@@ -38,7 +38,7 @@ int OUT_BL_2 = LOW;
     else if (state == "go") {
       OUT_FL_1 = OUT_BL_1 = LOW;
       OUT_FL_2 = OUT_BL_2 = HIGH;
-      softPwmWrite(EN_FL, 100);
+      softPwmWrite(EN_FL, 50);
       softPwmWrite(EN_BL, 100);
 
     }
