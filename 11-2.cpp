@@ -243,7 +243,7 @@ void MotorControl::goBack() {
         digitalWrite(BIN4, LOW);
         delay(10);
         pwmWrite(pwmPinA, 100);
-        pwmWrite(pwmPinB, 100);       
+        pwmWrite(pwmPinB, 0);       
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
