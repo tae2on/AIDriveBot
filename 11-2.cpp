@@ -116,13 +116,6 @@ public:
     void Stop();
 };
 
-void pwmCreate(int pin, int range, int clock) {
-    pinMode(pin, PWM_OUTPUT);
-    pwmSetRange(range);
-    pwmSetClock(clock);
-}
-
-
 void Calculation() {
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
@@ -291,7 +284,7 @@ void MotorControl::goLeft() {
     pwmCreate(pwmPinB, 0, 255);
 
     // pwm 범위 설정
-    pwmSetRange(255);
+    // pwmSetRange(255);
 
     while(true) {
         digitalWrite(AIN1, HIGH);
