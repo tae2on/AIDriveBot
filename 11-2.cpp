@@ -221,7 +221,7 @@ void MotorControl::goFront() {
         analogWrite(pwmPinA, std::min(abs(controlA), 255.0));
         analogWrite(pwmPinB, std::min(abs(controlB), 255.0));
 
-        Calculation();
+        //Calculation();
 
         if(x != 1){
             break;
@@ -242,7 +242,7 @@ void MotorControl::goBack() {
         //analogWrite(pwmPinA, min(abs(controlA), 255.0));
         //analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-        Calculation();
+        //Calculation();
    
         if(x != 2){
             break;
@@ -252,14 +252,6 @@ void MotorControl::goBack() {
 
 //오른쪽
 void MotorControl::goRight() {
-   
-   // pwm 출력 생성
-    //pwmCreate(pwmPinA, 0, 255);
-    //pwmCreate(pwmPinB, 0, 255);
-
-    // pwm 범위 설정
-    //pwmSetRange(255);    
-    
     while(true) {            
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
@@ -269,7 +261,7 @@ void MotorControl::goRight() {
         pwmWrite(pwmPinA, 50);
         pwmWrite(pwmPinB, 255);
 
-        Calculation();
+        //Calculation();
         
         if ((turn_deg >= target_turn_deg)){
             break;
@@ -290,7 +282,7 @@ void MotorControl::goLeft() {
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
 
-        Calculation();
+        //Calculation();
         
         if ((turn_deg >= target_turn_deg)){
             break;
@@ -310,7 +302,7 @@ void MotorControl::Stop() {
         pwmWrite(pwmPinA, 0);
         pwmWrite(pwmPinB, 0);
 
-        Calculation();
+        // Calculation();
 
         if(x != 0){
             break;
