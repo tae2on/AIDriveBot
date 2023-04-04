@@ -311,8 +311,7 @@ void MotorControl::Stop() {
 
 
 int main(){
-    pwmCreate(pwmPinA, 0, 255);
-    pwmCreate(pwmPinB, 0, 255);
+
 
     wiringPiSetup();
 
@@ -350,7 +349,8 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);
 
-
+    pwmCreate(pwmPinA, 0, 255);
+    pwmCreate(pwmPinB, 0, 255);
     while(true) {
 
         int lidar_way;
