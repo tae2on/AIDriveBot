@@ -1,6 +1,6 @@
 /* 라이다 센서 연동 - 앞뒤좌우 회전 */ 
 
-#include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
+// #include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <wiringPi.h>
 #include <iostream>                 // C++ 입출력 라이브러리
 #include <thread>
@@ -115,6 +115,8 @@ public:
     void goLeft();
     void Stop();
 };
+
+void pwmCreate(int )
 
 void Calculation() {
         wheel = 2*M_PI*11.5;
@@ -311,7 +313,7 @@ void MotorControl::Stop() {
 
 
 int main(){
-    // pwmCreate(pwmPinA, 0, 255);
+    pwmCreate(pwmPinA, 0, 255);
     pwmCreate(pwmPinB, 0, 255);
 
     wiringPiSetup();
