@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <algorithm>
 #include <math.h>
-#include "input.h"
 
 #define M_PI 3.14159265358979323846
 using namespace std;
@@ -181,6 +180,14 @@ void MotorControl::call(int x){
     }
 }
 
+int getInput() {
+    int x;
+    cout << "직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4";
+    cout << "원하는 방향을 입력하시오 : ";
+    cin >> x;
+    return x; 
+}
+
 int main(){
     wiringPiSetup();
 
@@ -200,10 +207,7 @@ int main(){
 
     while(true) {
    
-        int lidar_way;
-        cout << "값을 입력하시오 : ";
-        cin >> lidar_way; 
-        
+        int lidar_way = getInput();
         control.call(lidar_way);
         delay(1000);
     
