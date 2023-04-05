@@ -29,62 +29,11 @@ using namespace std;
 #define encPinC 28      // 보라색 (C) - 20
 #define encPinD 29      // 파랑색 (D) - 21
 
-/* PID 제어 */
-const float proportion = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
-/* PID 상수 */
-float kp = 30.0; 
-float kd = 0.;         
-float ki = 0.;
-
-float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
-float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-
-float motorDegA = 0;                   // 모터 각도A
-float motorDegB = 0;                   // 모터 각도B
-float motor_distanceA;                 // 모터 거리 
-float motor_distanceB;                 // 모터 거리 
-
-float errorA = 0;
-float errorB = 0;
-float error_prev_A = 0.;
-float error_prev_B = 0.;
-float error_prev_prev_A = 0;
-float error_prev_prev_B = 0;
-float derrorA;
-float derrorB;
-
-double controlA = 0.;
-double controlB = 0.;
-
-double wheel; 
 double target_deg;                      // 목표 각도 
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
 
-double de_A;
-double de_B;
-double di_A = 0;
-double di_B = 0;
-double dt = 0;
-
-double delta_vA;
-double delta_vB;
-double time_prev = 0;
-
-double left_wheel_deg = 0;               // 왼쪽 바퀴 회전 각도 
-double right_wheel_deg = 0;              // 오른쪽 바퀴 회전 각도
-double turn_deg = 0;                     // 모터가 회전한 각도
-double target_turn_deg;                  // 원하는 회전한 각도   
-double wheelbase = 59;                   // 바퀴 사이 거리
-double radius;                           // 회전 반지름
-double deltaEnc;                         // 엔코더 값의 차이 
-double carDistance;
-double carMoving_filter;
-
-int encoderPos_resolution = 52;          // 엔코더 해상도
-int encoderPos_PR= 26;                  // 엔코더 분해능   
-int frequency = 1024;                    // PWM 주파수 
 int lidar_way;
 int x;
 
@@ -133,8 +82,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, std::min(abs(controlA), 100.));
-        softPwmWrite(pwmPinB, std::min(abs(controlA), 100.));   
+        softPwmWrite(pwmPinA, 100.);
+        softPwmWrite(pwmPinB, 100.);   
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
@@ -151,8 +100,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);   
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, std::min(abs(controlA), 100.));
-        softPwmWrite(pwmPinB, std::min(abs(controlA), 100.));   
+        softPwmWrite(pwmPinA, 100.);
+        softPwmWrite(pwmPinB, 100.);   
 
         // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 2){
@@ -197,8 +146,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정
-        analogWrite(pwmPinA, min(abs(controlA), 100.));
-        analogWrite(pwmPinB, min(abs(controlA), 100.));
+        softPwmWrite(pwmPinA, 100.);
+        softPwmWrite(pwmPinB, 100.);  
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
