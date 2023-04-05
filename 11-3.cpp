@@ -1,4 +1,5 @@
-/* 라이다 센서 연동 - 앞뒤좌우 회전 */ 
+/* 라이다 센서 연동 */
+/* 두 모터의 속도 차이를 이용한 전/후/좌/우 회전 */ 
 
 #include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <softPwm.h>
