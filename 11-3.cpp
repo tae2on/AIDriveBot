@@ -93,21 +93,33 @@ std::time_t start_time = std::time(nullptr);
 class MotorControl{
 public:
     void call(int x);
+private:
     int getInput();
 };
 
+// 원하는 방향 입력
+int MotorControl::getInput() {
+    int x;
+    cout << "직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4";
+    cout << "원하는 방향을 입력하시오 : ";
+    cin >> x;
+    return x; 
+}
 
 void MotorControl::call(int x){
     // 정지
     if (x == 0){
+        // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, LOW);
         delay(10);
+        // 속도 설정 
         softPwmWrite(pwmPinA, 0);
         softPwmWrite(pwmPinB, 0);    
         
+        // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
             x = getInput();
         }
@@ -115,14 +127,17 @@ void MotorControl::call(int x){
     
     // 전진
     else if (x == 1) {
+        // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
+        // 속도 설정 
         softPwmWrite(pwmPinA, std::min(abs(controlA), 255.0));
         softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
 
+        // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
         }
@@ -130,14 +145,17 @@ void MotorControl::call(int x){
 
     // 후진
     else if (x == 2) {
+        // 방향 설정 
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);   
         delay(10);
+        // 속도 설정 
         softPwmWrite(pwmPinA, std::min(abs(controlA), 255.0));
         softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
 
+        // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 2){
             x = getInput();
         }   
@@ -145,17 +163,21 @@ void MotorControl::call(int x){
 
     // 오른쪽
     else if (x == 3){
+        // 목표 각도 입력
         cout << "원하는 각도를 입력하시오 : ";
         cin >> target_turn_deg;
         
+        // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
+        // 속도 설정 
         pwmWrite(pwmPinA, 50);
         pwmWrite(pwmPinB, 255);
        
+        // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
             x = getInput();
         }         
@@ -164,29 +186,26 @@ void MotorControl::call(int x){
     
     // 왼쪽
     else if (x == 4){
+        // 목표 각도 입력 
         cout << "원하는 각도를 입력하시오 : ";
         cin >> target_turn_deg;        
         
+
+        // 방향 설정 
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
+        // 속도 설정
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
-               
+
+        // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
             x = getInput();
         }      
     }
-}
-
-int MotorControl::getInput() {
-    int x;
-    cout << "직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4";
-    cout << "원하는 방향을 입력하시오 : ";
-    cin >> x;
-    return x; 
 }
 
 int main(){
