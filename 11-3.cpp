@@ -30,8 +30,8 @@ using namespace std;
 #define pwmPinB 29              // 모터 드라이버 ENB - GPIO핀 번호 : 21
 #define BIN3 7                  // IN3 - GPIO핀 번호 : 4
 #define BIN4 27                 // IN4 - GPIO핀 번호 : 16
-#define encPinC 28              // 보라색 (C) - 20
-#define encPinD 29              // 파랑색 (D) - 21
+#define encPinC 2               // 보라색 (C) - GPIO핀 번호 : 27
+#define encPinD 3               // 파랑색 (D) - GPIO핀 번호 : 22
 
 double target_turn_deg;          // 목표 각도 
 
@@ -209,7 +209,6 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
-    
 
     while(true) {
    
