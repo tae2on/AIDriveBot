@@ -47,7 +47,7 @@ public:
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
-    cout << "직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
+    cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
     cout << "원하는 방향을 입력하시오 : ";
     cin >> x;
     return x; 
@@ -121,8 +121,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);
-        softPwmWrite(pwmPinB, 50.);  
+        softPwmWrite(pwmPinA, 50);
+        softPwmWrite(pwmPinB, 255);  
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
@@ -137,15 +137,15 @@ void MotorControl::call(int x){
         //cout << "원하는 각도를 입력하시오 : ";
         //cin >> target_turn_deg;        
         
-        // 방향 설정 
+        // 방향 조절 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        pwmWrite(pwmPinA, 100.);
-        pwmWrite(pwmPinB, 30.); 
+        softPwmWrite(pwmPinA, 255);
+        softPwmWrite(pwmPinB, 30);  
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
@@ -166,8 +166,8 @@ int main(){
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
    
-    softPwmCreate(pwmPinA, 0, 100);
-    softPwmCreate(pwmPinB, 0, 100);
+    softPwmCreate(pwmPinA, 0, 255);
+    softPwmCreate(pwmPinB, 0, 255);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
 
