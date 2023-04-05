@@ -1,9 +1,9 @@
 /* 라이다 센서 연동 */
 /* 두 모터의 속도 차이를 이용한 전/후/좌/우 회전 */ 
 
-#include "wiringPi.h"               // analogRead(), pinMode(), delay() 함수 등 사용 
+#include "wiringPi.h"                   // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <softPwm.h>
-#include <iostream>                 // C++ 입출력 라이브러리
+#include <iostream>                    // C++ 입출력 라이브러리
 #include <thread>
 #include <chrono>
 #include <ctime>
@@ -15,15 +15,16 @@
 #define M_PI 3.14159265358979323846
 using namespace std;
 
-/* 핀 번호가 아니라 wiringPi 번호 ! ----------------------------> 핀 설정 다시하기 
-   DC 모터 왼쪽 (엔코더 O) */                                                     
-#define pwmPinA 23      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
-#define AIN1 22         // IN1 
+/* 핀 번호가 아니라 wiringPi 번호 ! */
+/* gpio.v */
+// DC 모터 왼쪽 (엔코더 O)                                                      
+#define pwmPinA 23                      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
+#define AIN1 22                         // IN1 
 #define AIN2 21          // IN2 
 #define encPinA 8       // 보라색 (A) 
 #define encPinB 9       // 파랑색 (B) 
 
-/* DC모터 오른쪽 (엔코더 X) */
+// DC모터 오른쪽 (엔코더 X) 
 #define pwmPinB 29       // 모터 드라이버 ENB 
 #define BIN3 28          // IN3
 #define BIN4 27          // IN4
@@ -33,10 +34,26 @@ using namespace std;
 
 double target_turn_deg;          // 목표 각도 
 
+float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
+float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+
 int lidar_way;
 int x;
 
 std::time_t start_time = std::time(nullptr);
+
+void doEncoderA() {
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+}
+void doEncoderB() {
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+}
+void doEncoderC() {
+  encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
+}
+void doEncoderD() {
+  encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
+}
 
 class MotorControl{
 public:
@@ -121,8 +138,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 50);
-        softPwmWrite(pwmPinB, 255);  
+        softPwmWrite(pwmPinA, 255);
+        softPwmWrite(pwmPinB, 30);  
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
@@ -144,8 +161,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 255);
-        softPwmWrite(pwmPinB, 30);  
+        softPwmWrite(pwmPinA, 30);
+        softPwmWrite(pwmPinB, 255);  
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
@@ -159,6 +176,14 @@ int main(){
 
     MotorControl control;
 
+    pinMode(encPinA, INPUT);
+    pullUpDnControl(encPinA, PUD_UP);
+    pinMode(encPinB, INPUT);
+    pullUpDnControl(encPinB, PUD_UP);
+    pinMode(encPinC, INPUT);
+    pullUpDnControl(encPinC, PUD_UP);
+    pinMode(encPinD, INPUT);
+    pullUpDnControl(encPinD, PUD_UP);
     pinMode(pwmPinA, OUTPUT); 
     pinMode(pwmPinB, OUTPUT); 
     pinMode(AIN1, OUTPUT);
@@ -171,6 +196,11 @@ int main(){
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
 
+    wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
+    wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
+    wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
+    wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
+    
     while(true) {
    
         int lidar_way = control.getInput();
