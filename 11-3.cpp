@@ -108,7 +108,7 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinB, 0);    
         
         if(x != 0){
-            continue;
+            x = getInput();
         }
     }
     
@@ -123,7 +123,7 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
 
         if(x != 1){
-            continue;
+            x = getInput();
         }
     }
 
@@ -138,7 +138,7 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
 
         if(x != 2){
-            continue;
+            x = getInput();
         }   
     }
 
@@ -154,10 +154,10 @@ void MotorControl::call(int x){
         delay(10);
         pwmWrite(pwmPinA, 50);
         pwmWrite(pwmPinB, 255);
-        
-        if ((turn_deg >= target_turn_deg)){
-            continue;
-        }       
+       
+        if(x != 3){
+            x = getInput();
+        }         
     }
             
     
@@ -174,9 +174,9 @@ void MotorControl::call(int x){
         analogWrite(pwmPinA, min(abs(controlA), 255.0));
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
                
-        if ((turn_deg >= target_turn_deg)){
-            continue;
-        }       
+        if(x != 4){
+            x = getInput();
+        }      
     }
 }
 
