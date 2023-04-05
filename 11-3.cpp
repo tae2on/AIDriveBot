@@ -30,9 +30,7 @@ using namespace std;
 #define encPinD 29      // 파랑색 (D) - 21
 
 
-double target_deg;                      // 목표 각도 
-double target_direction = 0.;           // 목표 방향 
-double target_distance = 0.;            // 목표 거리 
+double target_turn_deg;          // 목표 각도 
 
 int lidar_way;
 int x;
