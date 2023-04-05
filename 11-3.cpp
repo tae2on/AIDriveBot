@@ -33,10 +33,50 @@ using namespace std;
 #define encPinC 2               // 보라색 (C) - GPIO핀 번호 : 27
 #define encPinD 3               // 파랑색 (D) - GPIO핀 번호 : 22
 
-double target_turn_deg;          // 목표 각도 
+/* PID 제어 */
+const float proportion = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+
+/* PID 상수 */
+float kp = 30.0; 
+float kd = 0.;         
+float ki = 0.;
 
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+
+float motorDegA = 0;                   // 모터 각도A
+float motorDegB = 0;                   // 모터 각도B
+float motor_distanceA;                 // 모터 거리 
+float motor_distanceB;                 // 모터 거리 
+
+float errorA = 0;
+float errorB = 0;
+float error_prev_A = 0.;
+float error_prev_B = 0.;
+float error_prev_prev_A = 0;
+float error_prev_prev_B = 0;
+float derrorA;
+float derrorB;
+
+double controlA = 0.;
+double controlB = 0.;
+ 
+double wheel; 
+double target_deg;                      // 목표 각도 
+double target_direction = 0.;           // 목표 방향 
+double target_distance = 0.;            // 목표 거리 
+
+double de_A;
+double de_B;
+double di_A = 0;
+double di_B = 0;
+double dt = 0;
+
+double delta_vA;
+double delta_vB;
+double time_prev = 0;
+
+
 
 int lidar_way;
 int x;
@@ -63,6 +103,41 @@ public:
     int getInput();
 };
 
+void Calculation() {
+    wheel = 2*M_PI*11.5;
+    target_deg = (360*target_distance / wheel) ;      // 목표 각도
+        
+    //DC모터 왼쪽
+    motorDegA = encoderPosLeft * proportion;
+    errorA = target_deg - motorDegA;
+    de_A = errorA -error_prev_A;
+    di_A += errorA * dt;
+    dt = time(nullptr) - time_prev;
+        
+    delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
+    controlA += delta_vA;
+    error_prev_A = errorA;
+    error_prev_prev_A = error_prev_A;
+
+    motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
+    derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
+
+    //DC모터 오른쪽
+    motorDegB = encoderPosRight * proportion;
+    errorB = target_deg - motorDegB;
+    de_B = errorB -error_prev_B;
+    di_B += errorB * dt;
+    dt = time(nullptr) - time_prev;
+        
+    delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
+    controlB += delta_vB;
+    error_prev_B = errorB;
+    error_prev_prev_B = error_prev_B;
+
+    motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
+    derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
+        
+}
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
