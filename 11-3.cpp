@@ -93,6 +93,7 @@ std::time_t start_time = std::time(nullptr);
 class MotorControl{
 public:
     void call(int x);
+    int getInput();
 };
 
 
