@@ -31,7 +31,6 @@ using namespace std;
 #define encPinC 28      // 보라색 (C) - 20
 #define encPinD 29      // 파랑색 (D) - 21
 
-
 double target_turn_deg;          // 목표 각도 
 
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
@@ -42,6 +41,7 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
+// 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
@@ -195,6 +195,13 @@ int main(){
     softPwmCreate(pwmPinB, 0, 255);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
+
+    digitalWrite(pwmPinA, LOW);
+    digitalWrite(pwmPinB, LOW);
+    digitalWrite(AIN1, LOW);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, LOW);
+    digitalWrite(BIN4, LOW);
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
