@@ -145,7 +145,7 @@ void MotorControl::call(int x){
         delay(10);
         // 속도 설정 
         pwmWrite(pwmPinA, 100.);
-        pwmWrite(pwmPinB, 50.); 
+        pwmWrite(pwmPinB, 30.); 
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
