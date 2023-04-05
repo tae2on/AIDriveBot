@@ -108,7 +108,7 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinB, 0);    
         
         if(x != 0){
-            return;
+            continue;
         }
     }
     
@@ -123,7 +123,7 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
 
         if(x != 1){
-            return;
+            continue;
         }
     }
 
@@ -138,7 +138,7 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
 
         if(x != 2){
-            return;
+            continue;
         }   
     }
 
@@ -156,7 +156,7 @@ void MotorControl::call(int x){
         pwmWrite(pwmPinB, 255);
         
         if ((turn_deg >= target_turn_deg)){
-            return;
+            continue;
         }       
     }
             
@@ -175,7 +175,7 @@ void MotorControl::call(int x){
         analogWrite(pwmPinB, min(abs(controlA), 255.0));
                
         if ((turn_deg >= target_turn_deg)){
-            return;
+            continue;
         }       
     }
 }
@@ -185,14 +185,6 @@ int main(){
 
     MotorControl control;
 
-    pinMode(encPinA, INPUT);
-    pullUpDnControl(encPinA, PUD_UP);
-    pinMode(encPinB, INPUT);
-    pullUpDnControl(encPinB, PUD_UP);
-    pinMode(encPinC, INPUT);
-    pullUpDnControl(encPinC, PUD_UP);
-    pinMode(encPinD, INPUT);
-    pullUpDnControl(encPinD, PUD_UP);
     pinMode(pwmPinA, OUTPUT); 
     pinMode(pwmPinB, OUTPUT); 
     pinMode(AIN1, OUTPUT);
@@ -200,13 +192,6 @@ int main(){
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
    
-    // digitalWrite(pwmPinA, LOW);
-    // digitalWrite(pwmPinB, LOW);
-    // digitalWrite(AIN1, LOW);
-    // digitalWrite(AIN2, LOW);
-    // digitalWrite(BIN3, LOW);
-    // digitalWrite(BIN4, LOW);
-
     softPwmCreate(pwmPinA, 0, 100);
     softPwmCreate(pwmPinB, 0, 100);
     softPwmWrite(pwmPinA, 0);
