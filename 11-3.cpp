@@ -42,6 +42,7 @@ int x;
 
 std::time_t start_time = std::time(nullptr);
 
+
 // 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -56,11 +57,12 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
+
 class MotorControl{
 public:
     void call(int x);
     int getInput();
-};
+}
 
 // 원하는 방향 입력
 int MotorControl::getInput() {
