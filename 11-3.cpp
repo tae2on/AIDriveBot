@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <math.h>
+#include "input.h"
 
 #define M_PI 3.14159265358979323846
 using namespace std;
