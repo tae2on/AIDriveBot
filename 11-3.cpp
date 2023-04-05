@@ -181,7 +181,7 @@ void MotorControl::call(int x){
     }
 }
 
-int getInput() {
+int MotorControl::getInput() {
     int x;
     cout << "직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4";
     cout << "원하는 방향을 입력하시오 : ";
