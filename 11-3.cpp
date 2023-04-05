@@ -16,20 +16,21 @@
 using namespace std;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! */
-/* gpio.v */
+/* gpio readall -> GPIO 핀 번호 */
+/* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 // DC 모터 왼쪽 (엔코더 O)                                                      
-#define pwmPinA 23                      // 모터드라이버 ENA / ex) 핀 번호 8번, GPIO 14번, wiringPi 15번
-#define AIN1 22                         // IN1 
-#define AIN2 21          // IN2 
-#define encPinA 8       // 보라색 (A) 
-#define encPinB 9       // 파랑색 (B) 
+#define pwmPinA 23              // 모터드라이버 ENA - GPIO핀 번호: 13 
+#define AIN1 22                 // IN1 - GPIO핀 번호: 6
+#define AIN2 21                 // IN2 - GPIO핀 번호 : 5
+#define encPinA 8               // 보라색 (A) - GPIO핀 번호 : 2
+#define encPinB 9               // 파랑색 (B) - GPIO핀 번호 : 3
 
 // DC모터 오른쪽 (엔코더 X) 
-#define pwmPinB 29       // 모터 드라이버 ENB 
-#define BIN3 28          // IN3
-#define BIN4 27          // IN4
-#define encPinC 28      // 보라색 (C) - 20
-#define encPinD 29      // 파랑색 (D) - 21
+#define pwmPinB 29              // 모터 드라이버 ENB - 21
+#define BIN3 20                 // IN3 - GPIO핀 번호 : 12
+#define BIN4 27                 // IN4 - GPIO핀 번호 : 16
+#define encPinC 28              // 보라색 (C) - 20
+#define encPinD 29              // 파랑색 (D) - 21
 
 double target_turn_deg;          // 목표 각도 
 
