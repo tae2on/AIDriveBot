@@ -33,16 +33,16 @@ using namespace std;
 #define encPinD 29              // 파랑색 (D) - 21
 
 double target_turn_deg;          // 목표 각도 
-
+/*
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-
+*/
 int lidar_way;
 int x;
 
 std::time_t start_time = std::time(nullptr);
 
-
+/*
 // 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -56,13 +56,13 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
+*/
 
 class MotorControl{
 public:
     void call(int x);
     int getInput();
-}
+};
 
 // 원하는 방향 입력
 int MotorControl::getInput() {
@@ -206,11 +206,13 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
+/*
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
-    
+    */
+
     while(true) {
    
         int lidar_way = control.getInput();
