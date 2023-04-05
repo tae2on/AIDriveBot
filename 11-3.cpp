@@ -133,8 +133,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, std::min(abs(controlA), 255.0));
-        softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
+        softPwmWrite(pwmPinA, std::min(abs(controlA), 100.));
+        softPwmWrite(pwmPinB, std::min(abs(controlA), 100.));   
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
@@ -151,8 +151,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);   
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, std::min(abs(controlA), 255.0));
-        softPwmWrite(pwmPinB, std::min(abs(controlA), 255.0));   
+        softPwmWrite(pwmPinA, std::min(abs(controlA), 100.));
+        softPwmWrite(pwmPinB, std::min(abs(controlA), 100.));   
 
         // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 2){
@@ -174,7 +174,7 @@ void MotorControl::call(int x){
         delay(10);
         // 속도 설정 
         pwmWrite(pwmPinA, 50);
-        pwmWrite(pwmPinB, 255);
+        pwmWrite(pwmPinB, 100);
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
@@ -197,8 +197,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정
-        analogWrite(pwmPinA, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlA), 255.0));
+        analogWrite(pwmPinA, min(abs(controlA), 100.));
+        analogWrite(pwmPinB, min(abs(controlA), 100.));
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
