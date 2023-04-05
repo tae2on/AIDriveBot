@@ -227,7 +227,7 @@ int main(){
 
     while(true) {
    
-        int lidar_way = getInput();
+        int lidar_way = control.getInput();
         control.call(lidar_way);
         delay(1000);
     
