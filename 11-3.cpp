@@ -48,7 +48,7 @@ float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
 float motor_distance_A = 0.;           // 왼쪽 모터 이동거리 
 float motor_distance_B = 0.;           // 오른쪽 모터 이동거리 
-float distance = 0.;
+float distanceAB = 0.;                 // 차체 중앙 기준 이동거리 
 
 float errorA = 0;
 float errorB = 0;
@@ -132,7 +132,7 @@ void Calculation() {
 
     motor_distance_B = encoderPosRight * wheel * 144;
     
-    distance = (motor_distance_A + motor_distance_B) / 2;
+    distanceAB = (motor_distance_A + motor_distance_B) / 2;
 }
 // 원하는 방향 입력
 int MotorControl::getInput() {
@@ -159,7 +159,7 @@ void MotorControl::call(int x){
         // 이동 거리 출력
         cout << "모터의 이동 거리: " << motor_distance_A << "cm" << endl; 
         cout << "모터의 이동 거리: " << motor_distance_B << "cm" << endl; 
-        cout << "모터의 이동 거리: " << distance << "cm" << endl; 
+        cout << "모터의 이동 거리: " << distanceAB << "cm" << endl; 
 
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
