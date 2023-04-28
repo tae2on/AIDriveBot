@@ -137,6 +137,10 @@ void Calculation() {
     motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
     derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
         
+    cout << "왼쪽 모터 움직인 각도 = " << motor_distanceA << endl;    
+    cout << "오른쪽 모터 움직인 각도 = " << motor_distanceB << endl;  
+    cout << "왼쪽 모터 움직인 각도 = " << derrorA << endl;    
+    cout << "오른쪽 모터 움직인 각도 = " << derrorB << endl;     
 }
 // 원하는 방향 입력
 int MotorControl::getInput() {
@@ -159,7 +163,7 @@ void MotorControl::call(int x){
         // 속도 설정 
         softPwmWrite(pwmPinA, 0);
         softPwmWrite(pwmPinB, 0);    
-        
+
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
             x = getInput();
