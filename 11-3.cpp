@@ -46,8 +46,8 @@ float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
-float motor_distance_A;                // 왼쪽 모터 이동거리 
-float motor_distance_B;                // 오른쪽 모터 이동거리 
+float motor_distance_A = 0.;           // 왼쪽 모터 이동거리 
+float motor_distance_B = 0.;           // 오른쪽 모터 이동거리 
 float distance = 0.;
 
 float errorA = 0;
