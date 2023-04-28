@@ -46,8 +46,8 @@ float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
-float motor_distanceA;                 // 모터 거리 
-float motor_distanceB;                 // 모터 거리 
+float motor_distanceA = 0.;                 // 모터 거리 
+float motor_distanceB = 0.;                 // 모터 거리 
 
 float errorA = 0;
 float errorB = 0;
@@ -75,8 +75,6 @@ double dt = 0;
 double delta_vA;
 double delta_vB;
 double time_prev = 0;
-
-
 
 int lidar_way;
 int x;
@@ -178,11 +176,11 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, 100.);
         softPwmWrite(pwmPinB, 100.);
 
-        printf(motor_distanceA);
-        printf(motor_distanceB);
-        printF(derrorA);
-        printf(derrorB);
-
+        cout << "왼쪽 모터 움직인 각도 = " << motor_distanceA << endl;
+        cout << "오른쪽 모터 움직인 각도 = " << motor_distanceB << endl;
+        cout << "왼쪽 모터의 오차값 = " << derrorA << endl;
+        cout << "오른쪽 모터의 오차값 = " << derrorB << endl;
+  
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
