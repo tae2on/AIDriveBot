@@ -43,7 +43,7 @@ IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 targetDeg = 360.
 
 # PID 제어
-ratio = 1./400.
+ratio = 0.0025
 
 # PID 상수
 kp = float(input("KP:"))   #0.35
@@ -60,6 +60,7 @@ error_prev = 0.
 error_prev_prev = 0.
 time_prev = 0.
 motorDeg = 0.
+
 try:
     while True:
         motorDeg = abs(encoderPos * ratio)
