@@ -184,12 +184,6 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, 100.);
         softPwmWrite(pwmPinB, 100.);  
 
-        // 이동 거리 출력
-        cout << "모터의 이동 거리: " << motor_distance_A << "cm" << endl; 
-        cout << "모터의 이동 거리: " << motor_distance_B << "cm" << endl; 
-        cout << "모터의 이동 거리: " << distanceAB << "cm" << endl; 
- 
-
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
