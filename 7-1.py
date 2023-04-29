@@ -62,7 +62,7 @@ time_prev = 0.
 
 try:
     while True:
-        motorDeg = encoderPos * ratio
+        motorDeg = abs(encoderPos * ratio)
 
         error = targetDeg - motorDeg
         de = error - error_prev
