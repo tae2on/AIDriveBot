@@ -109,9 +109,12 @@ motorDegA = 0.
 motorDegB = 0.
 r = 11.5    # 타이어의 반지름 
 
+print(encoderPosA)
+print(encoderPosB)
+
 #----------------------------------- 모터의 이동 거리 -----------------------------------#
 # 모터 이동 거리 (r: 11.5) 
-try :
+"""try :
     target_direction = "front" 
     target_distance = int(input("이동하고 싶은 거리를 입력하시오: "))
     while True: 
@@ -183,7 +186,7 @@ try :
 
 # Crtl + c 누르면 모터 작동 멈춤
 except KeyboardInterrupt: 
-    pass
+    pass"""
 
 p1.stop()
 p2.stop() 
