@@ -59,7 +59,7 @@ start_time = time.time()
 error_prev = 0.
 error_prev_prev = 0.
 time_prev = 0.
-
+motorDeg = 0.
 try:
     while True:
         motorDeg = abs(encoderPos * ratio)
