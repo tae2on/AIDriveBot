@@ -169,7 +169,7 @@ try :
             print('encA = %5.1f' %(encoderPosA))
             print('encB = %5.1f' %(encoderPosB))
 
-            if ((motorDegA >= target_deg)):
+            if ((motorDegB >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
