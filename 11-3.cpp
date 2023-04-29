@@ -146,8 +146,8 @@ void Calculation() {
     
     // 차체 중앙 기준 회전 각도 
     delta_encoder = encoderPosRight - encoderPosLeft;
-    //turn_deg = delta_encoder * (360 / 엔코더 분해능) * (1 / 144) * (1 / 68); 
-    turn_error = target_turn_deg - turn_deg; 
+    /*turn_deg = delta_encoder * (360 / 엔코더 분해능) * (1 / 144) * (1 / 68); 
+    turn_error = target_turn_deg - turn_deg; */
 }
 // 원하는 방향 입력
 int MotorControl::getInput() {
