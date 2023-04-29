@@ -93,7 +93,7 @@ error_prev_prev_B = 0.
 
 dt = 0.
 dt_sleep = 0.01
-tolerance = 0.01
+tolerance = 0.1
 
 start_time = time.time()
 
