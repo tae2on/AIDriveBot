@@ -171,7 +171,7 @@ void MotorControl::call(int x){
         cout << "왼쪽 모터 오차값 = " << derrorA << endl;
         cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
         cout << "오른쪽 모터 오차값 = " << derrorB << endl;
-        
+
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
             x = getInput();
@@ -187,8 +187,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);
-        softPwmWrite(pwmPinB, 100.);  
+        softPwmWrite(pwmPinA, 255.);
+        softPwmWrite(pwmPinB, 255.);  
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
