@@ -154,7 +154,7 @@ try :
             IO.output(BIN4, IO.HIGH)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 100))
-            p2.ChangeDutyCycle(min(abs(controlA), 100))
+            p2.ChangeDutyCycle(min(abs(controlB), 100))
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
