@@ -1,5 +1,6 @@
 /* 라이다 센서 연동 */
 /* 두 모터의 속도 차이를 이용한 전/후/좌/우 회전 */ 
+/* 회전각도 구하기, 이동거리 구하기 -> 제어 확인, 자이로 센서 이용하여 좌우각도 회전하기 */
 
 #include "wiringPi.h"                   // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <softPwm.h>
@@ -47,9 +48,10 @@ float encoderPosLeft;              // 엔코더 값 - 왼쪽
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
 float motor_distance_A = 0.;           // 왼쪽 모터 이동거리 
-float motor_distance_B = 0.;           // 오른쪽 모터 이동거리 
-float distanceAB = 0.;                 // 차체 중앙 기준 이동거리 
+float motor_distance_B = 0.;           // 오른쪽 모터 이동거리  
 
+float derrorA = 0.;
+float derrorB = 0.;
 float errorA = 0;
 float errorB = 0;
 float error_prev_A = 0.;
@@ -115,8 +117,10 @@ void Calculation() {
     controlA += delta_vA;
     error_prev_A = errorA;
     error_prev_prev_A = error_prev_A;
+    
+    motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
+    derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
 
-    motor_distance_A = encoderPosLeft * wheel * 144;
 
     //DC모터 오른쪽
     motorDegB = encoderPosRight * proportion;
@@ -130,9 +134,15 @@ void Calculation() {
     error_prev_B = errorB;
     error_prev_prev_B = error_prev_B;
 
-    motor_distance_B = encoderPosRight * wheel * 144;
-    
-    distanceAB = (motor_distance_A + motor_distance_B) / 2;
+    motor_distance_B = motorDegB * wheel / 360;           // 모터 움직인 거리
+    derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
+
+    // 이동거리 출력 
+    cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
+    cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+    cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+    cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+
 }
 // 원하는 방향 입력
 int MotorControl::getInput() {
@@ -155,11 +165,6 @@ void MotorControl::call(int x){
         // 속도 설정 
         softPwmWrite(pwmPinA, 0);
         softPwmWrite(pwmPinB, 0);    
-
-        // 이동 거리 출력
-        cout << "모터의 이동 거리: " << motor_distance_A << "cm" << endl; 
-        cout << "모터의 이동 거리: " << motor_distance_B << "cm" << endl; 
-        cout << "모터의 이동 거리: " << distanceAB << "cm" << endl; 
 
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
