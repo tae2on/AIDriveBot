@@ -5,18 +5,18 @@ import time
 import math 
 
 # DC 모터 왼쪽 (엔코더 O)
-pwmPinA = 14 # 모터드라이버 ENA
-AIN1 = 15 # IN 1
-AIN2 = 18 # IN 2
+pwmPinA = 13 # 모터드라이버 ENA
+AIN1 = 6 # IN 1
+AIN2 = 5 # IN 2
 encPinA = 2 # 보라색 (A)  
 encPinB = 3 # 파랑색 (B)
 
 # DC 모터 오른쪽 (엔코더 X)
-pwmPinB = 17 # 모터드라이버 ENB
-BIN3 = 27 # IN 3
-BIN4 = 22 # IN 4
-encPinC = 20 # 보라색 (C) - 20 
-encPinD = 21 # 파랑색 (D) - 21
+pwmPinB = 21 # 모터드라이버 ENB
+BIN3 = 4 # IN 3
+BIN4 = 16 # IN 4
+encPinC = 27 # 보라색 (C) - 20 
+encPinD = 22 # 파랑색 (D) - 21
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
@@ -74,10 +74,10 @@ IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
 
 # PID 제어
-ratio = 360./264./52. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+ratio = 360./144./40. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 # PID 상수
-kp = 30.0
+kp = float(input("kp: "))
 kd = 0.         
 ki = 0.
 
