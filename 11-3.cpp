@@ -36,7 +36,7 @@ using namespace std;
 #define encPinD 3               // 파랑색 (D) - GPIO핀 번호 : 22
 
 /* PID 제어 */
-const float proportion = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / 144. / 40.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp = 30.0; 
@@ -146,7 +146,7 @@ void Calculation() {
     
     // 차체 중앙 기준 회전 각도 
     delta_encoder = encoderPosRight - encoderPosLeft;
-    turn_deg = delta_encoder * (360 / 엔코더 분해능) * (1 / 144) * (1 / 68); 
+    //turn_deg = delta_encoder * (360 / 엔코더 분해능) * (1 / 144) * (1 / 68); 
     turn_error = target_turn_deg - turn_deg; 
 }
 // 원하는 방향 입력
