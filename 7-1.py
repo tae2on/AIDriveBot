@@ -58,9 +58,10 @@ start_time = time.time()
 error_prev = 0.
 error_prev_prev = 0.
 time_prev = 0.
-motorDeg = 0.
+
 
 try:
+    motorDeg = 0.
     while True:
         motorDeg = encoderPos * ratio
 
