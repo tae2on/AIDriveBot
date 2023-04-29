@@ -110,7 +110,7 @@ r = 11.5    # 타이어의 반지름
 #----------------------------------- 모터의 이동 거리 -----------------------------------#
 # 모터 이동 거리 (r: 11.5) 
 try :
-    target_direction = str(input("이동하고 싶은 방향을 입력하시오 : ")) 
+    target_direction = "front" 
     target_distance = int(input("이동하고 싶은 거리를 입력하시오: "))
     while True: 
         wheel = 2*math.pi*r     #원둘레 = 72.26
