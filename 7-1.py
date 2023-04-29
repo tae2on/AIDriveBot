@@ -30,11 +30,11 @@ IO.setup(AIN1, IO.OUT, initial=IO.LOW)
 IO.setup(AIN2, IO.OUT, initial=IO.LOW)
 IO.setup(BIN3, IO.OUT, initial=IO.LOW)
 IO.setup(BIN4, IO.OUT, initial=IO.LOW)
-
+""""
 p1 = IO.PWM(pwmPinA, 100)
 p2 = IO.PWM(pwmPinB, 100)
 p1.start(0)
-p2.start(0)
+p2.start(0)"""
 
 encoderPosA = 0
 encoderPosB = 0
@@ -72,7 +72,7 @@ IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
-
+""""
 # PID 제어
 ratio = 360./144./20. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
@@ -80,7 +80,7 @@ ratio = 360./144./20. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - �
 kp = float(input("kp: "))
 kd = 0.         
 ki = 0.
-
+"""
 # DC 모터 왼쪽
 di_A = 0.
 error_prev_A = 0.
