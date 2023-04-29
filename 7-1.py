@@ -80,7 +80,7 @@ try:
         
         IO.output(AIN1, control >= 0)
         IO.output(AIN2, control <= 0)
-        time.sleep(0.5)
+        time.sleep(0.01)
         p.ChangeDutyCycle(min(abs(control), 100.0))
 
         print('P-term = %7.1f, D-term = %7.1f, I-term = %7.1f' %(kp*error, kd*de/dt, ki*de*dt))
@@ -90,7 +90,7 @@ try:
         if abs(error) <= tolerance :
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
-            time.sleep(0.5)
+            time.sleep(0.01)
             p.ChangeDutyCycle(0)
             break
 
