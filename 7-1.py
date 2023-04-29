@@ -176,17 +176,9 @@ try :
                 IO.output(BIN4, IO.LOW)
 
                 time.sleep(0.01)
+                p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
 
-
-            if ((motorDegA >= target_deg)):
-                IO.output(AIN1, IO.LOW)
-                IO.output(AIN2, IO.LOW) 
-                IO.output(BIN3, IO.LOW)
-                IO.output(BIN4, IO.LOW)
-
-                time.sleep(0.01)
-                p1.ChangeDutyCycle(0)
 
             time_prev = time.time()
             time.sleep(dt_sleep)
