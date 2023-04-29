@@ -39,7 +39,7 @@ using namespace std;
 const float proportion = 360. / 144. / 40.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp = 30.0; 
+float kp; 
 float kd = 0.;         
 float ki = 0.;
 
@@ -152,9 +152,12 @@ void Calculation() {
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
+    cout << "kp = ";
+    cin >> kp;
     cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
     cout << "원하는 방향을 입력하시오 : ";
     cin >> x;
+    
     return x; 
 }
 
