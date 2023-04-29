@@ -43,8 +43,7 @@ IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 targetDeg = 360.
 
 # PID 제어
-ratio = 360./144./4000.
-
+ratio = 1. /144.
 # PID 상수
 kp = float(input("KP:"))   #0.35
 kd = float(input("KD:"))   #0.
