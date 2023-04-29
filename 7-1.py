@@ -1,4 +1,4 @@
-# 캡스톤에 쓰이는 DC모터 360도 회전 
+# 캡스톤에 쓰이는 DC모터 360도 회전 -> pid 제어 / 분해능 찾기 
 
 import RPi.GPIO as IO
 import time
@@ -17,7 +17,7 @@ IO.setup(pwmPin, IO.OUT, initial=IO.LOW)
 IO.setup(AIN1, IO.OUT, initial=IO.LOW)
 IO.setup(AIN2, IO.OUT, initial=IO.LOW)
 
-p = IO.PWM(14, 100)
+p = IO.PWM(13, 100)
 p.start(0)
 
 encoderPos = 0
