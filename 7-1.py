@@ -86,7 +86,7 @@ try:
         print('time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(time.time()-start_time, encoderPos, motorDeg, error, control))
         print('%f, %f' %(de, dt))
     
-        if abs(error) <= tolerance :
+        if (motorDeg < 360):
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
             time.sleep(0.5)
