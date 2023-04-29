@@ -155,8 +155,8 @@ try :
         if (target_direction == 'front') :  
             IO.output(AIN1, IO.LOW)
             IO.output(AIN2, IO.HIGH)
-            IO.output(BIN3, IO.LOW)
-            IO.output(BIN4, IO.HIGH)
+            IO.output(BIN3, IO.HIGH)
+            IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))
