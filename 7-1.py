@@ -122,7 +122,7 @@ try :
         target_deg = (360*target_distance / wheel) / 2    # 목표 각도
     
       # DC 모터 왼쪽
-        motorDegA = encoderPosA * ratio     # 모터 움직인 각도
+        motorDegA = abs(encoderPosA * ratio)     # 모터 움직인 각도
         errorA = target_deg - motorDegA     # 각도 오차값 
         de_A = errorA - error_prev_A
         di_A += errorA * dt
@@ -176,8 +176,17 @@ try :
                 IO.output(BIN4, IO.LOW)
 
                 time.sleep(0.01)
-                p1.ChangeDutyCycle(0)
                 p2.ChangeDutyCycle(0)
+
+
+            if ((motorDegA >= target_deg)):
+                IO.output(AIN1, IO.LOW)
+                IO.output(AIN2, IO.LOW) 
+                IO.output(BIN3, IO.LOW)
+                IO.output(BIN4, IO.LOW)
+
+                time.sleep(0.01)
+                p1.ChangeDutyCycle(0)
 
             time_prev = time.time()
             time.sleep(dt_sleep)
