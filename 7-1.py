@@ -74,7 +74,7 @@ IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
 
 # PID 제어
-ratio = 360./144./20. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+ratio = 360./144./40. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 # PID 상수
 kp = float(input("kp: "))
@@ -93,7 +93,7 @@ error_prev_prev_B = 0.
 
 dt = 0.
 dt_sleep = 0.01
-tolerance = 0.1
+tolerance = 0.01
 
 start_time = time.time()
 
@@ -105,6 +105,8 @@ target_direction = 0.
 target_distance = 0.
 rotation = 0.
 
+motorDegA = 0.
+motorDegB = 0.
 r = 11.5    # 타이어의 반지름 
 
 #----------------------------------- 모터의 이동 거리 -----------------------------------#
@@ -156,12 +158,12 @@ try :
             p1.ChangeDutyCycle(min(abs(controlA), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))
 
-            print('각도 = %5.1f' %(motorDegA))
-            print('각도 = %5.1f' %(motorDegB))  
+            print('각도A = %5.1f' %(motorDegA))
+            print('각도B = %5.1f' %(motorDegB))  
             print('원하는 각도 = %5.1f' %(target_deg))
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
-            
+
             if ((motorDegA >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
