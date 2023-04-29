@@ -5,18 +5,18 @@ import time
 import math 
 
 # DC 모터 왼쪽 (엔코더 O)
-pwmPinA = 13 # 모터드라이버 ENA
-AIN1 = 6 # IN 1
-AIN2 = 5 # IN 2
-encPinA = 2 # 보라색 (A)  
-encPinB = 3 # 파랑색 (B)
+pwmPinA = 14 # 모터드라이버 ENA
+AIN1 = 15 # IN 1
+AIN2 = 18 # IN 2
+encPinA = 23 # 보라색 (A)  
+encPinB = 34 # 파랑색 (B)
 
 # DC 모터 오른쪽 (엔코더 X)
-pwmPinB = 21 # 모터드라이버 ENB
-BIN3 = 4 # IN 3
-BIN4 = 16 # IN 4
-encPinC = 27 # 보라색 (C) - 20 
-encPinD = 22 # 파랑색 (D) - 21
+pwmPinB = 25 # 모터드라이버 ENB
+BIN3 = 8 # IN 3
+BIN4 = 7 # IN 4
+encPinC = 1 # 보라색 (C) - 20 
+encPinD = 12 # 파랑색 (D) - 21
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
