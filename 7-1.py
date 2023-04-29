@@ -72,7 +72,7 @@ IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
-""""
+
 # PID 제어
 ratio = 360./144./20. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
@@ -80,7 +80,7 @@ ratio = 360./144./20. # 한 바퀴에 약 13,728펄스 (정확하지 않음 - �
 kp = float(input("kp: "))
 kd = 0.         
 ki = 0.
-"""
+
 # DC 모터 왼쪽
 di_A = 0.
 error_prev_A = 0.
