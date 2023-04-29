@@ -63,7 +63,7 @@ motorDeg = 0.
 
 try:
     while True:
-        motorDeg = abs(encoderPos * ratio)
+        motorDeg = encoderPos * ratio
 
         error = targetDeg - motorDeg
         de = error - error_prev
