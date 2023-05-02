@@ -49,7 +49,7 @@ try :
     
         time.sleep(0.1)
 
-        if(encoderPos >= 700):
+        if(encoderPos >= 560):
             IO.output(AIN1, IO.LOw)
             p.ChangeDutyCycle(0)
 
