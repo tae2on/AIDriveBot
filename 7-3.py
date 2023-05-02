@@ -3,8 +3,8 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 
-encPinA = 2
-encPinB = 3
+encPinA = 2 # 보라색 (A)  
+encPinB = 3 # 파랑색 (B)
 
 GPIO.setup(encPinA, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(encPinB, GPIO.IN, pull_up_down=GPIO.PUD_UP)
