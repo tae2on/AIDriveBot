@@ -40,13 +40,11 @@ IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 try : 
     while True:
-        IO.output(AIN1, IO.HIGH)
-        # IO.output(AIN2, IO.LOW)
-        p.ChangeDutyCycle(25)
+    # 엔코더 값 읽어오기
+        print(encoderPos)
+        time.sleep(1)
 
-        print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
-        print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
-        time.sleep(1.0)
+        IO.output(AIN1, IO.LOW)
 
 
 # Crtl + c 누르면 모터 작동 멈춤
