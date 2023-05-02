@@ -50,6 +50,7 @@ try :
         time.sleep(0.5)
 
         if(encoderPos == 800):
+            IO.output(AIN1, IO.LOw)
             p.ChangeDutyCycle(0)
 
 # Crtl + c 누르면 모터 작동 멈춤
