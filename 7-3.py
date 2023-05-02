@@ -22,14 +22,14 @@ GPIO.setup(encPinB, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 encoderPosA = 0
 
-def encoderA(channel):
+def encoderA(encPinA):
     global encoderPosA
     if GPIO.input(encPinA) == GPIO.input(encPinB):
         encoderPosA += 1
     else:
         encoderPosA -= 1
 
-def encoderB(channel):
+def encoderB(encPinB):
     global encoderPosA
     if GPIO.input(encPinA) == GPIO.input(encPinB):
         encoderPosA -= 1
