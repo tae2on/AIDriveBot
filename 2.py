@@ -42,11 +42,11 @@ try:
     while True:
         # 엔코더 값 읽어오기
         IO.output(AIN1, IO.HIGH)
-        print(encoderPos)
         p.ChangeDutyCycle(100)
         time.sleep(1)
 
         IO.output(AIN1, IO.LOW)
+        print(encoderPos)
         break # 코드 멈추기
 except KeyboardInterrupt:
     print("Measurement stopped by user")
