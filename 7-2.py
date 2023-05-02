@@ -22,7 +22,6 @@ p1.start(0)
 
 encoderPosA = 0
 
-
 def encoderA(encPinA):
     global encoderPosA
     if IO.input(encPinA) == IO.input(encPinB):
@@ -78,9 +77,8 @@ try:
         time.sleep(0.5)
         p1.ChangeDutyCycle(min(abs(control), 100))
 
-        print('P-term = %7.1f, D-term = %7.1f, I-term = %7.1f' %(kp*error, kd*de/dt, ki*de*dt))
         print('time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(time.time()-start_time, encoderPosA, motorDeg, error, control))
-        print('%f, %f' %(de, dt))
+        print('enc = %6.3f' %encoderPosA)
     
         if abs(error) <= tolerance :
             IO.output(AIN1, control >=0)
