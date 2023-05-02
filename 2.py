@@ -42,7 +42,7 @@ try :
     while True:
         IO.output(AIN1, IO.HIGH)
         # IO.output(AIN2, IO.LOW)
-        p.ChangeDutyCycle(100)
+        p.ChangeDutyCycle(50)
 
         print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
         print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
