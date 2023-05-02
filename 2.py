@@ -47,9 +47,9 @@ try :
         print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
         print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
     
-        time.sleep(0.001)
+        time.sleep(0.01)
 
-        if(encoderPos >= 500):
+        if(encoderPos >= 1000):
             IO.output(AIN1, IO.LOw)
             p.ChangeDutyCycle(0)
 
