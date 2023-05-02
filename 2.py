@@ -42,7 +42,7 @@ try:
     while True:
         # 엔코더 값 읽어오기
         IO.output(AIN1, IO.HIGH)
-        p.ChangeDutyCycle(100)
+        p.ChangeDutyCycle(30)
         print(encoderPos)
 
         if(encoderPos >= 400):
