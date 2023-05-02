@@ -9,6 +9,7 @@ AIN2 = 18 # IN 2
 encPinA = 2 # 보라색 (A)  
 encPinB = 3 # 파랑색 (B)
 
+p1 = GPIO.PWM(pwmPinA, 100)
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
