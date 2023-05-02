@@ -46,12 +46,7 @@ try :
 
         print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
         print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
-    
-        time.sleep(0.01)
-
-        if(encoderPos >= 1000):
-            IO.output(AIN1, IO.LOw)
-            p.ChangeDutyCycle(0)
+        time.sleep(1.0)
 
 
 # Crtl + c 누르면 모터 작동 멈춤
