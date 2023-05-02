@@ -9,17 +9,15 @@ AIN2 = 18 # IN 2
 encPinA = 2 # 보라색 (A)  
 encPinB = 3 # 파랑색 (B)
 
-p1 = GPIO.PWM(pwmPinA, 100)
-
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(pwmPinA, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(AIN1, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(AIN2, GPIO.OUT, initial=GPIO.LOW)
-
 GPIO.setup(encPinA, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(encPinB, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+p1 = GPIO.PWM(pwmPinA, 100)
 encoderPosA = 0
 
 def encoderA(encPinA):
