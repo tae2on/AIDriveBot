@@ -42,10 +42,10 @@ try :
     while True:
     # 엔코더 값 읽어오기
         print(encoderPos)
+        p.ChangeDutyCycle(25)
         time.sleep(1)
 
         IO.output(AIN1, IO.LOW)
-
 
 # Crtl + c 누르면 모터 작동 멈춤
 except KeyboardInterrupt: 
