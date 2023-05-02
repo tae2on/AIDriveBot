@@ -39,7 +39,7 @@ GPIO.add_event_detect(encPinB, GPIO.BOTH, callback=encoderB)
 
 while True:
     GPIO.output(AIN1, GPIO.HIGH)
-    GPIO.output(AIN2, GPIO.LOW)
+    #GPIO.output(AIN2, GPIO.LOW)
     p1.ChangeDutyCycle(100) # PWM 신호의 duty cycle을 50%로 설정
     print(encoderPosA)
     time.sleep(0.1)
