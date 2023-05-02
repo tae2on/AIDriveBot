@@ -42,14 +42,14 @@ try :
     while True:
         IO.output(AIN1, IO.HIGH)
         # IO.output(AIN2, IO.LOW)
-        p.ChangeDutyCycle(35)
+        p.ChangeDutyCycle(25)
 
         print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
         print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
     
         time.sleep(0.001)
 
-        if(encoderPos >= 560):
+        if(encoderPos >= 500):
             IO.output(AIN1, IO.LOw)
             p.ChangeDutyCycle(0)
 
