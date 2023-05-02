@@ -38,15 +38,15 @@ def encoderB(encPinB):
 
 IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
-try : 
+try:
     while True:
-    # 엔코더 값 읽어오기
+        # 엔코더 값 읽어오기
+        IO.output(AIN1, IO.HIGH)
         print(encoderPos)
         p.ChangeDutyCycle(25)
         time.sleep(1)
 
         IO.output(AIN1, IO.LOW)
-
-# Crtl + c 누르면 모터 작동 멈춤
-except KeyboardInterrupt: 
-    pass
+        break # 코드 멈추기
+except KeyboardInterrupt:
+    print("Measurement stopped by user")
