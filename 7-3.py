@@ -3,8 +3,18 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 
+pwmPinA = 14 # 모터드라이버 ENA
+AIN1 = 15 # IN 1
+AIN2 = 18 # IN 2
 encPinA = 2 # 보라색 (A)  
 encPinB = 3 # 파랑색 (B)
+
+
+IO.setmode(IO.BCM)
+IO.setwarnings(False)
+IO.setup(pwmPinA, IO.OUT, initial=IO.LOW)
+IO.setup(AIN1, IO.OUT, initial=IO.LOW)
+IO.setup(AIN2, IO.OUT, initial=IO.LOW)
 
 GPIO.setup(encPinA, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(encPinB, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -29,5 +39,8 @@ GPIO.add_event_detect(encPinA, GPIO.BOTH, callback=encoderA)
 GPIO.add_event_detect(encPinB, GPIO.BOTH, callback=encoderB)
 
 while True:
+    IO.output(AIN1, 1) # IN1 핀을 HIGH(1)으로 설정
+    IO.output(AIN2, 0) # IN2 핀을 LOW(0)으로 설정
+    p1.ChangeDutyCycle(50) # PWM 신호의 duty cycle을 50%로 설정
     print(encoderPosA)
     time.sleep(0.1)
