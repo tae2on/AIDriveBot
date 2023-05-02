@@ -47,7 +47,7 @@ try :
         print('PinA : %d, encoder : %d' %(encPinA, encoderPos))
         print('PinB : %d, encoder : %d' %(encPinB, encoderPos))
     
-        time.sleep(0.1)
+        time.sleep(0.001)
 
         if(encoderPos >= 560):
             IO.output(AIN1, IO.LOw)
