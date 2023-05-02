@@ -43,9 +43,10 @@ try:
         # 엔코더 값 읽어오기
         IO.output(AIN1, IO.HIGH)
         p.ChangeDutyCycle(100)
-        
+
         if(encoderPos == 400):
             IO.output(AIN1, IO.LOW)
+            p.ChangeDutyCycle(0)
             print(encoderPos)
         break # 코드 멈추기
 except KeyboardInterrupt:
