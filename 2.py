@@ -43,7 +43,7 @@ try:
         # 엔코더 값 읽어오기
         IO.output(AIN1, IO.HIGH)
         p.ChangeDutyCycle(100)
-        time.sleep(1)
+        
         if(encoderPos == 400):
             IO.output(AIN1, IO.LOW)
             print(encoderPos)
