@@ -72,8 +72,8 @@ try:
 
         error_prev = error
 
-        IO.output(AIN1, control, IO.HIGH)
-        IO.output(AIN2, control, IO.LOW)
+        IO.output(AIN1, control >= 0)
+        IO.output(AIN2, control <= 0)
         time.sleep(0.5)
         p1.ChangeDutyCycle(min(abs(control), 100))
 
@@ -81,8 +81,8 @@ try:
         print('enc = %6.3f' %encoderPosA)
     
         if abs(error) <= tolerance :
-            IO.output(AIN1, control, IO.LOW)
-            IO.output(AIN2, control, IO.LOW)
+            IO.output(AIN1, control >=0)
+            IO.output(AIN2, control <=0)
             time.sleep(0.5)
             p1.ChangeDutyCycle(0)
             break
