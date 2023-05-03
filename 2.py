@@ -43,12 +43,12 @@ try:
         # 엔코더 값 읽어오기
         IO.output(AIN1, IO.HIGH)
         p.ChangeDutyCycle(25)
-        print(encoderPos)
+        print(encoderPos, flush=True)
 
         if(encoderPos >= 1000):
             IO.output(AIN1, IO.LOW)
             p.ChangeDutyCycle(0)
-            print(encoderPos)
+            print(encoderPos, flush=True)
             break # 코드 멈추기
 except KeyboardInterrupt:
     p.ChangeDutyCycle(0)
