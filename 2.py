@@ -45,7 +45,7 @@ try:
         p.ChangeDutyCycle(25)
         print(encoderPos)
 
-        if(encoderPos >= 400):
+        if(encoderPos >= 1000):
             IO.output(AIN1, IO.LOW)
             p.ChangeDutyCycle(0)
             print(encoderPos)
