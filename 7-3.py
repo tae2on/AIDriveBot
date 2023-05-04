@@ -48,7 +48,7 @@ ratio = 360./144./9.027 # 한 바퀴에 약 1350펄스 (정확하지 않음 - �
 # PID 상수
 kp = float(input("kp: "))
 kd = float(input("kd: "))         
-ki = 0.
+ki = float(input("ki: "))
 
 dt = 0.
 di = 0.
