@@ -46,7 +46,9 @@ targetDeg = 360.
 ratio = 360./144./9.027 # 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 # PID 상수
-kp = float(input("kp: "))
+''' kp의 값은 0.1 ~ 0.5 사이 
+    ki의 값은 0.001 ~ 0.1 사이 '''
+kp = 0.45 #float(input("kp: ")) 
 kd = float(input("kd: "))         
 ki = float(input("ki: "))
 
