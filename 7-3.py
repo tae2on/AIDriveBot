@@ -43,13 +43,13 @@ IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 targetDeg = 360.
 
 # PID 제어
-ratio = 360./144./9.027 # 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+ratio = 360./144./15.472 # 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 # PID 상수
 ''' kp의 값은 0.1 ~ 0.5 사이 
     ki의 값은 0.001 ~ 0.1 사이 '''
 kp = 0.45 #float(input("kp: ")) 
-ki = float(input("ki: "))
+ki = float(input("ki: ")) # 0.001
 kd = float(input("kd: "))         
 
 
