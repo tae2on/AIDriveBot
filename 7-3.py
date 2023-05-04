@@ -75,7 +75,7 @@ try:
         IO.output(AIN1, control >= 0)
         IO.output(AIN2, control <= 0)
         time.sleep(0.5)
-        p1.ChangeDutyCycle(min(abs(control), 35))
+        p1.ChangeDutyCycle(min(abs(control), 25))
 
         print('time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(time.time()-start_time, encoderPosA, motorDeg, error, control))
         print('enc = %6.3f' %encoderPosA)
