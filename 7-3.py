@@ -40,7 +40,7 @@ IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 
 # 원하는 각도
-targetDeg = 360.
+targetDeg = 1080.
 
 # PID 제어
 ratio = 360. / (84 * 10) # 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
