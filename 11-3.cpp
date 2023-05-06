@@ -200,15 +200,9 @@ void MotorControl::call(int x){
         cout << "왼쪽 모터 오차값 = " << derrorA << endl;
         cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
         cout << "오른쪽 모터 오차값 = " << derrorB << endl;
-
+        cout << "모터 각도 "<< motorDegB << endl;
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
-            // 이동거리 출력 
-            cout << "왼쪽 모터 이동거리A  = " << motor_distance_A << endl;
-            cout << "왼쪽 모터 오차값 = " << derrorA << endl;
-            cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
-            cout << "오른쪽 모터 오차값 = " << derrorB << endl;
-
             x = getInput();
         }
     }
