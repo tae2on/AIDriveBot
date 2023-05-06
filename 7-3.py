@@ -78,7 +78,7 @@ try:
         control = (kp*error) + (kd*de/dt) + (ki*di)
 
         error_prev = error
-        time_prev = time_now
+        time_prev = time_now 
 
         IO.output(AIN1, control >= 0)
         IO.output(AIN2, control <= 0)
