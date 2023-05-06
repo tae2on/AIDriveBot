@@ -53,6 +53,9 @@ ki = float(input("ki: ")) # 0.001
 kd = float(input("kd: "))         
 
 
+max_i = 100  # 최대 I 값
+min_i = -100 # 최소 I 값
+
 dt = 0.001
 di = 0.
 dt_sleep = 0.0001
