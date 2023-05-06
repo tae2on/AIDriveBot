@@ -58,7 +58,7 @@ di = 0.
 dt_sleep = 0.0001
 tolerance = 0.1
 
-start_time = time.time()
+#start_time = time.time()
 error_prev = 0.
 error_prev_prev = 0.
 time_prev = 0.
@@ -70,19 +70,20 @@ try:
         error = targetDeg - motorDeg
         de = error - error_prev
         di += error * dt 
+        time_now = time.time()
         dt = time.time() - time_prev
         control = (kp*error) + (kd*de/dt) + (ki*di)
 
         error_prev = error
+        time_prev = time_now
 
         IO.output(AIN1, control >= 0)
         IO.output(AIN2, control <= 0)
         time.sleep(0.001) 
         p1.ChangeDutyCycle(min(abs(control), 100.))
 
-        print('time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(time.time()-start_time, encoderPosA, motorDeg, error, control))
-        print('enc = %6.3f' %encoderPosA)
-    
+        print('enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(encoderPosA, motorDeg, error, control))
+            
         if (motorDeg >= 360) :
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
