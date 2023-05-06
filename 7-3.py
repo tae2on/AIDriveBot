@@ -69,10 +69,10 @@ try:
 
         error = targetDeg - motorDeg
         de = error - error_prev
-        di += error * dt 
+        di = max(min_i, min(max_i, di + error * dt)) # 최대 I, 최소 I 지정
         time_now = time.time()
         dt = time.time() - time_prev
-        control = (kp*error) + (kd*de/dt) + (ki*di*dt)
+        control = (kp*error) + (kd*de/dt) + (ki*di)
 
         error_prev = error
         time_prev = time_now
