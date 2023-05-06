@@ -39,7 +39,7 @@ using namespace std;
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp; 
+float kp = 0.8; 
 float kd = 0.;         
 float ki = 0.;
 
@@ -331,10 +331,7 @@ int main(){
    
         int lidar_way = control.getInput();
         control.call(lidar_way);
-        delay(1000);
-        cout << "kp = ";
-        cin >> kp;
-    
+        delay(1000);    
     }
     return 0;
 }
