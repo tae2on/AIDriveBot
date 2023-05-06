@@ -261,7 +261,6 @@ void MotorControl::call(int x){
             x = getInput();
         }         
     }
-            
     
     // 왼쪽
     else if (x == 4){
