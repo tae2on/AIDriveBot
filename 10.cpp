@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <math.h>
+#include <unistd.h>
 
 #define M_PI 3.14159265358979323846
 using namespace std;
@@ -106,7 +107,8 @@ int main(){
 
         digitalWrite(BIN1, controlB >= 0);
         digitalWrite(BIN2, controlB <= 0);
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::chrono::milliseconds sleep_duration(500);
+        std::this_thread::sleep_for(sleep_duration);
         digitalWrite(std::min(std::abs(controlB), 100.));
 
         printf("time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f\n", 
@@ -115,13 +117,14 @@ int main(){
         if (std::abs(errorB) <= tolerance) {
             digitalWrite(BIN1, controlB >= 0);
             digitalWrite(BIN2, controlB <= 0);
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            std::chrono::milliseconds sleep_duration(500);
+            std::this_thread::sleep_for(sleep_duration);
             softPwmWrite(pwmPinB, 0);
             break;
         }
 
-        time_prev = time.time();
-        std::this_thread::sleep_for(std::chrono::milliseconds(dt_sleep * 1000));
+        time_prev = start_time;
+        usleep(dt_sleep * 1000000);
     }
     
     return 0;
