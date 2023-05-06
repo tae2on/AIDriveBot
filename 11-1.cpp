@@ -29,7 +29,7 @@ using namespace std;
 #define encPinD 29      // 파랑색 (D) - 21
 
 /* PID 제어 */
-const float proportion = 360. / 264. / 52.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp = 30.0; 
