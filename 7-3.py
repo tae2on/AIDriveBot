@@ -86,7 +86,6 @@ try:
         if abs(error) <= tolerance :
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
-            time.sleep(1)
             p1.ChangeDutyCycle(0)
             break
 
