@@ -95,39 +95,36 @@ int main(){
     printf("kd: ");
     scanf("%f", &kd);
 
-    while(true) {
-        motorDegB = encoderPosRight * proportion;
-        errorB = target_deg - motorDegB;
-        de_B = errorB -error_prev_B;
-        di_B += errorB * dt;
-        dt = time(nullptr) - time_prev;
-        
-        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
-        controlB += delta_vB;
-        error_prev_B = errorB;
-        error_prev_prev_B = error_prev_B;
+while(true) {
+    motorDegB = encoderPosRight * proportion;
+    errorB = target_deg - motorDegB;
+    de_B = errorB - error_prev_B;
+    di_B += errorB * dt;
+    dt = time(nullptr) - time_prev;
 
-        int pwmB = std::min(std::abs(controlB), 100.); // 절댓값을 최대 100으로 맞춤
-        analogWrite(pwmPinB, pwmB); // PWM 신호 출력
+    delta_vB = kp * de_B + ki * errorB + kd * (errorB - 2 * error_prev_B + error_prev_prev_B);
+    controlB += delta_vB;
+    error_prev_B = errorB;
+    error_prev_prev_B = error_prev_B;
+
+    int pwmB = std::min(std::abs(controlB), 100.); // 절댓값을 최대 100으로 맞춤
+    analogWrite(pwmPinB, pwmB); // PWM 신호 출력
+    digitalWrite(BIN1, controlB >= 0); // IN1 제어 신호 출력
+    digitalWrite(BIN2, controlB <= 0); // IN2 제어 신호 출력
+
+    std::cout << "time = " << std::setprecision(6) << std::fixed << std::time(nullptr) - start_time
+              << ", enc = " << encoderPosRight
+              << ", deg = " << motorDegB
+              << ", err = " << errorB
+              << ", ctrl = " << controlB << std::endl;
+
+    if (std::abs(errorB) <= tolerance) {
         digitalWrite(BIN1, controlB >= 0); // IN1 제어 신호 출력
         digitalWrite(BIN2, controlB <= 0); // IN2 제어 신호 출력
-        
-        std::cout << "time = " << std::setprecision(6) << std::fixed << std::time(nullptr) - start_time
-          << ", enc = " << encoderPosRight
-          << ", deg = " << motorDegB
-          << ", err = " << errorB
-          << ", ctrl = " << controlB << std::endl;
-
-        if (std::abs(errorB) <= tolerance) {
-            digitalWrite(BIN1, controlB >= 0);
-            digitalWrite(BIN2, controlB <= 0);
-            softPwmWrite(pwmPinB, 0);
-            break;
-        }
-
-        time_prev = start_time;
-        usleep(dt_sleep * 1000000);
+        softPwmWrite(pwmPinB, 0); // PWM 신호를 0으로 출력하여 모터를 멈춤
+        break;
     }
-    
-    return 0;
+
+    time_prev = start_time;
+    usleep(dt_sleep * 1000000);
 }
