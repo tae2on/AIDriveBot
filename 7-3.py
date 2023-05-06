@@ -87,7 +87,7 @@ try:
 
         print('enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(encoderPosA, motorDeg, error, control))
               
-        if (motorDeg >= 360) :
+        if (motorDeg >= 1080) :
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
             p1.ChangeDutyCycle(0)
