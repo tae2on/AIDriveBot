@@ -50,7 +50,7 @@ ratio = 360. / (84 * 10) # 한 바퀴에 약 1350펄스 (정확하지 않음 - �
     ki의 값은 0.001 ~ 0.1 사이 '''
 kp = float(input("kp: ")) 
 ki = float(input("ki: ")) # 0.001
-kd = 0. #float(input("kd: "))         
+kd = float(input("kd: "))         
 
 
 dt = 0.
