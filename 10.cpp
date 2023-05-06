@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <math.h>
 #include <unistd.h>
+#include <iomanip>
 
 #define M_PI 3.14159265358979323846
 using namespace std;
@@ -117,7 +118,7 @@ int main(){
           << ", deg = " << motorDegB
           << ", err = " << errorB
           << ", ctrl = " << controlB << std::endl;
-          
+
         if (std::abs(errorB) <= tolerance) {
             digitalWrite(BIN1, controlB >= 0);
             digitalWrite(BIN2, controlB <= 0);
