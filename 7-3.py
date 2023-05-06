@@ -53,7 +53,7 @@ ki = float(input("ki: ")) # 0.001
 kd = float(input("kd: "))         
 
 
-dt = 0.
+dt = 0.001
 di = 0.
 dt_sleep = 0.0001
 tolerance = 0.1
