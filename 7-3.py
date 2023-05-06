@@ -72,7 +72,7 @@ try:
         di += error * dt 
         time_now = time.time()
         dt = time.time() - time_prev
-        control = (kp*error) + (kd*de/dt) + (ki*di)
+        control = (kp*error) + (kd*de/dt) + (ki*di*dt)
 
         error_prev = error
         time_prev = time_now
