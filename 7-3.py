@@ -42,7 +42,7 @@ IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
 
 # 원하는 각도
-targetDeg = 1080.
+targetDeg = 360.
 
 # PID 제어
 ratio = 360. / (84 * 10) # 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
@@ -89,7 +89,7 @@ try:
 
         print('enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(encoderPosA, motorDeg, error, control))
               
-        if (motorDeg >= 1080) :
+        if abs(error) <= tolerance :
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
             p1.ChangeDutyCycle(0)
