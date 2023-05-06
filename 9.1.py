@@ -5,18 +5,18 @@ import time
 import math 
 
 # DC 모터 왼쪽 
-pwmPinA = 13 # 모터드라이버 ENA
-AIN1 = 6 # IN 1
-AIN2 = 5 # IN 2
+pwmPinA = 14 # 모터드라이버 ENA
+AIN1 = 15 # IN 1
+AIN2 = 18 # IN 2
 encPinA = 2 # 보라색 (A)  
 encPinB = 3 # 파랑색 (B)
 
 # DC 모터 오른쪽
-pwmPinB = 21 # 모터드라이버 ENB
-BIN3 = 4 # IN 3
-BIN4 = 16 # IN 4
-encPinC = 27 # 보라색 (C) - 20 
-encPinD = 22 # 파랑색 (D) - 21
+pwmPinB = 16 # 모터드라이버 ENB
+BIN3 = 20 # IN 3
+BIN4 = 21 # IN 4
+encPinC = 5 # 보라색 (C) 
+encPinD = 6 # 파랑색 (D) 
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
@@ -74,7 +74,7 @@ IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
 
 # PID 제어
 ratio = 360./(84 * 10) # 한 바퀴에 약 4100펄스
-rad = ratio*math.pi/180
+#rad = ratio*math.pi/180
 
 # PID 상수
 kp = float(input("KP: "))  #3.3 
@@ -157,7 +157,7 @@ try :
             IO.output(BIN3, IO.HIGH)
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
-            p1.ChangeDutyCycle(min(abs(controlB), 100))
+            p1.ChangeDutyCycle(min(abs(controlA), 100))
             p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
@@ -166,7 +166,7 @@ try :
             print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
             print('enc = %5.1f' %(encoderPosB))
 
-            if ((motorDegA >= target_deg)):
+            if ((motorDegA >= target_deg) and (motorDegB >= target_deg)):
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
