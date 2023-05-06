@@ -58,7 +58,7 @@ double dt_sleep = 0.01;
 std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
-void doEncoderB() {
+void doEncoderA() {
   encoderPosRight  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderB() {
@@ -110,7 +110,7 @@ int main(){
         digitalWrite(BIN2, controlB <= 0);
         std::chrono::milliseconds sleep_duration(500);
         std::this_thread::sleep_for(sleep_duration);
-        analogWrite(pwmPinB, std::min(std::abs(controlB), 100));
+        analogWrite(pwmPinB, std::min(std::abs(controlB), 100.));
 
         printf("time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f\n", 
                time.time()-start_time, encoderPosRight, motorDegB, errorB, controlB);
