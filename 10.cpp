@@ -112,9 +112,12 @@ int main(){
         std::this_thread::sleep_for(sleep_duration);
         analogWrite(pwmPinB, std::min(std::abs(controlB), 100.));
 
-        printf("time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f\n", 
-               time.time()-start_time, encoderPosRight, motorDegB, errorB, controlB);
-
+        std::cout << "time = " << std::setprecision(6) << std::fixed << std::time(nullptr) - start_time
+          << ", enc = " << encoderPosRight
+          << ", deg = " << motorDegB
+          << ", err = " << errorB
+          << ", ctrl = " << controlB << std::endl;
+          
         if (std::abs(errorB) <= tolerance) {
             digitalWrite(BIN1, controlB >= 0);
             digitalWrite(BIN2, controlB <= 0);
