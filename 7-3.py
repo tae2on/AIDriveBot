@@ -94,6 +94,6 @@ try:
 
     # Crtl + c 누르면 모터 작동 멈춤
 except KeyboardInterrupt: 
-    pass
+    pass 
 
 p1.stop() 
