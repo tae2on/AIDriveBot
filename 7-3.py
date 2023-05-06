@@ -45,6 +45,13 @@ targetDeg = 720.
 # PID 제어
 ratio = 360. / (84 * 10) # 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
  
+# 새로운 변수 추가
+encoderRevA = 0
+
+# 원하는 각도 및 회전 횟수
+targetRevs = targetDeg / 360.
+
+
 # PID 상수
 ''' kp의 값은 0.1 ~ 0.5 사이 
     ki의 값은 0.001 ~ 0.1 사이 '''
@@ -70,6 +77,11 @@ try:
     while True:
         motorDeg = abs(encoderPosA * ratio)
 
+        # encoderRevA가 변할 때 encoderPosA를 재설정하여 720도 회전을 위한 계산
+        if encoderRevA != int(motorDeg / 360):
+            encoderRevA = int(motorDeg / 360)
+            encoderPosA = int(motorDeg % 360 / ratio)
+
         error = targetDeg - motorDeg
         de = error - error_prev
         di = max(min_i, min(max_i, di + error * dt)) # 최대 I, 최소 I 지정
@@ -87,7 +99,7 @@ try:
 
         print('enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(encoderPosA, motorDeg, error, control))
               
-        if abs(error) <= tolerance :
+        if encoderRevA >= targetRevs:
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
             p1.ChangeDutyCycle(0)
