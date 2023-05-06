@@ -55,7 +55,7 @@ kd = float(input("kd: "))
 
 dt = 0.
 di = 0.
-dt_sleep = 0.01
+dt_sleep = 0.0001
 tolerance = 0.1
 
 start_time = time.time()
