@@ -36,7 +36,7 @@ using namespace std;
 #define encPinD 3               // 파랑색 (D) - GPIO핀 번호 : 22
 
 /* PID 제어 */
-const float proportion = 360. / 144. / 10.;       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp; 
@@ -203,6 +203,12 @@ void MotorControl::call(int x){
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
+            // 이동거리 출력 
+            cout << "왼쪽 모터 이동거리A  = " << motor_distance_A << endl;
+            cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+            cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+            cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+
             x = getInput();
         }
     }
