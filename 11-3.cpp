@@ -36,7 +36,7 @@ using namespace std;
 #define encPinD 3               // 파랑색 (D) - GPIO핀 번호 : 22
 
 /* PID 제어 */
-const float proportion = 360. / 144. / 40.;       // 한 바퀴에 약 13,728펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / 144. / 10.;       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp; 
@@ -152,8 +152,6 @@ void Calculation() {
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
-    cout << "kp = ";
-    cin >> kp;
     cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
     cout << "원하는 방향을 입력하시오 : ";
     cin >> x;
@@ -176,7 +174,8 @@ void MotorControl::call(int x){
 
         // 이동거리 출력 
         cout << "차체 중앙 기준 이동거리 = " << motor_distance_A << endl;
-
+        cout << "encR = " << encoderPosRight << endl;
+        cout << "deg = " << motorDegA << endl;
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
             x = getInput();
@@ -328,6 +327,8 @@ int main(){
         int lidar_way = control.getInput();
         control.call(lidar_way);
         delay(1000);
+        cout << "kp = ";
+        cin >> kp;
     
     }
     return 0;
