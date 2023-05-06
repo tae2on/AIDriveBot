@@ -107,12 +107,11 @@ int main(){
         error_prev_B = errorB;
         error_prev_prev_B = error_prev_B;
 
-        digitalWrite(BIN1, controlB >= 0);
-        digitalWrite(BIN2, controlB <= 0);
-        std::chrono::milliseconds sleep_duration(500);
-        std::this_thread::sleep_for(sleep_duration);
-        analogWrite(pwmPinB, std::min(std::abs(controlB), 100.));
-
+        int pwmB = std::min(std::abs(controlB), 100.); // 절댓값을 최대 100으로 맞춤
+        analogWrite(pwmPinB, pwmB); // PWM 신호 출력
+        digitalWrite(BIN1, controlB >= 0); // IN1 제어 신호 출력
+        digitalWrite(BIN2, controlB <= 0); // IN2 제어 신호 출력
+        
         std::cout << "time = " << std::setprecision(6) << std::fixed << std::time(nullptr) - start_time
           << ", enc = " << encoderPosRight
           << ", deg = " << motorDegB
@@ -122,8 +121,6 @@ int main(){
         if (std::abs(errorB) <= tolerance) {
             digitalWrite(BIN1, controlB >= 0);
             digitalWrite(BIN2, controlB <= 0);
-            std::chrono::milliseconds sleep_duration(500);
-            std::this_thread::sleep_for(sleep_duration);
             softPwmWrite(pwmPinB, 0);
             break;
         }
