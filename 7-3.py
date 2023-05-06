@@ -86,7 +86,7 @@ try:
         p1.ChangeDutyCycle(min(abs(control), 100.))
 
         print('enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f' %(encoderPosA, motorDeg, error, control))
-            
+              
         if (motorDeg >= 360) :
             IO.output(AIN1, control >=0)
             IO.output(AIN2, control <=0)
