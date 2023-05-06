@@ -23,20 +23,18 @@ p1.start(0)
 encoderPosA = 0
 
 def encoderA(encPinA):
-    encoderPosA = 0
+    global encoderPosA
     if IO.input(encPinA) == IO.input(encPinB):
         encoderPosA += 1 
     else:
         encoderPosA -= 1
-    return encoderPosA
    
 def encoderB(encPinB):
-    encoderPosA = 0
+    global encoderPosA
     if IO.input(encPinA) == IO.input(encPinB):
         encoderPosA -= 1
     else:
         encoderPosA += 1
-    return encoderPosA
 
 IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
