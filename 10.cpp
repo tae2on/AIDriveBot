@@ -83,6 +83,7 @@ int main(){
     digitalWrite(BIN1, LOW);
     digitalWrite(BIN2, LOW);
 
+    wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
 
     // PID 상수 입력
@@ -109,7 +110,7 @@ int main(){
         digitalWrite(BIN2, controlB <= 0);
         std::chrono::milliseconds sleep_duration(500);
         std::this_thread::sleep_for(sleep_duration);
-        digitalWrite(std::min(std::abs(controlB), 100.));
+        analogWrite(pwmPinB, std::min(std::abs(controlB), 100));
 
         printf("time = %6.3f, enc = %d, deg = %5.1f, err = %5.1f, ctrl = %7.1f\n", 
                time.time()-start_time, encoderPosRight, motorDegB, errorB, controlB);
