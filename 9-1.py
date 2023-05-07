@@ -164,6 +164,7 @@ try :
             print('원하는 각도 = %5.1f' %(target_deg))
             print('ctrlA = %7.1f, degA = %5.1f, errA = %5.1f, disA = %5.1f, derrA = %5.1f' %(controlA, motorDegA, errorA, motor_distanceA, derrorA))  
             print('ctrlB = %7.1f, degB = %5.1f,s errB = %5.1f, disB = %5.1f, derrB = %5.1f' %(controlB, motorDegB, errorB, motor_distanceB, derrorB))  
+            print('enc = %5.1f' %(encoderPosA))
             print('enc = %5.1f' %(encoderPosB))
 
             if ((motorDegA >= target_deg) and (motorDegB >= target_deg)):
