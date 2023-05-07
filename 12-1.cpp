@@ -103,7 +103,7 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-/*
+
 class MotorControl{
 public:
     void call(int x);
@@ -145,7 +145,7 @@ void Calculation() {
     derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
 
 }
-*/
+
 
 /*
 // 원하는 방향 입력
@@ -221,7 +221,7 @@ void MotorControl::call(int x){
 int main(){
     wiringPiSetup();
 
-   // MotorControl control;
+    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
