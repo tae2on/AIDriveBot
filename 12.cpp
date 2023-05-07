@@ -196,11 +196,16 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, 255.);
         softPwmWrite(pwmPinB, 255.);  
         
-        
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
        }
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+        cout << "encA = " << encoderPosLeft<< endl;
+        cout << "encB = " << encoderPosRight << endl;
+        cout << "회전 각도 = " << turn_deg << endl;
     }
 }
 
