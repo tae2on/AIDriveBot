@@ -99,8 +99,12 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
    
+
 int main(){
     wiringPiSetup();
+
+    memset(&encoderPosRight, 0, sizeof(encoderPosRight));
+    memset(&encoderPosLeft, 0, sizeof(encoderPosLeft));  
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -133,9 +137,6 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
-
-    encoderPosLeft = 0;
-    encoderPosRight = 0;
 
     cout << "kp의 값 : ";
     cin >> kp;
@@ -195,8 +196,8 @@ int main(){
         delay(10);
         // 속도 설정 
 
-        pwmWrite(pwmPinA, min(abs(controlA), 255.0));  
-        pwmWrite(pwmPinB, min(abs(controlB), 255.0));  
+        softPwmWrite(pwmPinA, min(abs(controlA), 255.0));  
+        softPwmWrite(pwmPinB, min(abs(controlB), 255.0));  
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 255.0));
 
