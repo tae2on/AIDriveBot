@@ -85,11 +85,6 @@ double time_prev = 0;
 
 std::time_t start_time = std::time(nullptr);
 
-if ((encoderPosLeft != 0) && (encoderPosRight != 0)) {
-    encoderPosLeft = 0;
-    encoderPosRight = 0;
-}
-
 // 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
@@ -140,6 +135,10 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
+    if ((encoderPosLeft != 0) && (encoderPosRight != 0)) {
+    encoderPosLeft = 0;
+    encoderPosRight = 0;
+}
     cout << "kp의 값 : ";
     cin >> kp;
     cout << "ki의 값 : ";
@@ -153,6 +152,7 @@ int main(){
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "encB = " << encoderPosRight << endl;
     cout << "회전 각도 = " << turn_deg << endl;
+
     while (true){
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
