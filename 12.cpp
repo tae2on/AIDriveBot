@@ -36,9 +36,9 @@ using namespace std;
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp = 0.8; 
-float kd = 0.;         
-float ki = 0.;
+float kp; 
+float kd;         
+float ki;
 
 float encoderPosRight;             // 엔코더 값 - 오른쪽
 float encoderPosLeft;              // 엔코더 값 - 왼쪽
@@ -148,71 +148,9 @@ void Calculation() {
     cout << "encB = " << encoderPosRight << endl;
     cout << "회전 각도 = " << turn_deg << endl;
 }
-
-// 원하는 방향 입력
-int MotorControl::getInput() {
-    int x;
-    cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
-    cout << "원하는 방향을 입력하시오 : ";
-    cin >> x;
-    
-    return x; 
-}
-
-void MotorControl::call(int x){
-    // 정지
-    if (x == 0){
-        // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, LOW);
-        delay(10);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, 0);
-        softPwmWrite(pwmPinB, 0);    
-
-        // 이동거리 출력 
-        cout << "차체 중앙 기준 이동거리 = " << motor_distance_A << endl;
-        cout << "encR = " << encoderPosRight << endl;
-        cout << "deg = " << motorDegA << endl;
-       
-        // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
-        if(x != 0){
-            x = getInput();
-        }
-    }
-    
-    // 전진
-    else if (x == 1) {
-        // 방향 설정 
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW); 
-
-        delay(10);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, 255.);
-        softPwmWrite(pwmPinB, 255.);  
-        
-        // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-        if(x != 1){
-            x = getInput();
-       }
-        cout << "각도 = " << motorDegB << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
-        cout << "encA = " << encoderPosLeft<< endl;
-        cout << "encB = " << encoderPosRight << endl;
-        cout << "회전 각도 = " << turn_deg << endl;
-    }
-}
-
+   
 int main(){
     wiringPiSetup();
-
-    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -247,10 +185,35 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while(true) {
-   
-        int lidar_way = control.getInput();
-        control.call(lidar_way);
-        delay(1000);    
+        Calculation(); 
+        cout << "kp의 값 : ";
+        cin >> kp;
+        cout << "ki의 값 : ";
+        cin >> ki;
+        cout << "kd의 값 : ";
+        cin >> kd;
+
+        // 방향 설정 
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW); 
+
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 255.);
+        softPwmWrite(pwmPinB, 255.);  
+        
+        // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
+        if(x != 1){
+            x = getInput();
+       }
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+        cout << "encA = " << encoderPosLeft<< endl;
+        cout << "encB = " << encoderPosRight << endl;
+        cout << "회전 각도 = " << turn_deg << endl;
     }
     return 0;
 }
