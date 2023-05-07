@@ -92,10 +92,10 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderC() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
