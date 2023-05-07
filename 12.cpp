@@ -40,8 +40,8 @@ float kp;
 float kd;         
 float ki;
 
-float encoderPosRight = 0.0f;             // 엔코더 값 - 오른쪽
-float encoderPosLeft = 0.0f;              // 엔코더 값 - 왼쪽
+float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
+float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
