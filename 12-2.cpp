@@ -37,9 +37,13 @@ using namespace std;
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp = 30.0; 
-float kd = 0.;         
-float ki = 0.;
+float kp_A = 0.85; 
+float kd_A = 0;         
+float ki_A = 0;
+
+float kp_B = 1.15; // 0.96 
+float kd_B = 0;         
+float ki_B = 0;
 
 float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
@@ -114,29 +118,29 @@ void Calculation() {
     di_A += errorA * dt;
     dt = time(nullptr) - time_prev;
         
-    delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
+    delta_vA = kp_A*de_A + ki_A*errorA + kd_A*(errorA - 2*error_prev_A + error_prev_prev_A);
     controlA += delta_vA;
     error_prev_A = errorA;
     error_prev_prev_A = error_prev_A;
-
+    
     motor_distanceA = motorDegA * wheel / 360;           // 모터 움직인 거리
     derrorA = abs(target_distance - motor_distanceA);    // 거리 오차값
 
-    //DC모터 오른쪽
+     // DC모터 오른쪽
     motorDegB = encoderPosRight * proportion;
     errorB = target_deg - motorDegB;
     de_B = errorB -error_prev_B;
     di_B += errorB * dt;
     dt = time(nullptr) - time_prev;
         
-    delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
+    delta_vB = kp_B*de_B + ki_B*errorB + kd_B*(errorB - 2*error_prev_B + error_prev_prev_B);
     controlB += delta_vB;
     error_prev_B = errorB;
     error_prev_prev_B = error_prev_B;
 
     motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
     derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
-        
+      
 }
 // 원하는 방향 입력
 int MotorControl::getInput() {
