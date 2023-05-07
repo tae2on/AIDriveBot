@@ -40,6 +40,9 @@ float kp;
 float kd;         
 float ki;
 
+float encoderPosRight;            // 엔코더 값 - 오른쪽
+float encoderPosLeft;              // 엔코더 값 - 왼쪽
+
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
 float motor_distance_A = 0;           // 왼쪽 모터 이동거리 
@@ -132,8 +135,8 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    float encoderPosRight = 0.0;            // 엔코더 값 - 오른쪽
-    float encoderPosLeft = 0.0;              // 엔코더 값 - 왼쪽
+    encoderPosRight = 0.0;
+    encoderPosLeft = 0.0;
 
     cout << "kp의 값 : ";
     cin >> kp;
