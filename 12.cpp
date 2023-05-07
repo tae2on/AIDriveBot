@@ -98,48 +98,6 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
-void Calculation() {
-    wheel = 2*M_PI*11.5;
-    target_deg = (360*target_distance / wheel) ;      // 목표 각도
-        
-    //DC모터 왼쪽
-    motorDegA = abs(encoderPosLeft * proportion);
-    errorA = target_deg - motorDegA;
-    de_A = errorA -error_prev_A;
-    di_A += errorA * dt;
-    dt = time(nullptr) - time_prev;
-        
-    delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
-    controlA += delta_vA;
-    error_prev_A = errorA;
-    error_prev_prev_A = error_prev_A;
-        
-    motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
-    derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
-
-     // DC모터 오른쪽
-    motorDegB = abs(encoderPosRight * proportion);
-    errorB = target_deg - motorDegB;
-    de_B = errorB -error_prev_B;
-    di_B += errorB * dt;
-    dt = time(nullptr) - time_prev;
-        
-    delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
-    controlB += delta_vB;
-    error_prev_B = errorB;
-    error_prev_prev_B = error_prev_B;
-
-    motor_distance_B = motorDegB * wheel / 360;           // 모터 움직인 거리
-    derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
-
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
-    cout << "encA = " << encoderPosLeft<< endl;
-    cout << "encB = " << encoderPosRight << endl;
-    cout << "회전 각도 = " << turn_deg << endl;
-}
    
 int main(){
     wiringPiSetup();
@@ -176,7 +134,6 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    Calculation(); 
     cout << "kp의 값 : ";
     cin >> kp;
     cout << "ki의 값 : ";
@@ -184,6 +141,39 @@ int main(){
     cout << "kd의 값 : ";
     cin >> kd;
     while (true){
+        wheel = 2*M_PI*11.5;
+        target_deg = (360*target_distance / wheel) ;      // 목표 각도
+            
+        //DC모터 왼쪽
+        motorDegA = abs(encoderPosLeft * proportion);
+        errorA = target_deg - motorDegA;
+        de_A = errorA -error_prev_A;
+        di_A += errorA * dt;
+        dt = time(nullptr) - time_prev;
+            
+        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
+        controlA += delta_vA;
+        error_prev_A = errorA;
+        error_prev_prev_A = error_prev_A;
+            
+        motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
+        derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
+
+        // DC모터 오른쪽
+        motorDegB = abs(encoderPosRight * proportion);
+        errorB = target_deg - motorDegB;
+        de_B = errorB -error_prev_B;
+        di_B += errorB * dt;
+        dt = time(nullptr) - time_prev;
+            
+        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
+        controlB += delta_vB;
+        error_prev_B = errorB;
+        error_prev_prev_B = error_prev_B;
+
+        motor_distance_B = motorDegB * wheel / 360;           // 모터 움직인 거리
+        derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
+
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
@@ -192,8 +182,8 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 255.);
-        softPwmWrite(pwmPinB, 255.);  
+        analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        analogWrite(pwmPinB, min(abs(controlB), 255.0));
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
@@ -202,7 +192,7 @@ int main(){
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if (motor_distance_A >= target_deg) {
+        if (motor_distance_A >= target_distance) {
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
