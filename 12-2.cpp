@@ -50,8 +50,8 @@ float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
-float motor_distanceA;                 // 모터 거리 
-float motor_distanceB;                 // 모터 거리 
+float motor_distanceA = 0;                 // 모터 거리 
+float motor_distanceB = 0;                 // 모터 거리 
 
 float errorA = 0;
 float errorB = 0;
@@ -59,8 +59,8 @@ float error_prev_A = 0.;
 float error_prev_B = 0.;
 float error_prev_prev_A = 0;
 float error_prev_prev_B = 0;
-float derrorA;
-float derrorB;
+float derrorA = 0;
+float derrorB = 0;
 
 double controlA = 0.;
 double controlB = 0.;
@@ -79,8 +79,6 @@ double dt = 0;
 double delta_vA;
 double delta_vB;
 double time_prev = 0;
-
-
 
 int lidar_way;
 int x;
