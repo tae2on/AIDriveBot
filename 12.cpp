@@ -40,8 +40,8 @@ float kp;
 float kd;         
 float ki;
 
-float encoderPosRight;            // 엔코더 값 - 오른쪽
-float encoderPosLeft;              // 엔코더 값 - 왼쪽
+float encoderPosRight = 0.;            // 엔코더 값 - 오른쪽
+float encoderPosLeft = 0.;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
@@ -119,7 +119,7 @@ int main(){
     pinMode(BIN4, OUTPUT);
    
     softPwmCreate(pwmPinA, 0, 100);
-    softPwmCreate(pwmPinB, 0, 255);
+    softPwmCreate(pwmPinB, 0, 100);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
 
@@ -134,10 +134,6 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
-
-
-    encoderPosRight = 0.0;
-    encoderPosLeft = 0.0;
 
     cout << "kp의 값 : ";
     cin >> kp;
@@ -196,19 +192,17 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 255.0);   
-        softPwmWrite(pwmPinB, 255.0);  
+        softPwmWrite(pwmPinA, min(abs(controlA), 100.0));   
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.0));  
 
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
-        //analogWrite(pwmPinB, min(abs(controlB), 255.0));
+        //analogWrite(pwmPinB, min(abs(controlB), 100.0));
 
         cout << "----------------------------------------------------------------------------------" << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
-        cout << "pwmA = " << pwmPinA << endl;
-        cout << "pwmB = " << pwmPinB << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
         if (motor_distance_A >= target_distance) {
