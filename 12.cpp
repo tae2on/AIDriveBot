@@ -146,18 +146,18 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    cout << "kp의 값 : ";
+    cout << "kp_A의 값 : ";
     cin >> kp_A;
-    cout << "ki의 값 : ";
+    cout << "ki_A의 값 : ";
     cin >> ki_A;
-    cout << "kd의 값 : ";
+    cout << "kd_A의 값 : ";
     cin >> kd_A;
 
-    cout << "kp의 값 : ";
+    cout << "kp_B의 값 : ";
     cin >> kp_B;
-    cout << "ki의 값 : ";
+    cout << "ki_B의 값 : ";
     cin >> ki_B;
-    cout << "kd의 값 : ";
+    cout << "kd_B의 값 : ";
     cin >> kd_B;
 
 
