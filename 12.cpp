@@ -19,18 +19,18 @@ using namespace std;
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
 // DC 모터 왼쪽 (엔코더 O)                                                      
-#define pwmPinA 23              // 모터드라이버 ENA - GPIO핀 번호: 13 
-#define AIN1 22                 // IN1 - GPIO핀 번호: 6
-#define AIN2 21                 // IN2 - GPIO핀 번호 : 5
-#define encPinA 8               // 보라색 (A) - GPIO핀 번호 : 2
-#define encPinB 9               // 파랑색 (B) - GPIO핀 번호 : 3
+#define pwmPinA 21              // 모터드라이버 ENA - GPIO핀 번호: 5
+#define AIN1 27                 // IN1 - GPIO핀 번호: 16
+#define AIN2 28                 // IN2 - GPIO핀 번호 : 20
+#define encPinA 22               // 보라색 (A) - GPIO핀 번호 : 6
+#define encPinB 23               // 파랑색 (B) - GPIO핀 번호 : 13
 
 // DC모터 오른쪽 (엔코더 X) 
-#define pwmPinB 29              // 모터 드라이버 ENB - GPIO핀 번호 : 21
-#define BIN3 7                  // IN3 - GPIO핀 번호 : 4
-#define BIN4 27                 // IN4 - GPIO핀 번호 : 16
-#define encPinC 2               // 보라색 (C) - GPIO핀 번호 : 27
-#define encPinD 3               // 파랑색 (D) - GPIO핀 번호 : 22
+#define pwmPinB 0              // 모터 드라이버 ENB - GPIO핀 번호 : 17
+#define BIN3 15                  // IN3 - GPIO핀 번호 : 14
+#define BIN4 9                 // IN4 - GPIO핀 번호 : 3
+#define encPinC 24               // 보라색 (C) - GPIO핀 번호 : 19
+#define encPinD 25               // 파랑색 (D) - GPIO핀 번호 : 26
 
 /* PID 제어 */
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
@@ -176,6 +176,7 @@ void MotorControl::call(int x){
         cout << "차체 중앙 기준 이동거리 = " << motor_distance_A << endl;
         cout << "encR = " << encoderPosRight << endl;
         cout << "deg = " << motorDegA << endl;
+       
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
             x = getInput();
@@ -199,18 +200,6 @@ void MotorControl::call(int x){
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
-        }
-        else {
-            Calculation();
-            delay(1000);
-            /*
-            // 이동거리 출력 
-            cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
-            cout << "왼쪽 모터 오차값 = " << derrorA << endl;
-            cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
-            cout << "오른쪽 모터 오차값 = " << derrorB << endl;
-            cout << "모터 각도 "<< motorDegB << endl; */
-        }
     }
 }
 
