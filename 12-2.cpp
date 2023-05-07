@@ -66,9 +66,13 @@ double controlA = 0.;
 double controlB = 0.;
  
 double wheel; 
+// 거리 이동할때 필요 
 double target_deg;                      // 목표 각도 
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
+
+// 좌,우 회전각도 구할때 필요 
+double target_turn_deg = 0.;
 
 double de_A;
 double de_B;
@@ -138,7 +142,6 @@ void Calculation() {
 
     motor_distanceB = motorDegB * wheel / 360;           // 모터 움직인 거리
     derrorB = abs(target_distance - motor_distanceB);    // 거리 오차값
-      
 }
 // 원하는 방향 입력
 int MotorControl::getInput() {
@@ -214,7 +217,7 @@ void MotorControl::call(int x){
         // 이동거리 출력 
         cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
         cout << "왼쪽 모터 오차값 = " << derrorA << endl;
-        cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+        cout << "오른쪽 모터 이동거리  = " << motor_distanceB << endl;
         cout << "오른쪽 모터 오차값 = " << derrorB << endl;
 
 
