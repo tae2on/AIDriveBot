@@ -1,4 +1,7 @@
-/* 엔코더 확인 */
+/* 라이다 센서 연동 */
+/* 두 모터의 속도 차이를 이용한 전/후/좌/우 회전 */ 
+// 회전각도 구하기, 이동거리 구하기 -> 제어 확인
+// 자이로 센서 이용하여 좌우각도 회전하기 
 
 #include "wiringPi.h"                   // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <softPwm.h>
@@ -36,21 +39,21 @@ using namespace std;
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp_A = 0.5; 
+float kp_A = 0.85; 
 float kd_A = 0;         
 float ki_A = 0;
 
-float kp_B = 0; 
+float kp_B = 1.15; // 0.96 
 float kd_B = 0;         
 float ki_B = 0;
 
-float encoderPosRight = 0.;            // 엔코더 값 - 오른쪽
-float encoderPosLeft = 0.;              // 엔코더 값 - 왼쪽
+float encoderPosRight = 0;             // 엔코더 값 - 오른쪽
+float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
-float motor_distance_A = 0;           // 왼쪽 모터 이동거리 
-float motor_distance_B = 0;           // 오른쪽 모터 이동거리  
+float motor_distance_A = 0.;           // 왼쪽 모터 이동거리 
+float motor_distance_B = 0.;           // 오른쪽 모터 이동거리  
 
 float derrorA = 0.;
 float derrorB = 0.;
@@ -61,12 +64,6 @@ float error_prev_B = 0.;
 float error_prev_prev_A = 0;
 float error_prev_prev_B = 0;
 
-//float delta_encoder;
-float turn_deg;                         // 회전 각도 
-/* // 회전각도 오차값
-float turn_error;    
-float target_turn_deg;                   
-*/
 double controlA = 0.;
 double controlB = 0.;
  
@@ -74,18 +71,22 @@ double wheel;
 double target_deg;                      // 목표 각도 
 
 // 모터 이동거리 구할 때 필요
-double target_distance = 30.;            // 목표 거리     
+double target_distance = 0.;            // 목표 거리     
 
-double de_A = 0;
-double de_B = 0;
+// 모터의 회전각도 구할 때 필요 
+double target_turn_deg;
+double de_A;
+double de_B;
 double di_A = 0;
 double di_B = 0;
 double dt = 0;
-double dt_sleep = 0.01;
 
-double delta_vA = 0;
-double delta_vB = 0;
+double delta_vA;
+double delta_vB;
 double time_prev = 0;
+
+int lidar_way;
+int x;
 
 std::time_t start_time = std::time(nullptr);
 
@@ -102,15 +103,199 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-   
-void zero(){
-    if (encoderPosLeft != 0) {
-        encoderPosLeft = 0;
-        encoderPosRight = 0;
-    }    
+
+class MotorControl{
+public:
+    void call(int x);
+    int getInput();
+};
+
+void Calculation() {
+    wheel = 2*M_PI*11.5;
+    target_deg = (360*target_distance / wheel) ;      // 목표 각도
+        
+    //DC모터 왼쪽
+    motorDegA = encoderPosLeft * proportion;
+    errorA = target_deg - motorDegA;
+    de_A = errorA -error_prev_A;
+    di_A += errorA * dt;
+    dt = time(nullptr) - time_prev;
+        
+    delta_vA = kp_A*de_A + ki_A*errorA + kd_A*(errorA - 2*error_prev_A + error_prev_prev_A);
+    controlA += delta_vA;
+    error_prev_A = errorA;
+    error_prev_prev_A = error_prev_A;
+    
+    motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
+    derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
+
+     // DC모터 오른쪽
+    motorDegB = encoderPosRight * proportion;
+    errorB = target_deg - motorDegB;
+    de_B = errorB -error_prev_B;
+    di_B += errorB * dt;
+    dt = time(nullptr) - time_prev;
+        
+    delta_vB = kp_B*de_B + ki_B*errorB + kd_B*(errorB - 2*error_prev_B + error_prev_prev_B);
+    controlB += delta_vB;
+    error_prev_B = errorB;
+    error_prev_prev_B = error_prev_B;
+
+    motor_distance_B = motorDegB * wheel / 360;           // 모터 움직인 거리
+    derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
+
 }
+// 원하는 방향 입력
+int MotorControl::getInput() {
+    int x;
+    cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
+    cout << "원하는 방향을 입력하시오 : ";
+    cin >> x;
+    
+    return x; 
+}
+
+void MotorControl::call(int x){
+    // 정지
+    if (x == 0){
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, LOW);
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 0);
+        softPwmWrite(pwmPinB, 0);    
+
+        // 이동거리 출력 
+        cout << "차체 중앙 기준 이동거리 = " << motor_distance_A << endl;
+        cout << "encR = " << encoderPosRight << endl;
+        cout << "deg = " << motorDegA << endl;
+        // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
+        if(x != 0){
+            x = getInput();
+        }
+    }
+    
+    // 전진
+    else if (x == 1) {
+        // 방향 설정 
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW); 
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
+        
+        
+        // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
+        if(x != 1){
+            x = getInput();
+        }
+        else {
+            Calculation();
+            delay(1000);
+            // 이동거리 출력 
+            cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
+            cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+            cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+            cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+            cout << "모터 각도 "<< motorDegB << endl;
+
+            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+            cout << "encA = " << encoderPosLeft<< endl;
+            cout << "encB = " << encoderPosRight << endl;
+
+        }
+    }
+
+    // 후진
+    else if (x == 2) {
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH); 
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.)); 
+
+        // 이동거리 출력 
+        cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
+        cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+        cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+        cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+
+        // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
+        if(x != 2){
+            x = getInput();
+        }   
+    }
+
+    // 오른쪽
+    else if (x == 3){
+        // 목표 각도 입력
+        // cout << "원하는 각도를 입력하시오 : ";
+        // cin >> target_turn_deg;
+        
+        // 방향 조절 
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW); 
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(abs(controlB), 40.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
+        
+       
+       // 회전각도 출력 
+        cout << "회전각도 = " << endl;
+        cout << "회전각도 = " << endl;
+
+        // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
+        if(x != 3){
+            x = getInput();
+        }         
+    }
+    
+    // 왼쪽
+    else if (x == 4){
+        // 목표 각도 입력 
+        // cout << "원하는 각도를 입력하시오 : ";
+        // cin >> target_turn_deg;        
+        
+        // 방향 조절  
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW); 
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 40.));  
+        
+
+       // 회전각도 출력 
+        cout << "회전각도 = " << endl;
+        cout << "회전각도 = " << endl;
+
+        // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
+        if(x != 4){
+            x = getInput();
+        }      
+    }
+}
+
 int main(){
     wiringPiSetup();
+
+    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -139,94 +324,22 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
-
-
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
-
-    zero();    
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "encB = " << encoderPosRight << endl;
-    cout << "회전 각도 = " << turn_deg << endl;
 
-    while (true){
-        wheel = 2*M_PI*11.5;
-        target_deg = (360*target_distance / wheel) ;      // 목표 각도
-            
-        //DC모터 왼쪽
-        motorDegA = abs(encoderPosLeft * proportion);
-        errorA = target_deg - motorDegA;
-        de_A = errorA -error_prev_A;
-        di_A += errorA * dt;
-        dt = time(nullptr) - time_prev;
-            
-        delta_vA = kp_A*de_A + ki_A*errorA + kd_A*(errorA - 2*error_prev_A + error_prev_prev_A);
-        controlA += delta_vA;
-        error_prev_A = errorA;
-        error_prev_prev_A = error_prev_A;
-            
-        motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
-        derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
-
-        // DC모터 오른쪽
-        motorDegB = abs(encoderPosRight * proportion);
-        errorB = target_deg - motorDegB;
-        de_B = errorB -error_prev_B;
-        di_B += errorB * dt;
-        dt = time(nullptr) - time_prev;
-            
-        delta_vB = kp_B*de_B + ki_B*errorB + kd_B*(errorB - 2*error_prev_B + error_prev_prev_B);
-        controlB += delta_vB;
-        error_prev_B = errorB;
-        error_prev_prev_B = error_prev_B;
-
-        motor_distance_B = motorDegB * wheel / 360;           // 모터 움직인 거리
-        derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
-
-        //speedA = min(abs(controlA), 255.0;
-
-        // 방향 설정  
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW); 
-
-        delay(10);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
-        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
-
-        // analogWrite(pwmPinA, min(abs(controlA), 0.0));
-        //analogWrite(pwmPinB, min(abs(controlB), 100.0));
-
-        cout << "----------------------------------------------------------------------------------" << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
-        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
-        cout << "encA = " << encoderPosLeft << endl;
-        cout << "encB = " << encoderPosRight << endl;
-        cout << "회전 각도 = " << turn_deg << endl;
-            
-        if (motor_distance_A >= target_distance){
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);
-            delay(10);
-            // 속도 설정 
-            softPwmWrite(pwmPinA, 0);  
-        }
-
-        if (motor_distance_B >= target_distance){
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, LOW);
-            delay(10);
-            // 속도 설정 
-            softPwmWrite(pwmPinB, 0);    
-        }        
+    while(true) {
+   
+        int lidar_way = control.getInput();
+        control.call(lidar_way);
+        delay(1000);    
     }
-    return 0; 
+    return 0;
 }
