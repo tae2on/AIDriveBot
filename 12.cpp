@@ -118,8 +118,8 @@ int main(){
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
    
-    softPwmCreate(pwmPinA, 0, 100);
-    softPwmCreate(pwmPinB, 0, 100);
+    softPwmCreate(pwmPinA, 0, 255);
+    softPwmCreate(pwmPinB, 0, 255);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
 
@@ -192,8 +192,8 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100);   
-        softPwmWrite(pwmPinB, 100);  
+        softPwmWrite(pwmPinA, 255);    
+        softPwmWrite(pwmPinB, 255);  
 
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 100.0));
