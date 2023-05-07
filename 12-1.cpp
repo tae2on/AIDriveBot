@@ -190,26 +190,11 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
         softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
         
+        Calculation();
         
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
-        }
-        else {
-            Calculation();
-            delay(1000);
-            // 이동거리 출력 
-            cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
-            cout << "왼쪽 모터 오차값 = " << derrorA << endl;
-            cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
-            cout << "오른쪽 모터 오차값 = " << derrorB << endl;
-            cout << "모터 각도 "<< motorDegB << endl;
-
-            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
-            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
-            cout << "encA = " << encoderPosLeft<< endl;
-            cout << "encB = " << encoderPosRight << endl;
-
         }
     }
 }
@@ -261,7 +246,7 @@ int main(){
    
         int lidar_way = control.getInput();
         control.call(lidar_way);
-        delay(1000);    
+        delay(1000);   
     }
     return 0;
 }
