@@ -192,38 +192,38 @@ int main(){
     cin >> ki;
     cout << "kd의 값 : ";
     cin >> kd;
-
-    // 방향 설정  
-    digitalWrite(AIN1, HIGH);
-    digitalWrite(AIN2, LOW);
-    digitalWrite(BIN3, HIGH);
-    digitalWrite(BIN4, LOW); 
-
-    delay(10);
-    // 속도 설정 
-    softPwmWrite(pwmPinA, 255.);
-    softPwmWrite(pwmPinB, 255.);  
-
-    cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
-    cout << "encA = " << encoderPosLeft<< endl;
-    cout << "encB = " << encoderPosRight << endl;
-    cout << "회전 각도 = " << turn_deg << endl;
-        
-    if (motor_distance_A >= target_deg) {
-        digitalWrite(AIN1, LOW);
+    while (true){
+        // 방향 설정  
+        digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW); 
+
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 0);
-        softPwmWrite(pwmPinB, 0);    
-    }
-    time_prev = time(nullptr);
-    std::chrono::milliseconds duration((int)(dt_sleep * 1000));
-    std::this_thread::sleep_for(duration);
+        softPwmWrite(pwmPinA, 255.);
+        softPwmWrite(pwmPinB, 255.);  
 
+        cout << "각도 = " << motorDegB << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+        cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+        cout << "encA = " << encoderPosLeft<< endl;
+        cout << "encB = " << encoderPosRight << endl;
+        cout << "회전 각도 = " << turn_deg << endl;
+            
+        if (motor_distance_A >= target_deg) {
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, LOW);
+            delay(10);
+            // 속도 설정 
+            softPwmWrite(pwmPinA, 0);
+            softPwmWrite(pwmPinB, 0);    
+        }
+        time_prev = time(nullptr);
+        std::chrono::milliseconds duration((int)(dt_sleep * 1000));
+        std::this_thread::sleep_for(duration);
+    }
     return 0;
 }
