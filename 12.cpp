@@ -142,8 +142,8 @@ void Calculation() {
     derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
 
     cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "encB = " << encoderPosRight << endl;
     cout << "회전 각도 = " << turn_deg << endl;
