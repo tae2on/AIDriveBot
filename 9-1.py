@@ -12,11 +12,11 @@ encPinA = 6 # 보라색 (A) -2
 encPinB = 13 #파랑색 (B) -3
 
 # DC 모터 오른쪽
-pwmPinB = 18 # 모터드라이버 ENB
-BIN3 = 21 # IN 3
-BIN4 = 12 # IN 4
-encPinC = 19 # 보라색 (C) 
-encPinD = 26 # 파랑색 (D) 
+pwmPinB = 14 # 모터드라이버 ENB
+BIN3 = 15 # IN 3
+BIN4 = 18 # IN 4
+encPinC = 2 # 보라색 (C) 
+encPinD = 3 # 파랑색 (D) 
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
