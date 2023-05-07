@@ -74,7 +74,7 @@ double wheel;
 double target_deg;                      // 목표 각도 
 
 // 모터 이동거리 구할 때 필요
-double target_distance = 30.;            // 목표 거리     
+double target_distance;            // 목표 거리     
 
 double de_A = 0;
 double de_B = 0;
@@ -146,6 +146,9 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
+    cout << "목표 거리의 값 : ";
+    cin >> target_distance;
+    
     cout << "kp_A의 값 : ";
     cin >> kp_A;
     cout << "ki_A의 값 : ";
