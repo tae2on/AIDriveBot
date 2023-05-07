@@ -40,8 +40,8 @@ float kp;
 float kd;         
 float ki;
 
-float encoderPosRight;            // 엔코더 값 - 오른쪽
-float encoderPosLeft;              // 엔코더 값 - 왼쪽
+float encoderPosRight = 0.;            // 엔코더 값 - 오른쪽
+float encoderPosLeft = 0.;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
@@ -135,9 +135,6 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    encoderPosRight = 0.0;
-    encoderPosLeft = 0.0;
-
     cout << "kp의 값 : ";
     cin >> kp;
     cout << "ki의 값 : ";
@@ -204,7 +201,7 @@ int main(){
         cout << "----------------------------------------------------------------------------------" << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
-        cout << "encA = " << encoderPosLeft<< endl;
+        cout << "encA = " << encoderPosLeft << endl;
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
