@@ -162,6 +162,12 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, 0);
         softPwmWrite(pwmPinB, 0);    
         
+        // 이동거리 출력 
+        cout << "차체 중앙 기준 이동거리 = " << motor_distanceA << endl;
+        cout << "차체 중앙 기준 이동거리 = " << motor_distanceA << endl;
+        cout << "encR = " << encoderPosRight << endl;
+        cout << "deg = " << motorDegA << endl;
+
         // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 0){
             x = getInput();
@@ -177,8 +183,15 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);
-        softPwmWrite(pwmPinB, 100.);   
+        softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
+
+        // 이동거리 출력 
+        cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
+        cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+        cout << "오른쪽 모터 이동거리  = " << motor_distanceB << endl;
+        cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+        cout << "모터 각도 "<< motorDegB << endl;
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
@@ -198,6 +211,13 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, 100.);
         softPwmWrite(pwmPinB, 100.);   
 
+        // 이동거리 출력 
+        cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
+        cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+        cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+        cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+
+
         // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 2){
             x = getInput();
@@ -207,8 +227,8 @@ void MotorControl::call(int x){
     // 오른쪽
     else if (x == 3){
         // 목표 각도 입력
-        //cout << "원하는 각도를 입력하시오 : ";
-        //cin >> target_turn_deg;
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_turn_deg;
         
         // 방향 조절 
         digitalWrite(AIN1, HIGH);
@@ -219,6 +239,10 @@ void MotorControl::call(int x){
         // 속도 설정 
         softPwmWrite(pwmPinA, 100);
         softPwmWrite(pwmPinB, 30);  
+
+        // 회전각도 출력 
+        cout << "회전각도 = " << endl;
+        cout << "회전각도 = " << endl;
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
@@ -230,8 +254,8 @@ void MotorControl::call(int x){
     // 왼쪽
     else if (x == 4){
         // 목표 각도 입력 
-        //cout << "원하는 각도를 입력하시오 : ";
-        //cin >> target_turn_deg;        
+        cout << "원하는 각도를 입력하시오 : ";
+        cin >> target_turn_deg;        
         
         // 방향 조절 
         digitalWrite(AIN1, HIGH);
@@ -242,6 +266,10 @@ void MotorControl::call(int x){
         // 속도 설정 
         softPwmWrite(pwmPinA, 30);
         softPwmWrite(pwmPinB, 100);  
+
+       // 회전각도 출력 
+        cout << "회전각도 = " << endl;
+        cout << "회전각도 = " << endl;
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
@@ -294,11 +322,9 @@ int main(){
     cout << "encB = " << encoderPosRight << endl;
 
     while(true) {
-   
         int lidar_way = control.getInput();
         control.call(lidar_way);
         delay(1000);
-    
     }
     return 0;
 }
