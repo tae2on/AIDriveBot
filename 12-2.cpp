@@ -288,8 +288,8 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     cout << "각도 = " << motorDegB << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
-    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
+    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distanceB << ", derrB = " << derrorB << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "encB = " << encoderPosRight << endl;
 
