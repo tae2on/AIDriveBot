@@ -30,10 +30,10 @@ using namespace std;
 #define encPinD 25               // 파랑색 (D) - GPIO핀 번호 : 26
 
 /* PID 제어 */
-const float proportion = 360. / 144. / 10.;       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp = 30.0; 
+float kp = 0.5; 
 float kd = 0.;         
 float ki = 0.;
 
