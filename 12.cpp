@@ -85,6 +85,11 @@ double time_prev = 0;
 
 std::time_t start_time = std::time(nullptr);
 
+if ((encoderPosLeft != 0) && (encoderPosRight != 0)) {
+    encoderPosLeft = 0;
+    encoderPosRight = 0;
+}
+
 // 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
