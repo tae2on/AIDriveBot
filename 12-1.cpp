@@ -221,7 +221,7 @@ void MotorControl::call(int x){
 int main(){
     wiringPiSetup();
 
-    MotorControl control;
+   // MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -272,8 +272,8 @@ int main(){
         softPwmWrite(pwmPinB, 100.); 
       /*  int lidar_way = control.getInput();
         control.call(lidar_way);
-        delay(1000);   
+        delay(1000);  */ 
     }
     return 0;
-*/
+
 }
