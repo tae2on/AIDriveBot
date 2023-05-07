@@ -99,7 +99,12 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
    
-
+void zero(){
+    if ((encoderPosLeft != 0) && (encoderPosRight != 0)) {
+        encoderPosLeft = 0;
+        encoderPosRight = 0;
+    }    
+}
 int main(){
     wiringPiSetup();
 
@@ -135,10 +140,8 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    if ((encoderPosLeft != 0) && (encoderPosRight != 0)) {
-    encoderPosLeft = 0;
-    encoderPosRight = 0;
-}
+    zero();
+    
     cout << "kp의 값 : ";
     cin >> kp;
     cout << "ki의 값 : ";
