@@ -100,7 +100,7 @@ void doEncoderD() {
 }
    
 void zero(){
-    if ((encoderPosLeft != 0) && (encoderPosRight != 0)) {
+    if (encoderPosLeft != 0) {
         encoderPosLeft = 0;
         encoderPosRight = 0;
     }    
