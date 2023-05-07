@@ -306,8 +306,8 @@ int main(){
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
    
-    softPwmCreate(pwmPinA, 0, 255);
-    softPwmCreate(pwmPinB, 0, 255);
+    softPwmCreate(pwmPinA, 0, 100);
+    softPwmCreate(pwmPinB, 0, 100);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
 
