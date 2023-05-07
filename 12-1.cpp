@@ -103,13 +103,14 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
+/*
 class MotorControl{
 public:
     void call(int x);
     int getInput();
 };
-
+*/
+/*
 void Calculation() {
     wheel = 2*M_PI*11.5;
     target_deg = (360*target_distance / wheel) ;      // 목표 각도
@@ -145,9 +146,9 @@ void Calculation() {
     derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
 
 }
+*/
 
 
-/*
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
@@ -157,8 +158,8 @@ int MotorControl::getInput() {
     
     return x; 
 }
-*/
-/*
+
+
 void MotorControl::call(int x){
     // 정지
     if (x == 0){
@@ -217,11 +218,11 @@ void MotorControl::call(int x){
         }
     }
 }
-*/
+
 int main(){
     wiringPiSetup();
 
-    MotorControl control;
+   // MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -262,17 +263,9 @@ int main(){
     cout << "encB = " << encoderPosRight << endl;
 
     while(true) {
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW); 
-        delay(10);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);    
-        softPwmWrite(pwmPinB, 100.); 
         int lidar_way = control.getInput();
         control.call(lidar_way);
-        delay(1000);  
+        delay(1000);   
     }
     return 0;
 
