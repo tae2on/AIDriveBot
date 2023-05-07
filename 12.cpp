@@ -70,7 +70,7 @@ double wheel;
 double target_deg;                      // 목표 각도 
 
 // 모터 이동거리 구할 때 필요
-double target_distance = 3000.;            // 목표 거리     
+double target_distance = 30.;            // 목표 거리     
 
 double de_A = 0;
 double de_B = 0;
@@ -189,8 +189,10 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        analogWrite(pwmPinA, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlB), 255.0));
+        softPwmWrite(pwmPinA, 255);  
+        softPwmWrite(pwmPinB, 255);  
+        // analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        //analogWrite(pwmPinB, min(abs(controlB), 255.0));
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
