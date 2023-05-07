@@ -270,9 +270,9 @@ int main(){
         // 속도 설정 
         softPwmWrite(pwmPinA, 100.);    
         softPwmWrite(pwmPinB, 100.); 
-      /*  int lidar_way = control.getInput();
+        int lidar_way = control.getInput();
         control.call(lidar_way);
-        delay(1000);  */ 
+        delay(1000);  
     }
     return 0;
 
