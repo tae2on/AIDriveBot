@@ -20,7 +20,7 @@ using namespace std;
 
 // DC 모터 왼쪽 (엔코더 O)                                                      
 #define pwmPinA 21              // 모터드라이버 ENA - GPIO핀 번호: 5
-#define AIN1 27                 // IN1 - GPIO핀 번호: 16
+#define AIN1 16                 // IN1 - GPIO핀 번호: 15
 #define AIN2 28                 // IN2 - GPIO핀 번호 : 20
 #define encPinA 22               // 보라색 (A) - GPIO핀 번호 : 6
 #define encPinB 23               // 파랑색 (B) - GPIO핀 번호 : 13
