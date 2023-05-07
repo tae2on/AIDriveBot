@@ -194,7 +194,7 @@ int main(){
         cout << "kd의 값 : ";
         cin >> kd;
 
-        // 방향 설정 
+        // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, HIGH);
