@@ -217,7 +217,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 255);
+        softPwmWrite(pwmPinA, 100);
         softPwmWrite(pwmPinB, 30);  
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
@@ -241,7 +241,7 @@ void MotorControl::call(int x){
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 30);
-        softPwmWrite(pwmPinB, 255);  
+        softPwmWrite(pwmPinB, 100);  
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
@@ -270,8 +270,8 @@ int main(){
     pinMode(BIN3, OUTPUT);
     pinMode(BIN4, OUTPUT);
    
-    softPwmCreate(pwmPinA, 0, 255);
-    softPwmCreate(pwmPinB, 0, 255);
+    softPwmCreate(pwmPinA, 0, 100);
+    softPwmCreate(pwmPinB, 0, 100);
     softPwmWrite(pwmPinA, 0);
     softPwmWrite(pwmPinB, 0); 
 
@@ -286,6 +286,12 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
+
+    cout << "각도 = " << motorDegB << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+    cout << "encA = " << encoderPosLeft<< endl;
+    cout << "encB = " << encoderPosRight << endl;
 
     while(true) {
    
