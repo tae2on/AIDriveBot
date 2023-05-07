@@ -247,8 +247,8 @@ void MotorControl::call(int x){
         
        
        // 회전각도 출력 
-        cout << "회전각도 = " << turn_deg << endl;
-        cout << "회전각도 = " << turn_error << endl;
+        cout << "회전각도 = " << endl;
+        cout << "회전각도 = " << endl;
 
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
@@ -274,8 +274,8 @@ void MotorControl::call(int x){
         
 
        // 회전각도 출력 
-        cout << "회전각도 = " << turn_deg << endl;
-        cout << "회전각도 = " << turn_error << endl;
+        cout << "회전각도 = " << endl;
+        cout << "회전각도 = " << endl;
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
