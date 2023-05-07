@@ -110,7 +110,7 @@ public:
     int getInput();
 };
 
-/*
+
 void Calculation() {
     wheel = 2*M_PI*11.5;
     target_deg = (360*target_distance / wheel) ;      // 목표 각도
@@ -146,8 +146,6 @@ void Calculation() {
     derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
 
 }
-*/
-
 
 // 원하는 방향 입력
 int MotorControl::getInput() {
@@ -201,7 +199,7 @@ void MotorControl::call(int x){
             x = getInput();
         }
         else {
-            Calculation();
+            // Calculation();
             delay(1000);
             // 이동거리 출력 
             cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
