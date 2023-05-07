@@ -83,9 +83,6 @@ double delta_vA;
 double delta_vB;
 double time_prev = 0;
 
-int lidar_way;
-int x;
-
 std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
@@ -222,8 +219,6 @@ int main(){
             softPwmWrite(pwmPinB, 0);    
         }
         time_prev = time(nullptr);
-        std::chrono::milliseconds duration((int)(dt_sleep * 1000));
-        std::this_thread::sleep_for(duration);
     }
     return 0;
 }
