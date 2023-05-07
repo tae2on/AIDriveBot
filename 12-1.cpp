@@ -103,7 +103,7 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
+/*
 class MotorControl{
 public:
     void call(int x);
@@ -145,6 +145,9 @@ void Calculation() {
     derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
 
 }
+*/
+
+/*
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
@@ -154,7 +157,8 @@ int MotorControl::getInput() {
     
     return x; 
 }
-
+*/
+/*
 void MotorControl::call(int x){
     // 정지
     if (x == 0){
@@ -190,15 +194,30 @@ void MotorControl::call(int x){
         softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
         softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
         
-        Calculation();
         
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
         }
+        else {
+            Calculation();
+            delay(1000);
+            // 이동거리 출력 
+            cout << "왼쪽 모터 이동거리  = " << motor_distance_A << endl;
+            cout << "왼쪽 모터 오차값 = " << derrorA << endl;
+            cout << "오른쪽 모터 이동거리  = " << motor_distance_B << endl;
+            cout << "오른쪽 모터 오차값 = " << derrorB << endl;
+            cout << "모터 각도 "<< motorDegB << endl;
+
+            cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+            cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+            cout << "encA = " << encoderPosLeft<< endl;
+            cout << "encB = " << encoderPosRight << endl;
+
+        }
     }
 }
-
+*/
 int main(){
     wiringPiSetup();
 
@@ -243,10 +262,18 @@ int main(){
     cout << "encB = " << encoderPosRight << endl;
 
     while(true) {
-   
-        int lidar_way = control.getInput();
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW); 
+        delay(10);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 100.);    
+        softPwmWrite(pwmPinB, 100.); 
+      /*  int lidar_way = control.getInput();
         control.call(lidar_way);
         delay(1000);   
     }
     return 0;
+*/
 }
