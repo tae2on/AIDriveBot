@@ -77,6 +77,7 @@ double de_B;
 double di_A = 0;
 double di_B = 0;
 double dt = 0;
+double dt_sleep = 0.01;
 
 double delta_vA;
 double delta_vB;
@@ -222,7 +223,8 @@ int main(){
             softPwmWrite(pwmPinB, 0);    
         }
         time_prev = time(nullptr);
-        time(0.01);
+        std::chrono::milliseconds duration((int)(dt_sleep * 1000));
+        std::this_thread::sleep_for(duration);
 
     }
     return 0;
