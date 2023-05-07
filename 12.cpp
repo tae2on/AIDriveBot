@@ -215,7 +215,7 @@ int main(){
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if (motor_distance_A >= target_distance) {
+        if ((motor_distance_A >= target_distance) && (motor_distance_B >= target_distance)){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
