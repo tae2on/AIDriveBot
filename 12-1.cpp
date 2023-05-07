@@ -103,13 +103,13 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-/*
+
 class MotorControl{
 public:
     void call(int x);
     int getInput();
 };
-*/
+
 /*
 void Calculation() {
     wheel = 2*M_PI*11.5;
