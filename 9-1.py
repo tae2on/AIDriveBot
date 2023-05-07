@@ -12,7 +12,7 @@ encPinA = 6 # 보라색 (A) -2
 encPinB = 13 #파랑색 (B) -3
 
 # DC 모터 오른쪽
-pwmPinB = 17 # 모터드라이버 ENB
+pwmPinB = 14 # 모터드라이버 ENB
 BIN3 = 15 # IN 3
 BIN4 = 18 # IN 4
 encPinC = 2 # 보라색 (C) 
