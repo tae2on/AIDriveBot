@@ -185,8 +185,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlB), 100.));    
-        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
+        softPwmWrite(pwmPinA, 100.);    
+        softPwmWrite(pwmPinB, 100.);  
 
         // 이동거리 출력 
         cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
@@ -239,8 +239,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100);
-        softPwmWrite(pwmPinB, 30);  
+        softPwmWrite(pwmPinA, 30);
+        softPwmWrite(pwmPinB, 100);  
 
         // 회전각도 출력 
         cout << "회전각도 = " << endl;
@@ -266,8 +266,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 30);
-        softPwmWrite(pwmPinB, 100);  
+        softPwmWrite(pwmPinA, 100);
+        softPwmWrite(pwmPinB, 30);  
 
        // 회전각도 출력 
         cout << "회전각도 = " << endl;
