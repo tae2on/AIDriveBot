@@ -200,6 +200,7 @@ void MotorControl::call(int x){
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
             x = getInput();
+       }
     }
 }
 
