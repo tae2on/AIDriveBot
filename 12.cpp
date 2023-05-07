@@ -36,9 +36,13 @@ using namespace std;
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp; 
-float kd;         
-float ki;
+float kp_A; 
+float kd_A;         
+float ki_A;
+
+float kp_B; 
+float kd_B;         
+float ki_B;
 
 float encoderPosRight = 0.;            // 엔코더 값 - 오른쪽
 float encoderPosLeft = 0.;              // 엔코더 값 - 왼쪽
@@ -143,11 +147,19 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     cout << "kp의 값 : ";
-    cin >> kp;
+    cin >> kp_A;
     cout << "ki의 값 : ";
-    cin >> ki;
+    cin >> ki_A;
     cout << "kd의 값 : ";
-    cin >> kd;
+    cin >> kd_A;
+
+    cout << "kp의 값 : ";
+    cin >> kp_B;
+    cout << "ki의 값 : ";
+    cin >> ki_B;
+    cout << "kd의 값 : ";
+    cin >> kd_B;
+
 
     zero();    
 
@@ -169,7 +181,7 @@ int main(){
         di_A += errorA * dt;
         dt = time(nullptr) - time_prev;
             
-        delta_vA = kp*de_A + ki*errorA + kd*(errorA - 2*error_prev_A + error_prev_prev_A);
+        delta_vA = kp_A*de_A + ki_A*errorA + kd_A*(errorA - 2*error_prev_A + error_prev_prev_A);
         controlA += delta_vA;
         error_prev_A = errorA;
         error_prev_prev_A = error_prev_A;
@@ -184,7 +196,7 @@ int main(){
         di_B += errorB * dt;
         dt = time(nullptr) - time_prev;
             
-        delta_vB = kp*de_B + ki*errorB + kd*(errorB - 2*error_prev_B + error_prev_prev_B);
+        delta_vB = kp_B*de_B + ki_B*errorB + kd_B*(errorB - 2*error_prev_B + error_prev_prev_B);
         controlB += delta_vB;
         error_prev_B = errorB;
         error_prev_prev_B = error_prev_B;
