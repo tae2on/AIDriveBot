@@ -3,11 +3,11 @@
 import RPi.GPIO as IO
 import time
 
-pwmPin = 14 # 모터드라이버 ENA
-AIN1 = 15 # IN 1
-AIN2 = 18 # IN 2
-encPinA = 2 # 파랑색 (A)
-encPinB = 3 # 보라색 (B)
+pwmPinB = 17 # 모터드라이버 ENB
+BIN3 = 25 # IN 3
+BIN4 = 3 # IN 4
+encPinC = 19 # 보라색 (C) 
+encPinD = 26 # 파랑색 (D)
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
