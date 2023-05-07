@@ -90,10 +90,10 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderC() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
@@ -113,7 +113,7 @@ void Calculation() {
     target_deg = (360*target_distance / wheel) ;      // 목표 각도
         
     //DC모터 왼쪽
-    motorDegA = encoderPosLeft * proportion;
+    motorDegA = abs(encoderPosLeft * proportion);
     errorA = target_deg - motorDegA;
     de_A = errorA -error_prev_A;
     di_A += errorA * dt;
@@ -123,12 +123,12 @@ void Calculation() {
     controlA += delta_vA;
     error_prev_A = errorA;
     error_prev_prev_A = error_prev_A;
-    
+        
     motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
     derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
 
      // DC모터 오른쪽
-    motorDegB = encoderPosRight * proportion;
+    motorDegB = abs(encoderPosRight * proportion);
     errorB = target_deg - motorDegB;
     de_B = errorB -error_prev_B;
     di_B += errorB * dt;
