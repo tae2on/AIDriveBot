@@ -192,8 +192,8 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlA), 100));    
-        softPwmWrite(pwmPinB, min(abs(controlA), 100));  
+        softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlA), 100.));  
 
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 100.0));
