@@ -181,6 +181,8 @@ int main(){
         motor_distance_B = motorDegB * wheel / 360;           // 모터 움직인 거리
         derrorB = abs(target_distance - motor_distance_B);    // 거리 오차값
 
+        //speedA = min(abs(controlA), 255.0;
+
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
@@ -189,7 +191,8 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        softPwCreate(pwmPinA, min(abs(controlA), 255.0));  
+
+        softPwmCreate(pwmPinA, min(abs(controlA), 255.0));  
         softPwmWrite(pwmPinB, min(abs(controlB), 255.0));  
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 255.0));
