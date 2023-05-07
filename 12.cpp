@@ -103,9 +103,6 @@ void doEncoderD() {
 int main(){
     wiringPiSetup();
 
-    memset(&encoderPosRight, 0, sizeof(encoderPosRight));
-    memset(&encoderPosLeft, 0, sizeof(encoderPosLeft));  
-
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
     pinMode(encPinB, INPUT);
@@ -201,11 +198,13 @@ int main(){
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 255.0));
 
-        cout << "각도 = " << motorDegB << endl;
+        cout << "----------------------------------------------------------------------------------" << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "encB = " << encoderPosRight << endl;
+        cout << "pwmA = " << pwmPinA << endl;
+        cout << "pwmB = " << pwmPinB << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
         if (motor_distance_A >= target_distance) {
