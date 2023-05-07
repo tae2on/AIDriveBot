@@ -158,7 +158,7 @@ try :
             IO.output(BIN4, IO.LOW)
             time.sleep(0.01)
             p1.ChangeDutyCycle(min(abs(controlA), 100))
-            p2.ChangeDutyCycle(min(abs(controlB), 100))     #controlA 
+            p2.ChangeDutyCycle(min(abs(controlA), 100))     #controlA 
 
             print('각도 = %5.1f' %(motorDegB))
             print('원하는 각도 = %5.1f' %(target_deg))
@@ -167,7 +167,7 @@ try :
             print('enc = %5.1f' %(encoderPosA))
             print('enc = %5.1f' %(encoderPosB))
 
-            if ((motorDegA >= target_deg) and (motorDegB >= target_deg)):
+            if ((motorDegA >= target_deg)): 
                 IO.output(AIN1, IO.LOW)
                 IO.output(AIN2, IO.LOW) 
                 IO.output(BIN3, IO.LOW)
