@@ -215,16 +215,21 @@ int main(){
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if ((motor_distance_A >= target_distance) && (motor_distance_B >= target_distance)){
+        if (motor_distance_A >= target_distance){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);
+            delay(10);
+            // 속도 설정 
+            softPwmWrite(pwmPinA, 0);  
+        }
+
+        if (motor_distance_B >= target_distance){
             digitalWrite(BIN3, LOW);
             digitalWrite(BIN4, LOW);
             delay(10);
             // 속도 설정 
-            softPwmWrite(pwmPinA, 0);
             softPwmWrite(pwmPinB, 0);    
-        }
+        }        
     }
     return 0; 
 }
