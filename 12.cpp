@@ -70,7 +70,7 @@ double wheel;
 double target_deg;                      // 목표 각도 
 
 // 모터 이동거리 구할 때 필요
-double target_distance = 30.;            // 목표 거리     
+double target_distance = 3000.;            // 목표 거리     
 
 double de_A = 0;
 double de_B = 0;
