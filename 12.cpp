@@ -189,8 +189,10 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        analogWrite(pwmPinA, min(abs(controlA), 255.0));
-        analogWrite(pwmPinB, min(abs(controlB), 255.0));
+        pwmWrite(pwmPinA, 255);   
+        pwmWrite(pwmPinB, 255);   
+        // analogWrite(pwmPinA, min(abs(controlA), 255.0));
+        //analogWrite(pwmPinB, min(abs(controlB), 255.0));
 
         cout << "각도 = " << motorDegB << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
