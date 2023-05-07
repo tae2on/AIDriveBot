@@ -73,6 +73,8 @@ double target_deg;                      // 목표 각도
 // 모터 이동거리 구할 때 필요
 double target_distance = 0.;            // 목표 거리     
 
+// 모터의 회전각도 구할 때 필요 
+double target_turn_deg;
 double de_A;
 double de_B;
 double di_A = 0;
@@ -134,7 +136,7 @@ void Calculation() {
     di_B += errorB * dt;
     dt = time(nullptr) - time_prev;
         
-    delta_vB = kp*de_B + ki_B*errorB + kd_B*(errorB - 2*error_prev_B + error_prev_prev_B);
+    delta_vB = kp_B*de_B + ki_B*errorB + kd_B*(errorB - 2*error_prev_B + error_prev_prev_B);
     controlB += delta_vB;
     error_prev_B = errorB;
     error_prev_prev_B = error_prev_B;
@@ -232,8 +234,8 @@ void MotorControl::call(int x){
     // 오른쪽
     else if (x == 3){
         // 목표 각도 입력
-        cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_turn_deg;
+        // cout << "원하는 각도를 입력하시오 : ";
+        // cin >> target_turn_deg;
         
         // 방향 조절 
         digitalWrite(AIN1, HIGH);
@@ -259,8 +261,8 @@ void MotorControl::call(int x){
     // 왼쪽
     else if (x == 4){
         // 목표 각도 입력 
-        cout << "원하는 각도를 입력하시오 : ";
-        cin >> target_turn_deg;        
+        // cout << "원하는 각도를 입력하시오 : ";
+        // cin >> target_turn_deg;        
         
         // 방향 조절  
         digitalWrite(AIN1, HIGH);
@@ -326,7 +328,6 @@ int main(){
     cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "encB = " << encoderPosRight << endl;
-    cout << "회전 각도 = " << turn_deg << endl;
 
     while(true) {
    
