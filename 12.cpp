@@ -40,8 +40,11 @@ float kp;
 float kd;         
 float ki;
 
-float encoderPosRight = 0.0;             // 엔코더 값 - 오른쪽
-float encoderPosLeft = 0.0;              // 엔코더 값 - 왼쪽
+float encoderPosRight;            // 엔코더 값 - 오른쪽
+float encoderPosLeft;              // 엔코더 값 - 왼쪽
+
+encoderPosRight = 0.0;
+encoderPosLeft = 0.0;
 
 float motorDegA = 0;                   // 모터 각도A
 float motorDegB = 0;                   // 모터 각도B
@@ -192,7 +195,7 @@ int main(){
 
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlA), 255.0));   
+        softPwmWrite(pwmPinA, 255.0);   
         softPwmWrite(pwmPinB, 255.0);  
 
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
