@@ -135,13 +135,13 @@ int main(){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, LOW);
 
+    zero();
+
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    zero();
-    
     cout << "kp의 값 : ";
     cin >> kp;
     cout << "ki의 값 : ";
