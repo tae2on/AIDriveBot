@@ -72,15 +72,15 @@ double target_deg;                      // 목표 각도
 // 모터 이동거리 구할 때 필요
 double target_distance = 30.;            // 목표 거리     
 
-double de_A;
-double de_B;
+double de_A = 0;
+double de_B = 0;
 double di_A = 0;
 double di_B = 0;
 double dt = 0;
 double dt_sleep = 0.01;
 
-double delta_vA;
-double delta_vB;
+double delta_vA = 0;
+double delta_vB = 0;
 double time_prev = 0;
 
 std::time_t start_time = std::time(nullptr);
@@ -98,12 +98,6 @@ void doEncoderC() {
 void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
-
-class MotorControl{
-public:
-    void call(int x);
-    int getInput();
-};
 
 void Calculation() {
     wheel = 2*M_PI*11.5;
@@ -218,7 +212,6 @@ int main(){
             softPwmWrite(pwmPinA, 0);
             softPwmWrite(pwmPinB, 0);    
         }
-        time_prev = time(nullptr);
     }
     return 0;
 }
