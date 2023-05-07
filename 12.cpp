@@ -233,17 +233,23 @@ int main(){
         if (motor_distance_A >= target_distance){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, LOW);            
             delay(10);
             // 속도 설정 
-            softPwmWrite(pwmPinA, 0);  
+            softPwmWrite(pwmPinA, 0); 
+            softPwmWrite(pwmPinB, 0);   
         }
 
         if (motor_distance_B >= target_distance){
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, LOW);
+            digitalWrite(BIN4, LOW);            
             delay(10);
             // 속도 설정 
-            softPwmWrite(pwmPinB, 0);    
+            softPwmWrite(pwmPinA, 0); 
+            softPwmWrite(pwmPinB, 0);   
         }        
     }
     return 0; 
