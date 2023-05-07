@@ -185,22 +185,21 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    while(true) {
-        Calculation(); 
-        cout << "kp의 값 : ";
-        cin >> kp;
-        cout << "ki의 값 : ";
-        cin >> ki;
-        cout << "kd의 값 : ";
-        cin >> kd;
+    Calculation(); 
+    cout << "kp의 값 : ";
+    cin >> kp;
+    cout << "ki의 값 : ";
+    cin >> ki;
+    cout << "kd의 값 : ";
+    cin >> kd;
 
-        // 방향 설정  
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW); 
+    // 방향 설정  
+    digitalWrite(AIN1, HIGH);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, HIGH);
+    digitalWrite(BIN4, LOW); 
 
-        delay(10);
+    delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 255.);
         softPwmWrite(pwmPinB, 255.);  
