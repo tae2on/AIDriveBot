@@ -171,10 +171,10 @@ void MotorControl::call(int x){
     // 전진
     else if (x == 1) {
         // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, HIGH);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 100.);
@@ -189,10 +189,10 @@ void MotorControl::call(int x){
     // 후진
     else if (x == 2) {
         // 방향 설정 
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);   
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 100.);
@@ -211,10 +211,10 @@ void MotorControl::call(int x){
         //cin >> target_turn_deg;
         
         // 방향 조절 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, HIGH);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 255);
@@ -234,10 +234,10 @@ void MotorControl::call(int x){
         //cin >> target_turn_deg;        
         
         // 방향 조절 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, HIGH);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 30);
