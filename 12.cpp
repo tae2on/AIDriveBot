@@ -140,6 +140,13 @@ int main(){
     cin >> ki;
     cout << "kd의 값 : ";
     cin >> kd;
+
+    cout << "각도 = " << motorDegB << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+    cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << motor_distance_B << ", derrB = " << derrorB << endl;
+    cout << "encA = " << encoderPosLeft<< endl;
+    cout << "encB = " << encoderPosRight << endl;
+    cout << "회전 각도 = " << turn_deg << endl;
     while (true){
         wheel = 2*M_PI*11.5;
         target_deg = (360*target_distance / wheel) ;      // 목표 각도
