@@ -67,13 +67,12 @@ double controlB = 0.;
  
 double wheel; 
 // 거리 이동할때 필요 
-double target_deg;                      // 목표 각도 
+double target_deg = 0;                  // 목표 각도 
 double target_direction = 0.;           // 목표 방향 
 double target_distance = 0.;            // 목표 거리 
 
 // 좌,우 회전각도 구할때 필요 
-double target_turn_deg = 0.;
-
+double target_turn_deg = 0;
 double de_A;
 double de_B;
 double di_A = 0;
@@ -91,10 +90,10 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderC() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
