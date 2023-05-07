@@ -133,8 +133,7 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
-  float encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-        
+
     cout << "kp의 값 : ";
     cin >> kp;
     cout << "ki의 값 : ";
@@ -191,7 +190,7 @@ int main(){
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 255.0));  
-        softPwmWrite(pwmPinB, 255.0);  
+        softPwmWrite(pwmPinB, min(abs(controlA), 255.0));  
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 255.0));
 
