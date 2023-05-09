@@ -185,8 +185,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);    
-        softPwmWrite(pwmPinB, 100.);  
+        softPwmWrite(pwmPinA,  min(abs(controlA),100.));    
+        softPwmWrite(pwmPinB,  min(abs(controlA),100.));  
 
         // 이동거리 출력 
         cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
@@ -194,6 +194,11 @@ void MotorControl::call(int x){
         cout << "오른쪽 모터 이동거리  = " << motor_distanceB << endl;
         cout << "오른쪽 모터 오차값 = " << derrorB << endl;
         cout << "모터 각도 "<< motorDegB << endl;
+
+        cout << "ctrlA = " << controlA << endl;
+        cout << "ctrlB = " << controlB << endl;
+        cout << "encA = " << encoderPosLeft<< endl;
+        cout << "encB = " << encoderPosRight << endl;        
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
