@@ -24,10 +24,10 @@ using namespace std;
 
 // DC모터 오른쪽 (엔코더 X) 
 #define pwmPinB 0              // 모터 드라이버 ENB - GPIO핀 번호 : 17
-#define AIN3 15                  // IN3 - GPIO핀 번호 : 27
-#define AIN4 9                 // IN4 - GPIO핀 번호 : 22
-#define encPinA 24               // 보라색 (C) - GPIO핀 번호 : 5
-#define encPinB 25               // 파랑색 (D) - GPIO핀 번호 : 6
+#define AIN3 2                  // IN3 - GPIO핀 번호 : 27
+#define AIN4 3                 // IN4 - GPIO핀 번호 : 22
+#define encPinA 21               // 보라색 (C) - GPIO핀 번호 : 5
+#define encPinB 22               // 파랑색 (D) - GPIO핀 번호 : 6
 
 /* PID 제어 */
 const float proportion = 360. / (30 * 52);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
