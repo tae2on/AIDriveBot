@@ -23,9 +23,9 @@ using namespace std;
 
 
 // DC모터 오른쪽 (엔코더 X) 
-#define pwmPinB 0              // 모터 드라이버 ENB - GPIO핀 번호 : 17
-#define AIN3 2                  // IN3 - GPIO핀 번호 : 27
-#define AIN4 3                 // IN4 - GPIO핀 번호 : 22
+#define pwmPinA 0              // 모터 드라이버 ENB - GPIO핀 번호 : 17
+#define AIN1 2                  // IN3 - GPIO핀 번호 : 27
+#define AIN2 3                 // IN4 - GPIO핀 번호 : 22
 #define encPinA 21               // 보라색 (C) - GPIO핀 번호 : 5
 #define encPinB 22               // 파랑색 (D) - GPIO핀 번호 : 6
 
