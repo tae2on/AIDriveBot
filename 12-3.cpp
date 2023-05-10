@@ -21,13 +21,12 @@ using namespace std;
 /* gpio readall -> GPIO핀 / wiringPi핀 번호 확인법 */
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
-
-// DC모터 오른쪽 (엔코더 X) 
-#define pwmPinA 0              // 모터 드라이버 ENB - GPIO핀 번호 : 17
-#define AIN1 2                  // IN3 - GPIO핀 번호 : 27
-#define AIN2 3                 // IN4 - GPIO핀 번호 : 22
-#define encPinA 21               // 보라색 (C) - GPIO핀 번호 : 5
-#define encPinB 22               // 파랑색 (D) - GPIO핀 번호 : 6
+// DC 모터 왼쪽 (엔코더 O)                                                      
+#define pwmPinA 21              // 모터드라이버 ENA - GPIO핀 번호: 5
+#define AIN1 16                 // IN1 - GPIO핀 번호: 15
+#define AIN2 28                 // IN2 - GPIO핀 번호 : 20
+#define encPinA 22               // 보라색 (A) - GPIO핀 번호 : 6
+#define encPinB 23               // 파랑색 (B) - GPIO핀 번호 : 13
 
 /* PID 제어 */
 const float proportion = 360. / (30 * 52);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
