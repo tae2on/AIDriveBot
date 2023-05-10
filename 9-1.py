@@ -6,8 +6,8 @@ import math
 
 # DC 모터 왼쪽 
 pwmPinA = 5 # 모터드라이버 ENA
-AIN1 = 16 # IN 1
-AIN2 = 20 # IN 2
+AIN1 = 7 # IN 1
+AIN2 = 16 # IN 2
 encPinA = 6 # 보라색 (A) -2 
 encPinB = 13 #파랑색 (B) -3
 
@@ -73,7 +73,7 @@ IO.add_event_detect(encPinC, IO.BOTH, callback=encoderC)
 IO.add_event_detect(encPinD, IO.BOTH, callback=encoderD)
 
 # PID 제어
-ratio = 360./(84 * 10) # 한 바퀴에 약 4100펄스
+ratio = 360./(30 * 52); # 한 바퀴에 약 4100펄스
 #rad = ratio*math.pi/180
 
 # PID 상수
