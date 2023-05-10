@@ -164,7 +164,7 @@ void MotorControl::call(int x){
 int main(){
     wiringPiSetup();
 
-   // MotorControl control;
+    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
