@@ -112,7 +112,7 @@ int main(){
     while (true){
         //DC모터 왼쪽
         motorDegA = abs(encoderPosLeft * proportion);
-        
+
         errorA = target_deg - motorDegA;
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
@@ -139,7 +139,7 @@ int main(){
         cout << "encA = " << encoderPosLeft << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if (error <= tolerance ){
+        if (errorA <= tolerance ){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
