@@ -23,8 +23,8 @@ using namespace std;
 #define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
 #define AIN1 27            // IN1 - GPIO핀 번호: 16
 #define AIN2 6            // IN2 - GPIO핀 번호 : 25 
-#define encPinA 5           // 보라색 (A) - GPIO핀 번호 : 23
-#define encPinB 4           // 파랑색 (B) - GPIO핀 번호 : 24
+#define encPinA 4           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 // DC모터 오른쪽 (엔코더 X) 
 #define pwmPinB 25           // 모터 드라이버 ENB - GPIO핀 번호 : 26    
@@ -90,10 +90,10 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderC() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
@@ -179,8 +179,8 @@ void MotorControl::call(int x){
     // 전진
     else if (x == 1) {
         // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
