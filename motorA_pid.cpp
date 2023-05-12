@@ -19,11 +19,11 @@ using namespace std;
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
 // DC 모터 왼쪽 (엔코더 O)                                                      
-#define pwmPinA 21              // 모터드라이버 ENA - GPIO핀 번호: 5
-#define AIN1 16                 // IN1 - GPIO핀 번호: 15
-#define AIN2 28                 // IN2 - GPIO핀 번호 : 20
-#define encPinA 22               // 보라색 (A) - GPIO핀 번호 : 6
-#define encPinB 23               // 파랑색 (B) - GPIO핀 번호 : 13
+#define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
+#define AIN1 27            // IN1 - GPIO핀 번호: 16
+#define AIN2 6            // IN2 - GPIO핀 번호 : 25 
+#define encPinA 4           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 /* PID 제어 */
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
@@ -44,7 +44,7 @@ float error_prev_A = 0.;
 float error_prev_prev_A = 0;
 
 double turn_deg;                         // 회전 각도 
-double target_deg;                       // 목표 회전각도 
+double target_deg = 360;                 // 목표 회전각도 
 double controlA = 0.;
  
 double de_A = 0;
@@ -91,10 +91,7 @@ int main(){
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
-
-    cout << "목표 거리의 값 : ";
-    cin >> target_deg;
-    
+  
     cout << "kp_A의 값 : ";
     cin >> kp_A;
     cout << "ki_A의 값 : ";
@@ -134,7 +131,7 @@ int main(){
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 100.0));
 
-        cout << "----------------------------------------------------------------------------------" << endl;
+        cout << "--------------------------------------------------------------------------------" << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
         cout << "encA = " << encoderPosLeft << endl;
         cout << "회전 각도 = " << turn_deg << endl;
