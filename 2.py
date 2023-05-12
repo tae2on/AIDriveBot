@@ -49,7 +49,7 @@ try:
         time.sleep(0.1)
         print(encoderPos, flush=True)
 
-        if(encoderPos >= 200):
+        if(encoderPos >= 500):
             IO.output(AIN1, IO.LOW)
             p.ChangeDutyCycle(0)
             print(encoderPos, flush=True)
