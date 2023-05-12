@@ -111,14 +111,12 @@ int main(){
         motorDegA = abs(encoderPosLeft * proportion);
 
         errorA = target_deg - motorDegA;
-        de_A = errorA -error_prev_A;
-        di_A += errorA * dt;
+        de_A = errorA - error_prev_A;
         dt = time(nullptr) - time_prev;
-            
-        delta_vA = kp_A*de_A + ki_A*errorA + kd_A*(errorA - 2*error_prev_A + error_prev_prev_A);
-        controlA += delta_vA;
+        controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * errorA * dt;
+
         error_prev_A = errorA;
-        error_prev_prev_A = error_prev_A;
+        time_prev = time(nullptr);
      
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
