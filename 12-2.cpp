@@ -102,6 +102,13 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
+void zero(){
+    if (encoderPosLeft != 0) or (encoderPosRight != 0){
+        encoderPosLeft = 0;
+        encoderPosRight = 0;
+    }    
+}
+
 class MotorControl{
 public:
     void call(int x);
@@ -321,6 +328,8 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
+
+    zero(); 
 
     cout << "각도 = " << motorDegB << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distanceA << ", derrA = " << derrorA << endl;
