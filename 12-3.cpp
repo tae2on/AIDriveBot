@@ -22,17 +22,17 @@ using namespace std;
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
 // DC 모터 왼쪽 (엔코더 O)                                                      
-#define pwmPinA 21              // 모터드라이버 ENA - GPIO핀 번호: 5
+#define pwmPinA 26              // 모터드라이버 ENA - GPIO핀 번호: 5
 #define AIN1 27                // IN1 - GPIO핀 번호: 6
-#define AIN2 28                 // IN2 - GPIO핀 번호 : 16
-#define encPinA 22               // 보라색 (A) - GPIO핀 번호 : 6
-#define encPinB 23               // 파랑색 (B) - GPIO핀 번호 : 13
+#define AIN2 6                // IN2 - GPIO핀 번호 : 16
+#define encPinA 4               // 보라색 (A) - GPIO핀 번호 : 6
+#define encPinB 5               // 파랑색 (B) - GPIO핀 번호 : 13
 
 /* PID 제어 */
-const float proportion = 360. / (30 * 52);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp_A = 0.1; 
+float kp_A = 0.5; 
 float kd_A = 0;         
 float ki_A = 0;
 
@@ -142,7 +142,6 @@ void MotorControl::call(int x){
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
-        
         
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
