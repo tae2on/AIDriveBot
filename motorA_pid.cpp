@@ -140,6 +140,7 @@ int main(){
             delay(10);
             // 속도 설정 
             softPwmWrite(pwmPinA, 0); 
+            controlA = 0;
         }
     }    
     return 0; 
