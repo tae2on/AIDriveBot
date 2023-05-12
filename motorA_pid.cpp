@@ -136,7 +136,7 @@ int main(){
         cout << "encA = " << encoderPosLeft << endl;
         cout << "회전 각도 = " << motorDegA << endl;
             
-        if (encoderPosLeft >= 400){
+        if (errorA <= tolerance){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
