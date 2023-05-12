@@ -115,10 +115,10 @@ int main(){
         di_A += errorA * dt;
         dt = time(nullptr) - time_prev;
             
-        delta_vA = kp_A*de_A + ki_A*errorA + kd_A*(errorA - 2*error_prev_A + error_prev_prev_A);
+        delta_vA = kp_A*de_A + ki_A*errorA + kd_A*error_prev_A ;
         controlA += delta_vA;
         error_prev_A = errorA;
-        error_prev_prev_A = error_prev_A;
+        // error_prev_prev_A = error_prev_A;
      
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
@@ -143,7 +143,7 @@ int main(){
             // 속도 설정 
             softPwmWrite(pwmPinA, 0); 
         }
-        if (motorDegA >= target_deg){
+        else if (motorDegA >= target_deg){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
