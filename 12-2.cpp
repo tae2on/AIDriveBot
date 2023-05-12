@@ -20,18 +20,18 @@ using namespace std;
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
 // DC 모터 왼쪽 (엔코더 O)                                                      
-#define pwmPinA 21              // 모터드라이버 ENA - GPIO핀 번호: 5
-#define AIN1 16                 // IN1 - GPIO핀 번호: 15
-#define AIN2 28                 // IN2 - GPIO핀 번호 : 20
-#define encPinA 22               // 보라색 (A) - GPIO핀 번호 : 6
-#define encPinB 23               // 파랑색 (B) - GPIO핀 번호 : 13
+#define pwmPinA 25                // 모터드라이버 ENA - GPIO핀 번호: 26
+#define AIN1 22                  // IN1 - GPIO핀 번호: 6
+#define AIN2 21                  // IN2 - GPIO핀 번호 : 5
+#define encPinA 3               // 보라색 (A) - GPIO핀 번호 : 22
+#define encPinB 0               // 파랑색 (B) - GPIO핀 번호 : 17
 
 // DC모터 오른쪽 (엔코더 X) 
-#define pwmPinB 0              // 모터 드라이버 ENB - GPIO핀 번호 : 17
-#define BIN3 15                  // IN3 - GPIO핀 번호 : 14
-#define BIN4 9                 // IN4 - GPIO핀 번호 : 3
-#define encPinC 24               // 보라색 (C) - GPIO핀 번호 : 19
-#define encPinD 25               // 파랑색 (D) - GPIO핀 번호 : 26
+#define pwmPinB 26             // 모터 드라이버 ENB - GPIO핀 번호 : 12
+#define BIN3 27                // IN3 - GPIO핀 번호 : 16
+#define BIN4 6                 // IN4 - GPIO핀 번호 : 25
+#define encPinC 4               // 보라색 (C) - GPIO핀 번호 : 23
+#define encPinD 5               // 파랑색 (D) - GPIO핀 번호 : 24
 
 /* PID 제어 */
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
@@ -90,10 +90,10 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 void doEncoderC() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
@@ -185,8 +185,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);    
-        softPwmWrite(pwmPinB, 100.);  
+        softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
 
         // 이동거리 출력 
         cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
@@ -215,8 +215,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 100.);
-        softPwmWrite(pwmPinB, 100.);   
+        softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
+        softPwmWrite(pwmPinB, min(abs(controlB), 100.));  
 
         // 이동거리 출력 
         cout << "왼쪽 모터 이동거리  = " << motor_distanceA << endl;
