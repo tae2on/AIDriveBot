@@ -1,4 +1,4 @@
-/* 거리 제어 */
+/* 각도 PID 제어 */
 
 #include "wiringPi.h"                   // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <softPwm.h>
@@ -43,24 +43,15 @@ float errorA = 0;
 float error_prev_A = 0.;
 float error_prev_prev_A = 0;
 
-//float delta_encoder;
-float turn_deg;                         // 회전 각도 
-/* 회전각도 오차값
-float turn_error;    
-float target_turn_deg;                   
-*/
+double turn_deg;                         // 회전 각도 
+double target_deg;                       // 목표 회전각도 
 double controlA = 0.;
  
-double wheel; 
-double target_deg;                      // 목표 각도 
-
-// 모터 이동거리 구할 때 필요
-double target_distance;            // 목표 거리     
-
 double de_A = 0;
 double di_A = 0;
 double dt = 0;
 double dt_sleep = 0.01;
+double tolerance = 0.1;
 
 double delta_vA = 0;
 double time_prev = 0;
@@ -102,7 +93,7 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
 
     cout << "목표 거리의 값 : ";
-    cin >> target_distance;
+    cin >> target_deg;
     
     cout << "kp_A의 값 : ";
     cin >> kp_A;
@@ -119,11 +110,9 @@ int main(){
     cout << "회전 각도 = " << turn_deg << endl;
 
     while (true){
-        wheel = 2*M_PI*11.5;
-        target_deg = (360*target_distance / wheel) ;      // 목표 각도
-            
         //DC모터 왼쪽
         motorDegA = abs(encoderPosLeft * proportion);
+        
         errorA = target_deg - motorDegA;
         de_A = errorA -error_prev_A;
         di_A += errorA * dt;
@@ -133,12 +122,7 @@ int main(){
         controlA += delta_vA;
         error_prev_A = errorA;
         error_prev_prev_A = error_prev_A;
-            
-        motor_distance_A = motorDegA * wheel / 360;           // 모터 움직인 거리
-        derrorA = abs(target_distance - motor_distance_A);    // 거리 오차값
-
-        //speedA = min(abs(controlA), 255.0;
-
+     
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
@@ -155,7 +139,7 @@ int main(){
         cout << "encA = " << encoderPosLeft << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if (motor_distance_A >= target_distance){
+        if (error <= tolerance ){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
