@@ -26,7 +26,7 @@ using namespace std;
 #define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 20);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp_A; 
@@ -44,7 +44,7 @@ float error_prev_A = 0.;
 float error_prev_prev_A = 0;
 
 double turn_deg;                         // 회전 각도 
-double target_deg = 144;                 // 목표 회전각도 
+double target_deg = 360;                 // 목표 회전각도 
 double controlA = 0.;
  
 double de_A = 0;
