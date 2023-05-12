@@ -179,8 +179,8 @@ void MotorControl::call(int x){
     // 전진
     else if (x == 1) {
         // 방향 설정 
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         delay(10);
