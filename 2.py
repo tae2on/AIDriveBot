@@ -38,8 +38,11 @@ def encoderB(encPinB):
 
 IO.add_event_detect(encPinA, IO.BOTH, callback=encoderA)
 IO.add_event_detect(encPinB, IO.BOTH, callback=encoderB)
+
+print(encoderPos)
 try:
     while True:
+
         # 엔코더 값 읽어오기
         IO.output(AIN1, IO.HIGH)
         p.ChangeDutyCycle(100)
