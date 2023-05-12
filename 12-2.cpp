@@ -20,18 +20,18 @@ using namespace std;
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
 // DC 모터 왼쪽 (엔코더 O)                                                      
-#define pwmPinA 25                // 모터드라이버 ENA - GPIO핀 번호: 26
-#define AIN1 22                  // IN1 - GPIO핀 번호: 6
-#define AIN2 21                  // IN2 - GPIO핀 번호 : 5
-#define encPinA 3               // 보라색 (A) - GPIO핀 번호 : 22
-#define encPinB 0               // 파랑색 (B) - GPIO핀 번호 : 17
+#define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
+#define AIN1 27            // IN1 - GPIO핀 번호: 16
+#define AIN2 6            // IN2 - GPIO핀 번호 : 25 
+#define encPinA 4           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 // DC모터 오른쪽 (엔코더 X) 
-#define pwmPinB 26             // 모터 드라이버 ENB - GPIO핀 번호 : 12
-#define BIN3 27                // IN3 - GPIO핀 번호 : 16
-#define BIN4 6                 // IN4 - GPIO핀 번호 : 25
-#define encPinC 4               // 보라색 (C) - GPIO핀 번호 : 23
-#define encPinD 5               // 파랑색 (D) - GPIO핀 번호 : 24
+#define pwmPinB 26  25           // 모터 드라이버 ENB - GPIO핀 번호 : 26
+#define BIN3 27     22           // IN3 - GPIO핀 번호 : 6
+#define BIN4 6      21           // IN4 - GPIO핀 번호 : 5
+#define encPinC 4   3            // 보라색 (C) - GPIO핀 번호 : 22
+#define encPinD 5   0            // 파랑색 (D) - GPIO핀 번호 : 17
 
 /* PID 제어 */
 const float proportion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
