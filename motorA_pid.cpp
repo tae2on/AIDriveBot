@@ -143,7 +143,7 @@ int main(){
             // 속도 설정 
             softPwmWrite(pwmPinA, 0); 
         }
-        if (motorDegA <= target_deg){
+        if (motorDegA >= target_deg){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
