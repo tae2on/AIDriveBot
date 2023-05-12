@@ -134,9 +134,9 @@ int main(){
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << endl;
         cout << "encA = " << encoderPosLeft << endl;
-        cout << "회전 각도 = " << turn_deg << endl;
+        cout << "회전 각도 = " << motorDegA << endl;
             
-        if (turn_deg >= target_deg){
+        if (motorDegA >= target_deg){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
