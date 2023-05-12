@@ -51,7 +51,7 @@ double de_A = 0;
 double di_A = 0;
 double dt = 0;
 double dt_sleep = 0.01;
-double tolerance = 0.1;
+double tolerance = 5;
 
 double delta_vA = 0;
 double time_prev = 0;
@@ -132,11 +132,11 @@ int main(){
         //analogWrite(pwmPinB, min(abs(controlB), 100.0));
 
         cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << endl;
         cout << "encA = " << encoderPosLeft << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if (errorA <= tolerance ){
+        if (turn_deg >= target_deg){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
