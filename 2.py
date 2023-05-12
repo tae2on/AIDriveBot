@@ -25,9 +25,9 @@ encoderPos = 0
 def encoderA(encPinA):
     global encoderPos
     if IO.input(encPinA) == IO.input(encPinB):
-        encoderPos += 1 
+        encoderPos -= 1 
     else:
-        encoderPos -= 1
+        encoderPos += 1
    
 def encoderB(encPinB):
     global encoderPos
