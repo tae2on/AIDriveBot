@@ -3,11 +3,11 @@
 import RPi.GPIO as IO
 import time 
 
-pwmPin = 14
-AIN1 = 15
-AIN2 = 18
-encPinA = 2
-encPinB = 3
+pwmPin = 12
+AIN1 = 16
+AIN2 = 25
+encPinA = 23
+encPinB = 24
 
 IO.setmode(IO.BCM)
 IO.setwarnings(False)
@@ -17,7 +17,7 @@ IO.setup(pwmPin,IO.OUT, initial=IO.LOW)
 IO.setup(AIN1,IO.OUT, initial=IO.LOW)
 IO.setup(AIN2,IO.OUT, initial=IO.LOW)
 
-p = IO.PWM(14, 100)
+p = IO.PWM(12, 100)
 p.start(0)
 
 encoderPos = 0
@@ -46,7 +46,7 @@ try:
         time.sleep(0.1)
         print(encoderPos, flush=True)
 
-        if(encoderPos >= 1250):
+        if(encoderPos >= 1500):
             IO.output(AIN1, IO.LOW)
             p.ChangeDutyCycle(0)
             print(encoderPos, flush=True)
