@@ -33,7 +33,8 @@ float kp_A;
 float kd_A;         
 float ki_A;
 
-volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+bool encoderUpdated = false;
 
 float motorDegA = 0;                   // 모터 각도A
 
@@ -57,12 +58,21 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderUpdated = true; // 엔코더 값 업데이트 플래그 설정
 }
+
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderUpdated = true; // 엔코더 값 업데이트 플래그 설정
 }
-   
+
+void updateEncoder() {
+  if (encoderUpdated) {
+    encoderPosLeft = digitalRead(encPinA) == digitalRead(encPinB) ? encoderPosLeft - 1 : encoderPosLeft + 1;
+    encoderUpdated = false; // 엔코더 값 업데이트 플래그 재설정
+  }
+}
+
+
 void zero(){
     if (encoderPosLeft != 0) {
         encoderPosLeft = 0;
@@ -115,6 +125,9 @@ int main(){
         error_prev_A = errorA;
         time_prev = time(nullptr);
      
+        updateEncoder();
+
+
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
