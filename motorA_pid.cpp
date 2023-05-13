@@ -68,6 +68,13 @@ void zero(){
         encoderPosLeft = 0;
     }    
 }
+
+void stopMotor() {
+    softPwmWrite(pwmPinA, 0); 
+    digitalWrite(AIN1, LOW);
+    digitalWrite(AIN2, LOW);
+}
+
 int main(){
     wiringPiSetup();
 
