@@ -36,12 +36,9 @@ float ki_A;
 float encoderPosLeft = 0.;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
-float motor_distance_A = 0;           // 왼쪽 모터 이동거리 
 
-float derrorA = 0.;
 float errorA = 0;
 float error_prev_A = 0.;
-float error_prev_prev_A = 0;
 
 double turn_deg;                         // 회전 각도 
 double target_deg = 360;                 // 목표 회전각도 
