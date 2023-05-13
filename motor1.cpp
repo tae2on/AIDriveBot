@@ -36,8 +36,10 @@ int main() {
         pulse_callback();
         std::cout << "Pulse Count: " << pulse_count << std::endl;
         delay(100);
+
         if (pulse_count == 20){
             softPwmWrite(pwmPinA, 0);
+            std::cout << "Pulse Count: " << pulse_count << std::endl;
         }
 
     }
