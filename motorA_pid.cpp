@@ -79,8 +79,6 @@ void zero(){
     }    
 }
 int main(){
-    zero();
-    
     wiringPiSetup();
 
     pinMode(encPinA, INPUT);
@@ -112,7 +110,7 @@ int main(){
     cout << "kd_A의 값 : ";
     cin >> kd_A;
 
-    
+    zero();    
 
     cout << "각도 = " << motorDegA << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << endl;
