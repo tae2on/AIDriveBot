@@ -57,16 +57,15 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  if (motorDegA < target_deg) {
+    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  }
 }
+
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
-}
-   
-void zero(){
-    if (encoderPosLeft != 0) {
-        encoderPosLeft = 0;
-    }    
+  if (motorDegA < target_deg) {
+    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  }
 }
 int main(){
     wiringPiSetup();
@@ -139,8 +138,6 @@ int main(){
             // 속도 설정 
             
             controlA = 0;
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);
         }
     }    
     return 0; 
