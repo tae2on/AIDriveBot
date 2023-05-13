@@ -27,7 +27,7 @@ using namespace std::chrono;
 #define encPinB 6           // 파랑색 (B) - GPIO핀 번호 : 24
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 40);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 20);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp_A; 
