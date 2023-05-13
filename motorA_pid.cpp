@@ -132,14 +132,13 @@ int main(){
         cout << "회전 각도 = " << motorDegA << endl;
             
         if (motorDegA >= target_deg){
-            softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
             delay(10);
             // 속도 설정 
-            
             controlA = 0;
-            encoderPosLeft = 0;
+            softPwmWrite(pwmPinA, 0); 
+            
         }
     }    
     return 0; 
