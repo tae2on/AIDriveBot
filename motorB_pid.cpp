@@ -131,7 +131,7 @@ int main(){
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
