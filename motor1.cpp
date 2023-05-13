@@ -11,7 +11,9 @@
 volatile int pulse_count = 0;
 
 void pulse_callback() {
-    pulse_count++;
+    if (pulse_count < 11){
+        pulse_count++;
+    }
 }
 
 int main() {
@@ -40,9 +42,7 @@ int main() {
         if (pulse_count == 10){
 
             softPwmWrite(pwmPinA, 0);
-            std::cout << "Pulse Count: " << pulse_count << std::endl;
-            pulse_count = 0;
-            std::cout << "Pulse Count: " << pulse_count << std::endl;        
+                   
         }
 
     }
