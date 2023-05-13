@@ -63,7 +63,6 @@ void doEncoderA() {
   } else {
     encoderPosLeft--;
   }
-  encoderPosLeft = abs(encoderPosLeft);  // 절대값 처리
 }
 
 void doEncoderB() {
@@ -72,7 +71,6 @@ void doEncoderB() {
   } else {
     encoderPosLeft++;
   }
-  encoderPosLeft = abs(encoderPosLeft);  // 절대값 처리
 }
 
 void zero(){
