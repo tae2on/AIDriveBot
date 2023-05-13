@@ -57,14 +57,11 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
-  }
-
-
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+}
 void doEncoderB() {
-    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
-  }
-
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+}
    
 void zero(){
     if (encoderPosLeft != 0) {
@@ -135,11 +132,13 @@ int main(){
         cout << "회전 각도 = " << motorDegA << endl;
             
         if (motorDegA >= target_deg){
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);    
-            // 속도 설정 
-            softPwmWrite(pwmPinA, 0);
             controlA = 0;
+            softPwmWrite(pwmPinA, 0); 
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);  
+
+            delay(10);
+            // 속도 설정 
         }
     }    
     return 0; 
