@@ -139,6 +139,9 @@ int main(){
             // 속도 설정 
             
             controlA = 0;
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);   
+            softPwmWrite(pwmPinA, 0);            
         }
     }    
     return 0; 
