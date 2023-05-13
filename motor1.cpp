@@ -25,6 +25,11 @@ void pulse_callbackB() {
 int main() {
     wiringPiSetup();
 
+    if (wiringPiSetup() == -1) {
+        std::cerr << "WiringPi 초기화 실패" << std::endl;
+        return 1;
+    }
+
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
     pinMode(encPinB, INPUT);
