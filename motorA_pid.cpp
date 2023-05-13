@@ -13,6 +13,7 @@
 
 #define M_PI 3.14159265358979323846
 using namespace std;
+using namespace std::chrono;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! */
 /* gpio readall -> GPIO핀 / wiringPi핀 번호 확인법 */
@@ -33,15 +34,12 @@ float kp_A;
 float kd_A;         
 float ki_A;
 
-float encoderPosLeft = 0.;              // 엔코더 값 - 왼쪽
+volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
-float motor_distance_A = 0;           // 왼쪽 모터 이동거리 
 
-float derrorA = 0.;
 float errorA = 0;
 float error_prev_A = 0.;
-float error_prev_prev_A = 0;
 
 double turn_deg;                         // 회전 각도 
 double target_deg = 360;                 // 목표 회전각도 
@@ -54,16 +52,17 @@ double dt_sleep = 0.01;
 double tolerance = 5;
 
 double delta_vA = 0;
-double time_prev = 0;
+std::time_t time_prev = 0;
 
 std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += abs(digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
+
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += abs(digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
    
 void zero(){
@@ -91,7 +90,11 @@ int main(){
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
-  
+
+    steady_clock::time_point start_time = steady_clock::now();
+    steady_clock::time_point time_prev = start_time;
+
+
     cout << "kp_A의 값 : ";
     cin >> kp_A;
     cout << "ki_A의 값 : ";
@@ -102,7 +105,7 @@ int main(){
     zero();    
 
     cout << "각도 = " << motorDegA << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "회전 각도 = " << turn_deg << endl;
 
@@ -112,17 +115,19 @@ int main(){
 
         errorA = target_deg - motorDegA;
         de_A = errorA - error_prev_A;
-        dt = time(nullptr) - time_prev;
-        controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * errorA * dt;
+        di_A += errorA * dt;
+        steady_clock::time_point now = steady_clock::now();
+        dt = duration_cast<duration<double>>(now - time_prev).count();
+        controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * di_A;
 
         error_prev_A = errorA;
-        time_prev = time(nullptr);
+        time_prev = now;
      
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
 
-        delay(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
@@ -138,7 +143,7 @@ int main(){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
-            delay(10);
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             // 속도 설정 
             
             controlA = 0;
