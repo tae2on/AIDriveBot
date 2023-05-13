@@ -57,13 +57,13 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  if (motorDegA < target_deg) {
+  if (motorDegA <= target_deg) {
     encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
   }
 }
 
 void doEncoderB() {
-  if (motorDegA < target_deg) {
+  if (motorDegA <= target_deg) {
     encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
   }
 }
@@ -121,8 +121,8 @@ int main(){
         time_prev = time(nullptr);
      
         // 방향 설정  
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
 
         delay(1000);
         // 속도 설정 
