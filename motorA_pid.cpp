@@ -120,7 +120,7 @@ int main(){
         controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * di_A;
 
         error_prev_A = errorA;
-        time_prev = std::time(nullptr);
+        time_prev = now;
      
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
