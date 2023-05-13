@@ -144,6 +144,8 @@ int main(){
             // 속도 설정 
             
             controlA = 0;
+            encoderPosLeft = 0;
+            motorDegA = 0;
             
         }
     }    
