@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <math.h>
 
-#define M_PI 3.14159265358979323846
+#define M_PI 3.14159265358979323846 
 using namespace std;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! */
