@@ -42,8 +42,8 @@ int main() {
         if (pulse_count == 10){
 
             softPwmWrite(pwmPinA, 0);
-            pulse_count = 0;
-            std::cout << "Pulse Count: " << pulse_count << std::endl;        
+            std::cout << "Pulse Count: " << pulse_count << std::endl;    
+            pulse_count = 0;    
         }
 
     }
