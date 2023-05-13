@@ -132,11 +132,10 @@ int main(){
         cout << "회전 각도 = " << motorDegA << endl;
             
         if (motorDegA >= target_deg){
+            motorDegA = target_deg; // 멈추기 직전의 각도로 설정
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);    
-            // 속도 설정 
-            
+            digitalWrite(AIN2, LOW);       
             controlA = 0;
         }
     }    
