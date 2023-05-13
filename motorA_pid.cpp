@@ -58,13 +58,15 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += abs(digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  encoderPosLeft = abs(encoderPosLeft);  // 절대값 처리
 }
 
 void doEncoderB() {
-  encoderPosLeft  += abs(digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  encoderPosLeft = abs(encoderPosLeft);  // 절대값 처리
 }
-   
+ 
 void zero(){
     if (encoderPosLeft != 0) {
         encoderPosLeft = 0;
