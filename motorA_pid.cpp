@@ -130,7 +130,7 @@ int main(){
 
         // analogWrite(pwmPinA, min(abs(controlA), 0.0));
         //analogWrite(pwmPinB, min(abs(controlB), 100.0));
-
+ 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << endl;
         cout << "encA = " << encoderPosLeft << endl;
