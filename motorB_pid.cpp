@@ -130,7 +130,7 @@ int main(){
         cout << "----------------------------------------------------------------------------------" << endl;
         cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << ", disB = " << endl;
         cout << "encB = " << encoderPosRight << endl;
-        cout << "회전 각도 = " << turn_deg << endl;
+        cout << "회전 각도 = " << motorDegB << endl;
             
         if (motorDegB >= target_deg){
             digitalWrite(BIN3, LOW);
