@@ -33,7 +33,7 @@ float kp_A;
 float kd_A;         
 float ki_A;
 
-int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 
@@ -139,7 +139,7 @@ int main(){
             // 속도 설정 
             
             controlA = 0;
-        } 
+        }
     }    
     return 0; 
 }
