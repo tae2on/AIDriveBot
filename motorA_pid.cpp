@@ -124,7 +124,7 @@ int main(){
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
 
-        delay(1000);
+        delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
