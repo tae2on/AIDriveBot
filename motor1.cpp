@@ -12,9 +12,8 @@ volatile int pulse_countA = 0;
 volatile int pulse_countB = 0;
 
 void pulse_callbackA() {
-    if (pulse_countA < 11){
+    if(pulse_countA < 11){
         pulse_countA++;
-        
     }
 }
 
@@ -40,8 +39,8 @@ int main() {
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
     
-    wiringPiISR(encPinA, INT_EDGE_BOTH, &pulse_callbackA);
-    wiringPiISR(encPinB, INT_EDGE_BOTH, &pulse_callbackB);
+    wiringPiISR(encPinA, INT_EDGE_RISING, &pulse_callbackA);
+    wiringPiISR(encPinB, INT_EDGE_RISING, &pulse_callbackB);
 
     while (1) {
         pulse_callbackA();
