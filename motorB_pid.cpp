@@ -42,13 +42,9 @@ float errorB = 0;
 float error_prev_B = 0.;
 float error_prev_prev_B = 0;
 
-double turn_deg;                         // 회전 각도 
 double target_deg = 360;                 // 목표 회전각도 
 double controlB = 0.;
-
-// 모터 이동거리 구할 때 필요
-double target_distance;            // 목표 거리     
-
+ 
 double de_B = 0;
 double di_B = 0;
 double dt = 0;
@@ -105,7 +101,7 @@ int main(){
 
     cout << "각도 = " << motorDegB << endl;cout << "ctrlB = " << controlB << ", degB = " << motorDegB << ", errB = " << errorB << endl;
     cout << "encB = " << encoderPosRight << endl;
-    cout << "회전 각도 = " << turn_deg << endl;
+    cout << "회전 각도 = " << motorDegB << endl;
 
     while (true){
         // DC모터 오른쪽
@@ -136,21 +132,13 @@ int main(){
         cout << "encB = " << encoderPosRight << endl;
         cout << "회전 각도 = " << turn_deg << endl;
             
-        if (motor_distance_A >= target_distance){
+        if (motorDegB >= target_deg){
             digitalWrite(BIN3, LOW);
             digitalWrite(BIN4, LOW);            
             delay(10);
             // 속도 설정 
             softPwmWrite(pwmPinB, 0);   
         }
-
-        if (motor_distance_B >= target_distance){
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, LOW);            
-            delay(10);
-            // 속도 설정 
-            softPwmWrite(pwmPinB, 0);   
-        }        
     }
     return 0; 
 }
