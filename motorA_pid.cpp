@@ -131,11 +131,11 @@ int main(){
         cout << "encA = " << encoderPosLeft << endl;
         cout << "회전 각도 = " << motorDegA << endl;
             
-        if (errorA <= tolerance){
+        if (motorDegA >= target_deg){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
-            delay(2000);
+            delay(1000);
             // 속도 설정 
             
             controlA = 0;
