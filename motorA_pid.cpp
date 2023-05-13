@@ -139,8 +139,7 @@ int main(){
             // 속도 설정 
             
             controlA = 0;
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);             
+            stopMotor();
         }
     }    
     return 0; 
