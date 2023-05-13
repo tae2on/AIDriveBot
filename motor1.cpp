@@ -26,7 +26,9 @@ int main() {
     wiringPiSetup();
 
     pinMode(encPinA, INPUT);
+    pullUpDnControl(encPinA, PUD_UP);
     pinMode(encPinB, INPUT);
+    pullUpDnControl(encPinB, PUD_UP);
 
     pinMode(pwmPinA, OUTPUT); 
     pinMode(AIN1, OUTPUT);
