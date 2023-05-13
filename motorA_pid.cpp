@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <math.h>
 
-#define M_PI 3.14159265358979323846 
+#define M_PI 3.14159265358979323846
 using namespace std;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! */
@@ -57,15 +57,10 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  if (motorDegA <= target_deg) {
-    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
-  }
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
-
 void doEncoderB() {
-  if (motorDegA <= target_deg) {
-    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
-  }
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
    
 void zero(){
@@ -121,8 +116,8 @@ int main(){
         time_prev = time(nullptr);
      
         // 방향 설정  
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
 
         delay(1000);
         // 속도 설정 
@@ -140,13 +135,10 @@ int main(){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
-            delay(1000);
+            delay(10);
             // 속도 설정 
             
             controlA = 0;
-            encoderPosLeft = 0;
-            motorDegA = 0;
-            
         }
     }    
     return 0; 
