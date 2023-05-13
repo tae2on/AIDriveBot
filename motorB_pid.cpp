@@ -56,11 +56,17 @@ std::time_t time_prev = 0;
 std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
+// 인터럽트
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  if (motorDegA < target_deg) {
+    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  }
 }
+
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  if (motorDegA < target_deg) {
+    encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  }
 }
    
 void zero(){
