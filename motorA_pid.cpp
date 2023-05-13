@@ -99,7 +99,7 @@ int main(){
     zero();    
 
     cout << "각도 = " << motorDegA << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << motor_distance_A << ", derrA = " << derrorA << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "회전 각도 = " << turn_deg << endl;
 
