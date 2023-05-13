@@ -12,12 +12,14 @@ volatile int pulse_countA = 0;
 volatile int pulse_countB = 0;
 
 void pulse_callbackA() {
-    pulse_countA += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+    if(pulse_countA < 11){
+        pulse_countA++;
+    }
 }
 
-void pulse_callbackB() {    
-    pulse_countA += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
-
+void pulse_callbackB() {
+    pulse_countB++;
+      
 }
 
 int main() {
@@ -41,10 +43,7 @@ int main() {
     wiringPiISR(encPinB, INT_EDGE_RISING, &pulse_callbackB);
 
     while (1) {
-        pulse_callbackA();
         std::cout << "Pulse CountA: " << pulse_countA << std::endl;
-
-        pulse_callbackB();
         std::cout << "Pulse CountB: " << pulse_countB << std::endl;
         delay(100);
 
