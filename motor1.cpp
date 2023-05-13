@@ -19,10 +19,8 @@ void pulse_callbackA() {
 }
 
 void pulse_callbackB() {
-    if (pulse_countB < 11){
-        pulse_countB++;
-        
-    }
+    pulse_countB++;
+      
 }
 
 int main() {
