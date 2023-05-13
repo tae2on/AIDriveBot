@@ -55,7 +55,6 @@ double delta_vA = 0;
 double time_prev = 0;
 
 std::time_t start_time = std::time(nullptr);
-steady_clock::time_point start_time = steady_clock::now();
 
 // 인터럽트 
 void doEncoderA() {
@@ -90,7 +89,11 @@ int main(){
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
-  
+
+    steady_clock::time_point start_time = steady_clock::now();
+    steady_clock::time_point time_prev = start_time;
+
+
     cout << "kp_A의 값 : ";
     cin >> kp_A;
     cout << "ki_A의 값 : ";
