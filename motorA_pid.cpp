@@ -137,7 +137,9 @@ int main(){
             digitalWrite(AIN2, LOW);       
             delay(10);
             // 속도 설정 
-
+            
+            controlA = 0;
+            encoderPosLeft = 0;
         }
     }    
     return 0; 
