@@ -12,14 +12,12 @@ volatile int pulse_countA = 0;
 volatile int pulse_countB = 0;
 
 void pulse_callbackA() {
-    if(pulse_countA < 11){
-        pulse_countA++;
-    }
+    pulse_countA += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
 
-void pulse_callbackB() {
-    pulse_countB++;
-      
+void pulse_callbackB() {    
+    pulse_countA += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+
 }
 
 int main() {
