@@ -57,13 +57,13 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  if (motorDegA >= target_deg) {
+  if (motorDegA > 0) {
     encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
   }
 }
 
 void doEncoderB() {
-  if (motorDegA >= target_deg) {
+  if (motorDegA > 0) {
     encoderPosLeft += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
   }
 }
@@ -141,6 +141,7 @@ int main(){
             digitalWrite(AIN2, LOW);    
             // 속도 설정 
             softPwmWrite(pwmPinA, 0);
+            controlA = 0;
         }
     }    
     return 0; 
