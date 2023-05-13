@@ -34,7 +34,7 @@ int main() {
 
     while (1) {
         pulse_callback();
-        std::cout << "Pulse Count: " << pulse_count << std::endl;
+        // std::cout << "Pulse Count: " << pulse_count << std::endl;
         delay(100);
 
         if (pulse_count == 10){
