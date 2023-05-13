@@ -134,12 +134,12 @@ int main(){
         if (motorDegA >= target_deg){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);       
+            digitalWrite(AIN2, LOW);  
+            controlA = 0;     
             delay(10);
             // 속도 설정 
-            softPwmWrite(pwmPinA, 0); 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);  
+            
+            controlA = 0;
         }
     }    
     return 0; 
