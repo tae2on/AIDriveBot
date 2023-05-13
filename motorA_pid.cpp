@@ -58,10 +58,19 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+  if (digitalRead(encPinA) == digitalRead(encPinB)) {
+    encoderPosLeft++;
+  } else {
+    encoderPosLeft--;
+  }
 }
+
 void doEncoderB() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
+  if (digitalRead(encPinA) == digitalRead(encPinB)) {
+    encoderPosLeft--;
+  } else {
+    encoderPosLeft++;
+  }
 }
    
 void zero(){
@@ -70,6 +79,8 @@ void zero(){
     }    
 }
 int main(){
+    zero();
+    
     wiringPiSetup();
 
     pinMode(encPinA, INPUT);
@@ -101,7 +112,7 @@ int main(){
     cout << "kd_A의 값 : ";
     cin >> kd_A;
 
-    zero();    
+    
 
     cout << "각도 = " << motorDegA << endl;
     cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << endl;
