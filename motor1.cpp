@@ -6,13 +6,21 @@
 #define AIN1 22            // IN1 - GPIO핀 번호: 16
 #define AIN2 21            // IN2 - GPIO핀 번호 : 25 
 #define encPinA 3           // 보라색 (A) - GPIO핀 번호 : 23
-#define encPinB 6           // 파랑색 (B) - GPIO핀 번호 : 24
+#define encPinB 0           // 파랑색 (B) - GPIO핀 번호 : 24
 
-volatile int pulse_count = 0;
+volatile int pulse_countA = 0;
+volatile int pulse_countB = 0;
 
-void pulse_callback() {
-    if (pulse_count < 11){
-        pulse_count++;
+void pulse_callbackA() {
+    if (pulse_countA < 11){
+        pulse_countA++;
+        
+    }
+}
+
+void pulse_callbackB() {
+    if (pulse_countB < 11){
+        pulse_countB++;
         
     }
 }
@@ -21,6 +29,7 @@ int main() {
     wiringPiSetup();
 
     pinMode(encPinA, INPUT);
+    pinMode(encPinB, INPUT);
 
     pinMode(pwmPinA, OUTPUT); 
     pinMode(AIN1, OUTPUT);
@@ -33,18 +42,22 @@ int main() {
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
     
-    wiringPiISR(encPinA, INT_EDGE_BOTH, &pulse_callback);
+    wiringPiISR(encPinA, INT_EDGE_BOTH, &pulse_callbackA);
+    wiringPiISR(encPinB, INT_EDGE_BOTH, &pulse_callbackB);
 
     while (1) {
-        pulse_callback();
-        std::cout << "Pulse Count: " << pulse_count << std::endl;
+        pulse_callbackA();
+        std::cout << "Pulse Count: " << pulse_countA << std::endl;
+
+        pulse_callbackB();
+        std::cout << "Pulse Count: " << pulse_countB << std::endl;
         delay(100);
 
-        if (pulse_count == 10){
+        if (pulse_countA == 10){
 
             softPwmWrite(pwmPinA, 0);   
-            pulse_count = 0;    
-            std::cout << "Pulse Count: " << pulse_count << std::endl; 
+            pulse_countA = 0;    
+            std::cout << "Pulse Count: " << pulse_countA << std::endl; 
         }
 
     }
