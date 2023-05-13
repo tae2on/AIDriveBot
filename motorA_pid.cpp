@@ -68,13 +68,6 @@ void zero(){
         encoderPosLeft = 0;
     }    
 }
-
-void stopMotor() {
-    softPwmWrite(pwmPinA, 0); 
-    digitalWrite(AIN1, LOW);
-    digitalWrite(AIN2, LOW);
-}
-
 int main(){
     wiringPiSetup();
 
@@ -146,7 +139,8 @@ int main(){
             // 속도 설정 
             
             controlA = 0;
-            stopMotor();
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);
         }
     }    
     return 0; 
