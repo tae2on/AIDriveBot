@@ -27,7 +27,7 @@ using namespace std::chrono;
 #define encPinB 6           // 파랑색 (B) - GPIO핀 번호 : 24
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 20);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float propozrtion = 360. / (84 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp_A; 
@@ -55,7 +55,6 @@ double delta_vA = 0;
 std::time_t time_prev = 0;
 std::time_t start_time = std::time(nullptr);
 
-// 인터럽트 
 // 인터럽트
 void doEncoderA() {
   if (motorDegA < target_deg) {
