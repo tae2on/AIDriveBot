@@ -13,6 +13,7 @@
 
 #define M_PI 3.14159265358979323846
 using namespace std;
+using namespace std::chrono;
 
 /* 핀 번호가 아니라 wiringPi 번호 ! */
 /* gpio readall -> GPIO핀 / wiringPi핀 번호 확인법 */
@@ -33,8 +34,7 @@ float kp_A;
 float kd_A;         
 float ki_A;
 
-int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-bool encoderUpdated = false;
+volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 float motorDegA = 0;                   // 모터 각도A
 
@@ -58,21 +58,12 @@ std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
-  encoderUpdated = true; // 엔코더 값 업데이트 플래그 설정
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
 }
-
 void doEncoderB() {
-  encoderUpdated = true; // 엔코더 값 업데이트 플래그 설정
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
-
-void updateEncoder() {
-  if (encoderUpdated) {
-    encoderPosLeft = digitalRead(encPinA) == digitalRead(encPinB) ? encoderPosLeft - 1 : encoderPosLeft + 1;
-    encoderUpdated = false; // 엔코더 값 업데이트 플래그 재설정
-  }
-}
-
-
+   
 void zero(){
     if (encoderPosLeft != 0) {
         encoderPosLeft = 0;
@@ -98,6 +89,8 @@ int main(){
 
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
+
+    steady_clock::time_point start_time = steady_clock::now();
   
     cout << "kp_A의 값 : ";
     cin >> kp_A;
@@ -119,20 +112,19 @@ int main(){
 
         errorA = target_deg - motorDegA;
         de_A = errorA - error_prev_A;
-        dt = time(nullptr) - time_prev;
-        controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * errorA * dt;
+        di_A += errorA * dt;
+        steady_clock::time_point now = steady_clock::now();
+        dt = duration_cast<duration<double>>(now - time_prev).count();
+        controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * di_A;
 
         error_prev_A = errorA;
         time_prev = time(nullptr);
      
-        updateEncoder();
-
-
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
 
-        delay(1000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
@@ -148,7 +140,7 @@ int main(){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
-            delay(10);
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             // 속도 설정 
             
             controlA = 0;
