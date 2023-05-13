@@ -52,7 +52,7 @@ double dt_sleep = 0.01;
 double tolerance = 5;
 
 double delta_vA = 0;
-double time_prev = 0;
+std::time_t time_prev = 0;
 
 std::time_t start_time = std::time(nullptr);
 
