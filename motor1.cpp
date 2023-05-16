@@ -8,6 +8,12 @@
 #define encPinA 29           // 보라색 (A) - GPIO핀 번호 : 21
 #define encPinB 0           // 파랑색 (B) - GPIO핀 번호 : 24
 
+#define pwmPinB 25           // 모터 드라이버 ENB - GPIO핀 번호 : 26    
+#define BIN3 22           // IN3 - GPIO핀 번호 : 6
+#define BIN4 21           // IN4 - GPIO핀 번호 : 5
+#define encPinC 3            // 보라색 (C) - GPIO핀 번호 : 22
+#define encPinD 6            // 파랑색 (D) - GPIO핀 번호 : 24
+
 volatile int pulse_countA = 0;
 volatile int pulse_countB = 0;
 
@@ -15,11 +21,14 @@ void pulse_callbackA() {
     if(pulse_countA < 11){
         pulse_countA++;
     }
-    std::cout << "pulse" << std::endl;
+    //std::cout << "pulse" << std::endl;
 }
 
 void pulse_callbackB() {
-    pulse_countB++;
+    if(pulse_countB < 11){
+        pulse_countB++;
+    }
+    std::cout << "pulse" << std::endl;
       
 }
 
@@ -51,8 +60,6 @@ int main() {
     wiringPiISR(encPinB, INT_EDGE_RISING, &pulse_callbackB);
 
     while (1) {
-        //std::cout << "Pulse CountA: " << pulse_countA << std::endl;
-        //std::cout << "Pulse CountB: " << pulse_countB << std::endl;
         delay(100);
 
         if (pulse_countA == 10){
@@ -61,7 +68,6 @@ int main() {
             pulse_countA = 0;    
           //  std::cout << "Pulse CountA: " << pulse_countA << std::endl; 
         }
-
     }
 
     return 0;
