@@ -5,7 +5,7 @@
 #define pwmPinA 25             // 모터드라이d버 ENA - GPIO핀 번호: 12
 #define AIN1 22            // IN1 - GPIO핀 번호: 16
 #define AIN2 21            // IN2 - GPIO핀 번호 : 25 
-#define encPinA 3           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinA 29           // 보라색 (A) - GPIO핀 번호 : 21
 #define encPinB 0           // 파랑색 (B) - GPIO핀 번호 : 24
 
 volatile int pulse_countA = 0;
@@ -14,6 +14,7 @@ volatile int pulse_countB = 0;
 void pulse_callbackA() {
     if(pulse_countA < 11){
         pulse_countA++;
+        std::cout << "pulse" << std::endl;
     }
 }
 
