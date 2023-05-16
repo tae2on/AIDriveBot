@@ -14,8 +14,8 @@ volatile int pulse_countB = 0;
 void pulse_callbackA() {
     if(pulse_countA < 11){
         pulse_countA++;
-        std::cout << "pulse" << std::endl;
     }
+    std::cout << "pulse" << std::endl;
 }
 
 void pulse_callbackB() {
