@@ -51,15 +51,15 @@ int main() {
     wiringPiISR(encPinB, INT_EDGE_RISING, &pulse_callbackB);
 
     while (1) {
-        std::cout << "Pulse CountA: " << pulse_countA << std::endl;
-        std::cout << "Pulse CountB: " << pulse_countB << std::endl;
+        //std::cout << "Pulse CountA: " << pulse_countA << std::endl;
+        //std::cout << "Pulse CountB: " << pulse_countB << std::endl;
         delay(100);
 
         if (pulse_countA == 10){
 
             softPwmWrite(pwmPinA, 0);   
             pulse_countA = 0;    
-            std::cout << "Pulse CountA: " << pulse_countA << std::endl; 
+          //  std::cout << "Pulse CountA: " << pulse_countA << std::endl; 
         }
 
     }
