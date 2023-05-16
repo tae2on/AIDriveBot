@@ -8,12 +8,6 @@
 #define encPinA 29           // 보라색 (A) - GPIO핀 번호 : 21
 #define encPinB 0           // 파랑색 (B) - GPIO핀 번호 : 24
 
-#define pwmPinB 25           // 모터 드라이버 ENB - GPIO핀 번호 : 26    
-#define BIN3 22           // IN3 - GPIO핀 번호 : 6
-#define BIN4 21           // IN4 - GPIO핀 번호 : 5
-#define encPinC 3            // 보라색 (C) - GPIO핀 번호 : 22
-#define encPinD 6            // 파랑색 (D) - GPIO핀 번호 : 24
-
 volatile int pulse_countA = 0;
 volatile int pulse_countB = 0;
 
@@ -62,10 +56,10 @@ int main() {
     while (1) {
         delay(100);
 
-        if (pulse_countA == 10){
+        if (pulse_countB == 10){
 
             softPwmWrite(pwmPinA, 0);   
-            pulse_countA = 0;    
+            pulse_countB = 0;    
           //  std::cout << "Pulse CountA: " << pulse_countA << std::endl; 
         }
     }
