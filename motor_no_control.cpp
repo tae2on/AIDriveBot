@@ -130,8 +130,8 @@ void MotorControl::call(int x){
         // 방향 조절 
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 30);
@@ -149,8 +149,8 @@ void MotorControl::call(int x){
         // 방향 조절 
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 100);
