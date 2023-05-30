@@ -200,8 +200,6 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    zero(); 
-
     while(true) {
         int lidar_way = control.getInput();
         control.call(lidar_way);
