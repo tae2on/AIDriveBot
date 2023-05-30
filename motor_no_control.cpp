@@ -94,8 +94,8 @@ void MotorControl::call(int x){
         // 방향 설정 
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
         delay(10);
         // 속도 설정 
         softPwmWrite(pwmPinA, 255.);        // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
@@ -110,8 +110,8 @@ void MotorControl::call(int x){
     // 후진
     else if (x == 2) {
         // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         delay(10);
