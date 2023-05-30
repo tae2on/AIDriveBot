@@ -34,7 +34,7 @@ using namespace std;
 #define encPinD 0            // 파랑색 (D) - GPIO핀 번호 : 17
 
 int encoderPosLeft = 0;
-int encoderPosRigh = 0; 
+int encoderPosRight = 0; 
 
 int lidar_way;
 int x;
