@@ -21,8 +21,8 @@ using namespace std::chrono;
 #define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
 #define AIN1 27            // IN1 - GPIO핀 번호: 16
 #define AIN2 6            // IN2 - GPIO핀 번호 : 25 
-#define encPinA 4           // 보라색 (A) - GPIO핀 번호 : 23
-#define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
+#define encPinA 5           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 4           // 파랑색 (B) - GPIO핀 번호 : 24
 
 int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
@@ -30,14 +30,14 @@ int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 void doEncoderA() {
   if (digitalRead(encPinA) == HIGH) {
     if (digitalRead(encPinB) == LOW)
-      encoderPosLeft--;
-    else
       encoderPosLeft++;
+    else
+      encoderPosLeft--;
   } else {
     if (digitalRead(encPinB) == HIGH)
-      encoderPosLeft--;
-    else
       encoderPosLeft++;
+    else
+      encoderPosLeft--;
   }
 }
 
