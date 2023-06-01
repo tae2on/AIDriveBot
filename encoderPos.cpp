@@ -21,75 +21,22 @@ using namespace std::chrono;
 #define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
 #define AIN1 27            // IN1 - GPIO핀 번호: 16
 #define AIN2 6            // IN2 - GPIO핀 번호 : 25 
-#define encPinA 5           // 보라색 (A) - GPIO핀 번호 : 23
-#define encPinB 4           // 파랑색 (B) - GPIO핀 번호 : 24
+#define encPinA 4           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-int x;
+int data;
 
 // 인터럽트 
 void doEncoderA() {
-  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
-}
-void doEncoderB() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
-
-class MotorControl{
-public:
-    void call(int x);
-    int getInput();
-};
+void doEncoderB() {
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+}
  
-// 원하는 방향 입력
-int MotorControl::getInput() {
-    int x;
-    cout << "정지 : 0 / 직진 : 1" << endl;
-    cout << "원하는 방향을 입력하시오 : ";
-    cin >> x;
-    return x; 
-}
-
-void MotorControl::call(int x){
-    // 정지
-    if (x == 0){
-        // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, LOW);
-
-        // 속도 설정 
-        softPwmWrite(pwmPinA, 0);
-  
-        
-        // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
-        if(x != 0){
-            x = getInput();
-        }
-    }
-    
-    // 전진
-    else if (x == 1) {
-        // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-
-        // 속도 설정 
-        softPwmWrite(pwmPinA, 10);        // 만약에 동작 안 할 경우 255. -> 100. 으로 수정           
-
-        cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "encA = " << encoderPosLeft << endl;    
-
-        // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-        if(x != 1){
-            x = getInput();
-        }
-    }
-}
-
 int main(){
     wiringPiSetup();
-
-    MotorControl control;
 
     pinMode(encPinA, INPUT);
     pullUpDnControl(encPinA, PUD_UP);
@@ -111,12 +58,27 @@ int main(){
 
     while (true){
 
-        int x = control.getInput();
-        control.call(x);   
-
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "encA = " << encoderPosLeft << endl;
-            
+
+       if (data == 0){
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 0);
+    }
+    
+    // 전진
+    else if (data == 1) {
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 10);           
+      
         if (encoderPosLeft >= 3360){
             softPwmWrite(pwmPinA, 0);             
             digitalWrite(AIN1, LOW);
