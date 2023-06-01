@@ -78,8 +78,8 @@ int main(){
 
     while (true){
 
-        cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "encA = " << encoderPosLeft << endl;
+        //cout << "--------------------------------------------------------------------------------" << endl;
+        //cout << "encA = " << encoderPosLeft << endl;
         
         // 방향 설정 
         digitalWrite(AIN1, LOW);
