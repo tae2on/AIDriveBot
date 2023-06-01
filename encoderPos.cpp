@@ -71,6 +71,7 @@ int main(){
             softPwmWrite(pwmPinA, 0);             
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW); 
+            break;
         }    
     }
     return 0; 
