@@ -21,8 +21,8 @@ using namespace std::chrono;
 #define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
 #define AIN1 27            // IN1 - GPIO핀 번호: 16
 #define AIN2 6            // IN2 - GPIO핀 번호 : 25 
-#define encPinA 4           // 보라색 (A) - GPIO핀 번호 : 23
-#define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
+#define encPinA 5           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 4           // 파랑색 (B) - GPIO핀 번호 : 24
 
 int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 int lidar_way;
@@ -76,6 +76,9 @@ void MotorControl::call(int x){
 
         // 속도 설정 
         softPwmWrite(pwmPinA, 10);        // 만약에 동작 안 할 경우 255. -> 100. 으로 수정           
+
+        cout << "--------------------------------------------------------------------------------" << endl;
+        cout << "encA = " << encoderPosLeft << endl;    
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
