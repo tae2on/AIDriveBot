@@ -25,7 +25,6 @@ using namespace std::chrono;
 #define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-int data;
 
 // 인터럽트 
 void doEncoderA() {
@@ -71,9 +70,7 @@ int main(){
         if (encoderPosLeft >= 3360){
             softPwmWrite(pwmPinA, 0);             
             digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);
-
-            delay(1000); 
+            digitalWrite(AIN2, LOW); 
         }    
     }
     return 0; 
