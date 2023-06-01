@@ -33,20 +33,6 @@ void doEncoderA() {
 void doEncoderB() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
-
-void doEncoderB() {
-  if (digitalRead(encPinA) == HIGH) {
-    if (digitalRead(encPinB) == HIGH)
-      encoderPosLeft++;
-    else
-      encoderPosLeft--;
-  } else {
-    if (digitalRead(encPinB) == LOW)
-      encoderPosLeft++;
-    else
-      encoderPosLeft--;
-  }
-}
  
 int main(){
     wiringPiSetup();
