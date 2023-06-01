@@ -30,14 +30,14 @@ int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 void doEncoderA() {
   if (digitalRead(encPinA) == HIGH) {
     if (digitalRead(encPinB) == LOW)
-      encoderPosLeft++;
-    else
       encoderPosLeft--;
+    else
+      encoderPosLeft++;
   } else {
     if (digitalRead(encPinB) == HIGH)
-      encoderPosLeft++;
-    else
       encoderPosLeft--;
+    else
+      encoderPosLeft++;
   }
 }
 
