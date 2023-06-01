@@ -27,7 +27,7 @@ using namespace std::chrono;
 #define encPinB 5           // 파랑색 (B) - GPIO핀 번호 : 24
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 20);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp_A; 
@@ -40,20 +40,11 @@ float motorDegA = 0;                   // 모터 각도A
 
 float errorA = 0;
 float error_prev_A = 0.;
+float error_prev_prev_A = 0.;
 
-double turn_deg;                         // 회전 각도 
 double target_deg = 360;                 // 목표 회전각도 
 double controlA = 0.;
- 
-double de_A = 0;
-double di_A = 0;
-double dt = 0;
-double dt_sleep = 0.01;
-double tolerance = 5;
-
 double delta_vA = 0;
-std::time_t time_prev = 0;
-std::time_t start_time = std::time(nullptr);
 
 // 인터럽트 
 void doEncoderA() {
@@ -63,11 +54,6 @@ void doEncoderB() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
    
-void zero(){
-    if (encoderPosLeft != 0) {
-        encoderPosLeft = 0;
-    }    
-}
 int main(){
     wiringPiSetup();
 
@@ -89,38 +75,27 @@ int main(){
     wiringPiISR(encPinA, INT_EDGE_BOTH, &doEncoderA);
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
 
-    steady_clock::time_point start_time = steady_clock::now();
-    steady_clock::time_point time_prev = start_time;
-
-
     cout << "kp_A의 값 : ";
     cin >> kp_A;
     cout << "ki_A의 값 : ";
     cin >> ki_A;
     cout << "kd_A의 값 : ";
-    cin >> kd_A;
-
-    zero();    
+    cin >> kd_A;   
 
     cout << "각도 = " << motorDegA << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << ", disA = " << endl;
+    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
     cout << "encA = " << encoderPosLeft<< endl;
     cout << "회전 각도 = " << turn_deg << endl;
+    cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
 
     while (true){
         //DC모터 왼쪽
         motorDegA = abs(encoderPosLeft * proportion);
 
         errorA = target_deg - motorDegA;
-        de_A = errorA - error_prev_A;
-        di_A += errorA * dt;
-        steady_clock::time_point now = steady_clock::now();
-        dt = duration_cast<duration<double>>(now - time_prev).count();
-        controlA = kp_A * errorA + kd_A * de_A / dt + ki_A * di_A;
-
-        error_prev_A = errorA;
-        time_prev = now;
-     
+        delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
+        controlA += delta_vA;
+        
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
@@ -133,9 +108,11 @@ int main(){
         //analogWrite(pwmPinB, min(abs(controlB), 100.0));
 
         cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << ", errA = " << errorA << endl;
-        cout << "encA = " << encoderPosLeft << endl;
-        cout << "회전 각도 = " << motorDegA << endl;
+         cout << "각도 = " << motorDegA << endl;
+        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
+        cout << "encA = " << encoderPosLeft<< endl;
+        cout << "회전 각도 = " << turn_deg << endl;
+        cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
             
         if (motorDegA >= target_deg){
             softPwmWrite(pwmPinA, 0); 
