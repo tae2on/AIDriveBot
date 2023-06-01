@@ -25,7 +25,6 @@ using namespace std::chrono;
 #define encPinB 4           // 파랑색 (B) - GPIO핀 번호 : 24
 
 int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-int lidar_way;
 int x;
 
 // 인터럽트 
@@ -112,18 +111,16 @@ int main(){
 
     while (true){
 
-        int lidar_way = control.getInput();
-        control.call(lidar_way);
-        delay(1000);   
+        int x = control.getInput();
+        control.call(x);   
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "encA = " << encoderPosLeft << endl;
             
         if (encoderPosLeft >= 3360){
+            softPwmWrite(pwmPinA, 0);             
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);
-
-            softPwmWrite(pwmPinA, 0); 
 
             delay(1000); 
         }
