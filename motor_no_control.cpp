@@ -97,7 +97,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         // 속도 설정 
         softPwmWrite(pwmPinA, 70);        // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
-        softPwmWrite(pwmPinB, 70.5);          
+        softPwmWrite(pwmPinB, 70);          
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 1){
