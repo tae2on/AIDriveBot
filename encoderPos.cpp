@@ -28,17 +28,10 @@ int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
 // 인터럽트 
 void doEncoderA() {
-  if (digitalRead(encPinA) == HIGH) {
-    if (digitalRead(encPinB) == LOW)
-      encoderPosLeft++;
-    else
-      encoderPosLeft--;
-  } else {
-    if (digitalRead(encPinB) == HIGH)
-      encoderPosLeft++;
-    else
-      encoderPosLeft--;
-  }
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? -1 : 1;
+}
+void doEncoderB() {
+  encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 
 void doEncoderB() {
@@ -78,8 +71,8 @@ int main(){
 
     while (true){
 
-        //cout << "--------------------------------------------------------------------------------" << endl;
-        //cout << "encA = " << encoderPosLeft << endl;
+        cout << "--------------------------------------------------------------------------------" << endl;
+        cout << "encA = " << encoderPosLeft << endl;
         
         // 방향 설정 
         digitalWrite(AIN1, LOW);
