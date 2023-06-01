@@ -130,7 +130,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 70.);
+        softPwmWrite(pwmPinA, 70);
         softPwmWrite(pwmPinB, 10);  
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
@@ -149,7 +149,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         // 속도 설정 
         softPwmWrite(pwmPinA, 10);
-        softPwmWrite(pwmPinB, 70.);  
+        softPwmWrite(pwmPinB, 70);  
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
         if(x != 4){
