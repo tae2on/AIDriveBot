@@ -60,32 +60,20 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "encA = " << encoderPosLeft << endl;
-
-       if (data == 0){
+        
         // 방향 설정 
         digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, LOW);
+        digitalWrite(AIN2, HIGH);
 
         // 속도 설정 
-        softPwmWrite(pwmPinA, 0);
-        }
-    
-        // 전진
-        else if (data == 1) {
-            // 방향 설정 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
-
-            // 속도 설정 
-            softPwmWrite(pwmPinA, 10);           
+        softPwmWrite(pwmPinA, 10);           
       
-            if (encoderPosLeft >= 3360){
-                softPwmWrite(pwmPinA, 0);             
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
+        if (encoderPosLeft >= 3360){
+            softPwmWrite(pwmPinA, 0);             
+            digitalWrite(AIN1, LOW);
+            digitalWrite(AIN2, LOW);
 
-                delay(1000); 
-            }
+            delay(1000); 
         }    
     }
     return 0; 
