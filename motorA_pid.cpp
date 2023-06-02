@@ -82,12 +82,6 @@ int main(){
     cout << "kd_A의 값 : ";
     cin >> kd_A;   
 
-    cout << "각도 = " << motorDegA << endl;
-    cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
-    cout << "encA = " << encoderPosLeft<< endl;
-    cout << "회전 각도 = " << turn_deg << endl;
-    cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
-
     while (true){
         //DC모터 왼쪽
         motorDegA = abs(encoderPosLeft * proportion);
@@ -95,34 +89,36 @@ int main(){
         errorA = target_deg - motorDegA;
         delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
         controlA += delta_vA;
+
+        error_prev_prev_A = error_prev_A;
+        error_prev_A = errorA;
+
         
         // 방향 설정  
         digitalWrite(AIN1, HIGH);
         digitalWrite(AIN2, LOW);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
-        // analogWrite(pwmPinA, min(abs(controlA), 0.0));
-        //analogWrite(pwmPinB, min(abs(controlB), 100.0));
+        auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
         cout << "--------------------------------------------------------------------------------" << endl;
-         cout << "각도 = " << motorDegA << endl;
+        cout << "각도 = " << motorDegA << endl;
         cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
         cout << "encA = " << encoderPosLeft<< endl;
-        cout << "회전 각도 = " << turn_deg << endl;
         cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
-            
+        
+
         if (motorDegA >= target_deg){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-            // 속도 설정 
-            
-            controlA = 0;
+            break;
         }
+        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
+        std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
     }    
     return 0; 
 }
