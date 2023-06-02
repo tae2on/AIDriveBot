@@ -99,6 +99,9 @@ int main(){
       controlA += delta_vA;
       count +=1;
 
+      error_prev_prev_A = error_prev_A;
+      error_prev_A = errorA;
+
       if (count == 1){
         error_prev_A = errorA;
         errorA = target_deg - motorDegA;
