@@ -103,7 +103,7 @@ int main(){
       error_prev_A = errorA;
  
       // 방향 설정  
-      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN1, HIGH); 
       digitalWrite(AIN2, LOW);
 
       // 속도 설정 
