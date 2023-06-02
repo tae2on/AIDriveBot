@@ -18,11 +18,12 @@ using namespace std::chrono;
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
 
 // DC 모터 왼쪽 (엔코더 O)
-#define pwmPinA 26             // 모터드라이버 ENA - GPIO핀 번호: 12
-#define AIN1 27            // IN1 - GPIO핀 번호: 16
-#define AIN2 6            // IN2 - GPIO핀 번호 : 25 
-#define encPinA 5           // 보라색 (A) - GPIO핀 번호 : 23
-#define encPinB 4           // 파랑색 (B) - GPIO핀 번호 : 24
+#define pwmPinA 25             // 모터드라이버 ENA - GPIO핀 번호: 12
+#define AIN1 22            // IN1 - GPIO핀 번호: 16
+#define AIN2 21            // IN2 - GPIO핀 번호 : 25 
+#define encPinA 3           // 보라색 (A) - GPIO핀 번호 : 23
+#define encPinB 6           // 파랑색 (B) - GPIO핀 번호 : 24
+
 
 int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
