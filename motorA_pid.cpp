@@ -43,7 +43,6 @@ float error_prev_A = 0.;
 float error_prev_prev_A = 0.;
 
 double target_deg = 360;                 // 목표 회전각도 
-double controlA = 0.;
 double delta_vA = 0;
 
 // 인터럽트 
@@ -97,7 +96,6 @@ int main(){
         
       delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
       controlA += delta_vA;
-      count +=1;
 
       error_prev_prev_A = error_prev_A;
       error_prev_A = errorA;
