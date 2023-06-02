@@ -105,7 +105,7 @@ int main(){
       digitalWrite(AIN2, LOW);
 
       // 속도 설정 
-      softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
+      softPwmWrite(pwmPinA, min(abs(controlA), 30.));    
 
       auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
      
