@@ -103,6 +103,12 @@ int main(){
         error_prev_prev_A = error_prev_A;
         error_prev_A = errorA;
         errorA = target_deg - motorDegA;
+       cout << "--------------------------------------------------------------------------------" << endl;
+       cout << "각도 = " << motorDegA << endl;
+       cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
+       cout << "encA = " << encoderPosLeft<< endl;
+       cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
+        
       }
         
       // 방향 설정  
@@ -113,13 +119,7 @@ int main(){
       softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
       auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
-
-      cout << "--------------------------------------------------------------------------------" << endl;
-      cout << "각도 = " << motorDegA << endl;
-      cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
-      cout << "encA = " << encoderPosLeft<< endl;
-      cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
-        
+     
       if (motorDegA >= target_deg){
           softPwmWrite(pwmPinA, 0); 
           digitalWrite(AIN1, LOW);
