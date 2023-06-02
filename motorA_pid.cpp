@@ -43,6 +43,7 @@ float error_prev_A = 0.;
 float error_prev_prev_A = 0.;
 
 double target_deg = 360;                 // 목표 회전각도 
+double controlA = 0.;
 double delta_vA = 0;
 
 // 인터럽트 
@@ -82,7 +83,6 @@ int main(){
     cin >> kd_A;   
 
     while (true){
-      int count = 0;
       //DC모터 왼쪽
       motorDegA = abs(encoderPosLeft * proportion);
 
