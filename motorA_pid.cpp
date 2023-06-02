@@ -30,9 +30,9 @@ using namespace std::chrono;
 const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp_A; 
-float kd_A;         
-float ki_A;
+float kp_A; // 0.5
+float kd_A; // 0        
+float ki_A; // 0 
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 
