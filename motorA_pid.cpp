@@ -42,7 +42,7 @@ float errorA = 0;
 float error_prev_A = 0.;
 float error_prev_prev_A = 0.;
 
-double target_deg = 360;                 // 목표 회전각도 
+double target_deg = 3600;                 // 목표 회전각도 
 double controlA = 0.;
 double delta_vA = 0;
 
