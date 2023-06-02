@@ -35,6 +35,7 @@ float kd_A;
 float ki_A;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+int count;
 
 float motorDegA = 0;                   // 모터 각도A
 
@@ -83,42 +84,53 @@ int main(){
     cin >> kd_A;   
 
     while (true){
-        //DC모터 왼쪽
-        motorDegA = abs(encoderPosLeft * proportion);
+      //DC모터 왼쪽
+      motorDegA = abs(encoderPosLeft * proportion);
 
+      errorA = target_deg - motorDegA;
+      delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
+      controlA += delta_vA;
+      count +=1;
+
+      error_prev_prev_A = error_prev_A;
+      error_prev_A = errorA;
+
+      if (count == 1){
+        error_prev_A = errorA;
         errorA = target_deg - motorDegA;
-        delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
-        controlA += delta_vA;
-
+      }
+      else {
         error_prev_prev_A = error_prev_A;
         error_prev_A = errorA;
-
+        errorA = target_deg - motorDegA;
+      }
         
-        // 방향 설정  
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
+      // 방향 설정  
+      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN2, LOW);
 
-        // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(abs(controlA), 100.));    
 
-        auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
+      auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
-        cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "각도 = " << motorDegA << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
-        cout << "encA = " << encoderPosLeft<< endl;
-        cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
+      cout << "--------------------------------------------------------------------------------" << endl;
+      cout << "각도 = " << motorDegA << endl;
+      cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
+      cout << "encA = " << encoderPosLeft<< endl;
+      cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
         
-
-        if (motorDegA >= target_deg){
-            softPwmWrite(pwmPinA, 0); 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);       
-            break;
-        }
-        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
-        std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
+      if (motorDegA >= target_deg){
+          softPwmWrite(pwmPinA, 0); 
+          digitalWrite(AIN1, LOW);
+          digitalWrite(AIN2, LOW);       
+          break;
+      }
+      
+      auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+      auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
+      std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
+    
     }    
-    return 0; 
+  return 0; 
 }
