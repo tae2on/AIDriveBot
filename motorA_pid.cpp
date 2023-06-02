@@ -101,17 +101,7 @@ int main(){
 
       error_prev_prev_A = error_prev_A;
       error_prev_A = errorA;
-/*
-      if (count == 1){
-        error_prev_A = errorA;
-        errorA = target_deg - motorDegA;
-      }
-      else {
-        error_prev_prev_A = error_prev_A;
-        error_prev_A = errorA;
-        errorA = target_deg - motorDegA;
-      }
-*/        
+ 
       // 방향 설정  
       digitalWrite(AIN1, HIGH);
       digitalWrite(AIN2, LOW);
