@@ -42,7 +42,7 @@ float errorA = 0;
 float error_prev_A = 0.;
 float error_prev_prev_A = 0.;
 
-double target_deg = 360;                 // 목표 회전각도 
+double target_deg = 3600;                 // 목표 회전각도 
 double controlA = 0.;
 double delta_vA = 0;
 
@@ -87,7 +87,7 @@ int main(){
       motorDegA = abs(encoderPosLeft * proportion);
 
       errorA = target_deg - motorDegA;
-      
+
       cout << "--------------------------------------------------------------------------------" << endl;
       cout << "각도 = " << motorDegA << endl;
       cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
