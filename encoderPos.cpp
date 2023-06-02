@@ -56,9 +56,10 @@ int main(){
     wiringPiISR(encPinB, INT_EDGE_BOTH, &doEncoderB);
 
     while (true){
+        auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
-        //cout << "--------------------------------------------------------------------------------" << endl;
-        //cout << "encA = " << encoderPosLeft << endl;
+        cout << "--------------------------------------------------------------------------------" << endl;
+        cout << "encA = " << encoderPosLeft << endl;
         
         // 방향 설정 
         digitalWrite(AIN1, LOW);
@@ -73,6 +74,9 @@ int main(){
             digitalWrite(AIN2, LOW); 
             break;
         }    
+        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
+        std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
     }
     return 0; 
 }
