@@ -88,7 +88,6 @@ int main(){
       motorDegA = abs(encoderPosLeft * proportion);
 
       errorA = target_deg - motorDegA;
-      
       cout << "--------------------------------------------------------------------------------" << endl;
       cout << "각도 = " << motorDegA << endl;
       cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
