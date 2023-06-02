@@ -83,11 +83,11 @@ int main(){
     cin >> kd_A;   
 
     while (true){
-      int count = 0;
       //DC모터 왼쪽
       motorDegA = abs(encoderPosLeft * proportion);
 
       errorA = target_deg - motorDegA;
+      
       cout << "--------------------------------------------------------------------------------" << endl;
       cout << "각도 = " << motorDegA << endl;
       cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
@@ -96,21 +96,10 @@ int main(){
         
       delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
       controlA += delta_vA;
-      count +=1;
 
       error_prev_prev_A = error_prev_A;
       error_prev_A = errorA;
 
-      if (count == 1){
-        error_prev_A = errorA;
-        errorA = target_deg - motorDegA;
-      }
-      else {
-        error_prev_prev_A = error_prev_A;
-        error_prev_A = errorA;
-        errorA = target_deg - motorDegA;
-      }
-        
       // 방향 설정  
       digitalWrite(AIN1, HIGH);
       digitalWrite(AIN2, LOW);
