@@ -42,19 +42,53 @@ float kp_L = 0.5;
 float kd_L = 0;      
 float ki_L = 0;
 
+// R 값 실험을 통해 찾기 
+float kp_R;
+float kd_R;      
+float ki_R;
+
 int encoderPosLeft = 0;
 int encoderPosRight = 0; 
 
-float motorDegL = 0;                   // 모터 각도A
+float motorDegL = 0;                   // 모터 각도 L
+float motorDegR = 0;                   // 모터 각도 R
 
 float errorL = 0;
 float error_prev_L = 0.;
 float error_prev_prev_L = 0.;
 
-double target_deg;                 // 목표 회전각도 
+float errorR = 0;
+float error_prev_R = 0.;
+float error_prev_prev_R = 0.;
+
+double target_deg;                 // 목표 회전각도 -> 식 다시 생각해보기 
 double controlL = 0.;
 double delta_vL = 0;
 
+double controlR = 0.;
+double delta_vR = 0;
+
+/* 로봇의 선형 변위와 각변위 계산식 */
+// 선형 변위 
+double delta_s = 0;
+
+// 각변위 
+double delta_deg = 0;
+
+/* 로봇의 위치, 방향각을 좌표로 계산식 */
+double setha = 0 ;
+double setha_prev = 0;
+
+double x_coordinate = 0;
+double x_prev_coordinate = 0;
+
+double y_coordinate = 0;
+double y_prev_coordinate = 0;
+
+double deg_coordinate = 0;
+double deg_prev_coordinate = 0;
+
+/* 라이다 연동 */
 int lidar_way;
 int x;
 
@@ -68,10 +102,10 @@ void doEncoderB() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
 }
 void doEncoderC() {
-  encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
+  encoderPosRight += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 void doEncoderD() {
-  encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
+  encoderPosRight += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
 }
 
 class MotorControl{
@@ -84,7 +118,7 @@ void Calculation() {
     // wheel = 2 * M_PI * 11.5;
     //target_deg = (360 * target_distance / wheel) ;      // 목표 각도
 
-    //DC모터 왼쪽
+    // DC모터 왼쪽
     motorDegL = abs(encoderPosLeft * proportion);
 
     errorL = target_deg - motorDegL;
@@ -94,10 +128,41 @@ void Calculation() {
 
     error_prev_prev_L = error_prev_L;
     error_prev_L = errorL;
-    
+
+    // DC모터 오른쪽
+    motorDegR = abs(encoderPosRight * proportion);
+
+    errorR = target_deg - motorDegR;
+
+    delta_vR = kp_R * (errorR - error_prev_R) + ki_R * errorR + kd_R * (errorR - 2 * error_prev_R + error_prev_prev_R);
+    controlR += delta_vR;
+
+    error_prev_prev_R = error_prev_R;
+    error_prev_R = errorR;
+
+    // 로봇의 선형 변위와 각변위 계산식 
+    delta_s = 11.5 / 2 * (motorDegL + motorDegR);
+
+    delta_deg = 11.5  / 29.2 * (motorDegL + motorDegR);
+
+    // 로봇의 위치, 방향각을 좌표로 계산식 
+    setha = setha_prev + delta_s / 2;
+    setha_prev = setha;
+
+    x_coordinate = x_prev_coordinate + cos(setha) * delta_s;
+    x_prev_coordinate = x_coordinate;
+
+    y_coordinate = y_prev_coordinate + sin(setha) * delta_s;
+    y_prev_coordinate = y_coordinate;
+
+    deg_coordinate = deg_prev_coordinate + delta_deg;
+    deg_prev_coordinate = deg_coordinate;
+
     // PID를 사용하기 위해서는 원하는 각도 혹은 거리를 비교하여 사용 -> 원하는 각도 혹은 거리 알아야 함 
     cout << "--------------------------------------------------------------------------------" << endl;
-    cout << "각도 = " << motorDegL << endl;
+    cout << "왼쪽 모터의 회전각도 = " << motorDegL << "오른쪽 모터의 회전각도 = " << motorDegR << endl;
+    cout << "로봇의 선형 변위 = " << motor_s << endl;
+    cout << "로봇의 각변위 =" << delta_deg << endl;
 }
 
 // 원하는 방향 입력
