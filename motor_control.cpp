@@ -145,7 +145,7 @@ void Calculation() {
     delta_deg = 11.5  / 29.2 * (motorDegL + motorDegR);
 
     // 로봇의 위치, 방향각을 좌표로 계산식 
-    setha = setha_prev + delta_s / 2;
+    setha = setha_prev + delta_deg / 2;
     setha_prev = setha;
 
     x_coordinate = x_prev_coordinate + cos(setha) * delta_s;
