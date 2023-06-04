@@ -93,7 +93,7 @@ void Calculation() {
     error_prev_prev_L = error_prev_L;
     error_prev_L = errorL;
     
-    while True(){
+    while (true){
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "각도 = " << motorDegL << endl;
     }
