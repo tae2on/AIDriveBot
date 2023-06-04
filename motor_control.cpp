@@ -205,8 +205,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 70);        // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
-        softPwmWrite(pwmPinB, 70);          
+        softPwmWrite(pwmPinA, min(abs(controlL), 70.));     
+        softPwmWrite(pwmPinB, min(abs(controlR), 70.));         
 
         Calculation();       
 
@@ -224,8 +224,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 70);    
-        softPwmWrite(pwmPinB, 70);  
+        softPwmWrite(pwmPinA, min(abs(controlL), 70.));    
+        softPwmWrite(pwmPinB, min(abs(controlR), 70.));          
 
         Calculation();
 
@@ -243,8 +243,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 70);
-        softPwmWrite(pwmPinB, 10);  
+        softPwmWrite(pwmPinA, min(abs(controlL), 70.));        
+        softPwmWrite(pwmPinB, min(abs(controlR), 10.));     
 
         Calculation();
 
@@ -262,8 +262,8 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 10);
-        softPwmWrite(pwmPinB, 70);  
+        softPwmWrite(pwmPinA, min(abs(controlL), 10.));       
+        softPwmWrite(pwmPinB, min(abs(controlR), 70.));     
 
         Calculation();
 
