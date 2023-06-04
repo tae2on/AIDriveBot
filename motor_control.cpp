@@ -35,7 +35,7 @@ using namespace std::chrono;
 #define encPinD 0            // 파랑색 (D) - GPIO핀 번호 : 17
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 3360펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
 float kp_L = 0.5;
@@ -87,6 +87,11 @@ double y_prev_coordinate = 0;
 
 double deg_coordinate = 0;
 double deg_prev_coordinate = 0;
+
+/* 회전반경 구하기 */
+double resolution = 3360;
+double motorL_turning_radius = 0;
+double motorR_turning_radius = 0;
 
 /* 라이다 연동 */
 int lidar_way;
@@ -142,7 +147,7 @@ void Calculation() {
     // 로봇의 선형 변위와 각변위 계산식 
     delta_s = 11.5 / 2 * (motorDegL + motorDegR);
 
-    delta_deg = 11.5  / 29.2 * (motorDegL + motorDegR);
+    delta_deg = 11.5 / 29.2 * (motorDegL + motorDegR);
 
     // 로봇의 위치, 방향각을 좌표로 계산식 
     setha = setha_prev + delta_deg / 2;
@@ -157,6 +162,11 @@ void Calculation() {
     deg_coordinate = deg_prev_coordinate + delta_deg;
     deg_prev_coordinate = deg_coordinate;
 
+    // 로봇의 회전반경 구하기 
+    //회전반경 = (엔코더 값 * 바퀴의 반지름) / (엔코더의 분해능 * 기어비);
+    motorL_turning_radius = (encoderPosLeft * 11.5) / (resolution * 84);
+    motorR_turning_radius = (encoderPosRight * 11.5) / (resolution * 84);
+
     // PID를 사용하기 위해서는 원하는 각도 혹은 거리를 비교하여 사용 -> 원하는 각도 혹은 거리 알아야 함 
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << "왼쪽 모터의 회전각도 = " << motorDegL << " / 오른쪽 모터의 회전각도 = " << motorDegR << endl;
@@ -164,6 +174,7 @@ void Calculation() {
     cout << "로봇의 각변위 =" << delta_deg << endl;
     cout << "로봇의 x좌표 =" << x_coordinate << " / 로봇의 y좌표 =" << y_coordinate << endl;
     cout << "로봇의 방향각 =" << deg_coordinate << endl;
+    cout << "왼쪽 모터의 회전반경 = " << motorL_turning_radius << " / 오른쪽 모터의 회전반경  = " << motorR_turning_radius << endl;
 }
 
 // 원하는 방향 입력
