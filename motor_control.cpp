@@ -163,7 +163,7 @@ void Calculation() {
     deg_prev_coordinate = deg_coordinate;
 
     // 로봇의 회전반경 구하기 
-    //회전반경 = (엔코더 값 * 바퀴의 반지름) / (엔코더의 분해능 * 기어비);
+    // 회전반경 = (엔코더 값 * 바퀴의 반지름) / (엔코더의 분해능 * 기어비);
     motorL_turning_radius = (encoderPosLeft * 11.5) / (resolution * 84);
     motorR_turning_radius = (encoderPosRight * 11.5) / (resolution * 84);
 
