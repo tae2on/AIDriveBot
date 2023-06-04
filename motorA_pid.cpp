@@ -101,8 +101,8 @@ int main(){
       error_prev_A = errorA;
 
       // 방향 설정  
-      digitalWrite(AIN1, HIGH);
-      digitalWrite(AIN2, LOW);
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
 
       // 속도 설정 
       softPwmWrite(pwmPinA, min(abs(controlA), 30.));    
