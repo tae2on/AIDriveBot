@@ -183,8 +183,6 @@ int MotorControl::getInput() {
     cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
     cout << "원하는 방향을 입력하시오 : ";
     cin >> x;
-    cout << "가고 싶은 거리를 입력하시오 : ";
-    cin >> target_deg;
     return x; 
 }
 
