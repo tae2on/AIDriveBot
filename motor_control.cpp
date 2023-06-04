@@ -81,7 +81,9 @@ public:
 };
  
 void Calculation() {
-    
+    // wheel = 2 * M_PI * 11.5;
+    //target_deg = (360 * target_distance / wheel) ;      // 목표 각도
+
     //DC모터 왼쪽
     motorDegL = abs(encoderPosLeft * proportion);
 
@@ -93,6 +95,7 @@ void Calculation() {
     error_prev_prev_L = error_prev_L;
     error_prev_L = errorL;
     
+    // PID를 사용하기 위해서는 원하는 각도 혹은 거리를 비교하여 사용 -> 원하는 각도 혹은 거리 알아야 함 
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << "각도 = " << motorDegL << endl;
 }
