@@ -161,8 +161,10 @@ void Calculation() {
     // PID를 사용하기 위해서는 원하는 각도 혹은 거리를 비교하여 사용 -> 원하는 각도 혹은 거리 알아야 함 
     cout << "--------------------------------------------------------------------------------" << endl;
     cout << "왼쪽 모터의 회전각도 = " << motorDegL << "오른쪽 모터의 회전각도 = " << motorDegR << endl;
-    cout << "로봇의 선형 변위 = " << motor_s << endl;
+    cout << "로봇의 선형 변위 = " << delta_s<< endl;
     cout << "로봇의 각변위 =" << delta_deg << endl;
+    cout << "로봇의 x좌표 =" << x_coordinate << "로봇의 y좌표 =" << y_coordinate << endl;
+    cout << "로봇의 방향각 =" << deg_coordinate << endl;
 }
 
 // 원하는 방향 입력
