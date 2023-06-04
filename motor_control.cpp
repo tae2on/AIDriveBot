@@ -93,10 +93,8 @@ void Calculation() {
     error_prev_prev_L = error_prev_L;
     error_prev_L = errorL;
     
-    while (true){
-        cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "각도 = " << motorDegL << endl;
-    }
+    cout << "--------------------------------------------------------------------------------" << endl;
+    cout << "각도 = " << motorDegL << endl;
 }
 
 // 원하는 방향 입력
