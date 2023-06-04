@@ -35,7 +35,7 @@ float kd_A; // 0
 float ki_A; // 0 
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
-
+ 
 float motorDegA = 0;                   // 모터 각도A
 
 float errorA = 0;
@@ -83,7 +83,7 @@ int main(){
     cin >> kd_A;   
 
     while (true){
-      //DC모터 왼쪽
+      // DC모터 왼쪽
       motorDegA = abs(encoderPosLeft * proportion);
 
       errorA = target_deg - motorDegA;
