@@ -121,11 +121,11 @@ int main(){
         // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, LoW);
+        digitalWrite(BIN3, LOW);
         digitalWrite(BIN4, HIGH);
         // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlA), 30.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
-        softPwmWrite(pwmPinB, min(abs(controlA), 30.));     
+        softPwmWrite(pwmPinA, min(abs(controlL), 50.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
+        softPwmWrite(pwmPinB, min(abs(controlL), 50.));     
 
         auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
      
