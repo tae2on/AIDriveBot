@@ -37,21 +37,22 @@ using namespace std::chrono;
 const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수 */
-float kp_A = 0.5; // 0.5
-float kd_A = 0; // 0        
-float ki_A = 0; // 0 
+float kp_L = 0.5; // 0.5
+float kd_L = 0; // 0        
+float ki_L = 0; // 0 
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
  
-float motorDegA = 0;                   // 모터 각도A
+float motorDegL = 0;                   // 모터 각도A
 
-float errorA = 0;
-float error_prev_A = 0.;
-float error_prev_prev_A = 0.;
+float errorL = 0;
+float error_prev_L = 0.;
+float error_prev_prev_L = 0.;
 
 double target_deg = 360;                 // 목표 회전각도 
-double controlA = 0.;
-double delta_vA = 0;
+double trun_deg = 45;
+double controlL = 0.;
+double delta_vL = 0;
 
 double delta_deg = 0;
 double deg_coordinate = 0;
@@ -96,23 +97,23 @@ int main(){
 
     while (true){
         // DC모터 왼쪽
-        motorDegA = abs(encoderPosLeft * proportion);
-
-        errorA = target_deg - motorDegA;
+        motorDegL = abs(encoderPosLeft * proportion);
+        errorL = target_deg - motorDegL;
 
         cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "각도 = " << motorDegA << endl;
-        cout << "ctrlA = " << controlA << ", degA = " << motorDegA << endl;
+        cout << "각도 = " << motorDegL << endl;
+        cout << "ctrlA = " << controlL << ", degA = " << motorDegL << endl;
         cout << "encA = " << encoderPosLeft<< endl;
-        cout << "errorA = " << errorA << ", error_prev_A = " << error_prev_A << ", error_prev_prev_A = " << error_prev_prev_A << endl;
-        
-        delta_vA = kp_A * (errorA - error_prev_A) + ki_A * errorA + kd_A * (errorA - 2 * error_prev_A + error_prev_prev_A);
-        controlA += delta_vA;
+        cout << "errorA = " << errorL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
+        cout << "delta_deg = " << delta_deg << "deg_coordinate = " << deg_coordinate <<  endl;
 
-        error_prev_prev_A = error_prev_A;
-        error_prev_A = errorA;
+        delta_vL = kp_L * (errorL - error_prev_L) + ki_L * errorL + kd_L * (errorL - 2 * error_prev_L + error_prev_prev_L);
+        controlL += delta_vL;
 
-        delta_deg = 11.5 / 29.2 * (motorDegL + motorDegR);
+        error_prev_prev_L = error_prev_L;
+        error_prev_L = errorL;
+
+        delta_deg = 11.5 / 29.2 * (motorDegL + motorDegL);
 
         deg_coordinate = deg_prev_coordinate + delta_deg;
         deg_prev_coordinate = deg_coordinate;
@@ -128,7 +129,7 @@ int main(){
 
         auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
      
-        if (motorDegA >= target_deg){
+        if (deg_coordinate >= trun_deg){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);       
