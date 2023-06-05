@@ -109,7 +109,7 @@ int main(){
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "errorA = " << errorL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
         cout << "delta_deg = " << delta_deg << "deg_coordinate = " << deg_coordinate <<  endl;
-        cout << "작업 실행 시간: " << duration.count() << " ms" << endl;        // 시간 출력
+        cout << "작업 실행 시간: " << duration_cast << " ms" << endl;        // 시간 출력
  
         delta_vL = kp_L * (errorL - error_prev_L) + ki_L * errorL + kd_L * (errorL - 2 * error_prev_L + error_prev_prev_L);
         controlL += delta_vL;
@@ -139,10 +139,9 @@ int main(){
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);      
             
-            // 시간 측정 종료
+            // 시간 측정 종료 
             auto end = std::chrono::high_resolution_clock::now();
-            auto loopDuration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-            std::this_thread::sleep_for(std::chrono::milliseconds(10) - loopDuration);  // 루프 실행 시간이 10ms가 되도록 대기 
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 
             break;
         }    
