@@ -46,6 +46,7 @@ volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 float motorDegL = 0;                   // 모터 각도A
 
 float errorL = 0;
+double error_tL = 0;
 float error_prev_L = 0.;
 float error_prev_prev_L = 0.;
 
@@ -99,14 +100,15 @@ int main(){
         // DC모터 왼쪽
         motorDegL = abs(encoderPosLeft * proportion);
         errorL = target_deg - motorDegL;
-
+        error_tL = trun_deg - deg_coordinate;
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "각도 = " << motorDegL << endl;
         cout << "ctrlA = " << controlL << ", degA = " << motorDegL << endl;
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "errorA = " << errorL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
         cout << "delta_deg = " << delta_deg << "deg_coordinate = " << deg_coordinate <<  endl;
-
+        cout << "작업 실행 시간: " << duration.count() << " ms" << endl;        // 시간 출력
+ 
         delta_vL = kp_L * (errorL - error_prev_L) + ki_L * errorL + kd_L * (errorL - 2 * error_prev_L + error_prev_prev_L);
         controlL += delta_vL;
 
@@ -118,11 +120,14 @@ int main(){
         deg_coordinate = deg_prev_coordinate + delta_deg;
         deg_prev_coordinate = deg_coordinate;
    
+        // 시간 측정 시작
+        auto start = high_resolution_clock::now();
+
         // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, HIGH);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlL), 50.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
         softPwmWrite(pwmPinB, min(abs(controlL), 50.));     
@@ -132,7 +137,12 @@ int main(){
         if (deg_coordinate >= trun_deg){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);       
+            digitalWrite(AIN2, LOW);      
+            
+            // 시간 측정 종료
+            auto end = high_resolution_clock::now();
+            auto duration = duration_cast<milliseconds>(end - start);
+
             break;
         }
       
