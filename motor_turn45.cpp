@@ -132,7 +132,7 @@ int main(){
         cout << "errorA = " << error_tL << ", error_prev_A = " << error_prev_tL << ", error_prev_prev_A = " << error_prev_prev_tL << endl;
         cout << "delta_deg = " << delta_deg << ", deg_coordinate = " << deg_coordinate <<  endl;
 
-        if (deg_coordinate >= delta_deg){
+        if (delta_deg >= trun_deg){
             softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, LOW);      
