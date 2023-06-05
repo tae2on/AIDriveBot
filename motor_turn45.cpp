@@ -47,15 +47,14 @@ volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
  
 float motorDegL = 0;                   // 모터 각도A
 
-float errorL = 0;
 double error_tL = 0;
-float error_prev_L = 0.;
-float error_prev_prev_L = 0.;
+float error_prev_tL = 0.;
+float error_prev_prev_tL = 0.;
 
 double target_deg = 360;                 // 목표 회전각도 
 double trun_deg = 45;
-double controlL = 0.;
-double delta_vL = 0;
+double controltL = 0.;
+double delta_vtL = 0;
 
 double delta_deg = 0;
 double deg_coordinate = 0;
@@ -101,14 +100,13 @@ int main(){
     while (true){
         // DC모터 왼쪽
         motorDegL = abs(encoderPosLeft * proportion);
-        errorL = target_deg - motorDegL;
         error_tL = trun_deg - deg_coordinate;
  
-        delta_vL = kp_L * (errorL - error_prev_L) + ki_L * errorL + kd_L * (errorL - 2 * error_prev_L + error_prev_prev_L);
-        controlL += delta_vL;
+        delta_vtL = kp_L * (error_tL - error_prev_tL) + ki_L * error_tL + kd_L * (error_tL - 2 * error_prev_tL + error_prev_prev_tL);
+        controltL += delta_vtL;
 
-        error_prev_prev_L = error_prev_L;
-        error_prev_L = errorL;
+        error_prev_prev_tL = error_prev_tL;
+        error_prev_tL = error_tL;
 
         delta_deg = 11.5 / 29.2 * (motorDegL + motorDegL);
 
@@ -131,7 +129,7 @@ int main(){
         cout << "각도 = " << motorDegL << endl;
         cout << "ctrlA = " << controlL << ", degA = " << motorDegL << endl;
         cout << "encA = " << encoderPosLeft<< endl;
-        cout << "errorA = " << errorL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
+        cout << "errorA = " << error_tL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
         cout << "delta_deg = " << delta_deg << "deg_coordinate = " << deg_coordinate <<  endl;
 
         if (deg_coordinate >= trun_deg){
