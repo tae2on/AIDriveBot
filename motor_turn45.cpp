@@ -59,6 +59,8 @@ double delta_deg = 0;
 double deg_coordinate = 0;
 double deg_prev_coordinate = 0;
 
+auto start = std::chrono::high_resolution_clock::now();
+
 // 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
