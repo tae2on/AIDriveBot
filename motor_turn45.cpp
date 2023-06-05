@@ -15,6 +15,8 @@
 using namespace std;
 using namespace std::chrono;
 
+std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
+
 /* 핀 번호가 아니라 wiringPi 번호 ! */
 /* gpio readall -> GPIO핀 / wiringPi핀 번호 확인법 */
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
@@ -58,8 +60,6 @@ double delta_vL = 0;
 double delta_deg = 0;
 double deg_coordinate = 0;
 double deg_prev_coordinate = 0;
-
-auto start = std::chrono::high_resolution_clock::now();
 
 // 인터럽트 
 void doEncoderA() {
@@ -133,8 +133,6 @@ int main(){
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controlL), 50.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
         softPwmWrite(pwmPinB, min(abs(controlL), 50.));     
-
-        auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
      
         if (deg_coordinate >= trun_deg){
             softPwmWrite(pwmPinA, 0); 
@@ -142,16 +140,12 @@ int main(){
             digitalWrite(AIN2, LOW);      
             
             // 시간 측정 종료
-            auto end = high_resolution_clock::now();
-            auto duration = duration_cast<milliseconds>(end - start);
+            auto end = std::chrono::high_resolution_clock::now();
+            auto loopDuration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            std::this_thread::sleep_for(std::chrono::milliseconds(10) - loopDuration);  // 루프 실행 시간이 10ms가 되도록 대기 
 
             break;
-        }
-      
-        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
-        std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
-    
+        }    
     }    
   return 0; 
 }
