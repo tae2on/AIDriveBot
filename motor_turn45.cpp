@@ -122,14 +122,14 @@ int main(){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(controlL), 50.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
-        softPwmWrite(pwmPinB, min(abs(controlL), 50.));     
+        softPwmWrite(pwmPinA, min(abs(controltL), 50.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
+        softPwmWrite(pwmPinB, min(abs(controltL), 50.));     
      
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "각도 = " << motorDegL << endl;
         cout << "ctrlA = " << controlL << ", degA = " << motorDegL << endl;
         cout << "encA = " << encoderPosLeft<< endl;
-        cout << "errorA = " << error_tL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
+        cout << "errorA = " << error_tL << ", error_prev_A = " << error_prev_tL << ", error_prev_prev_A = " << error_prev_prev_tL << endl;
         cout << "delta_deg = " << delta_deg << "deg_coordinate = " << deg_coordinate <<  endl;
 
         if (deg_coordinate >= trun_deg){
