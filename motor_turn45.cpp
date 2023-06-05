@@ -109,7 +109,7 @@ int main(){
         cout << "encA = " << encoderPosLeft<< endl;
         cout << "errorA = " << errorL << ", error_prev_A = " << error_prev_L << ", error_prev_prev_A = " << error_prev_prev_L << endl;
         cout << "delta_deg = " << delta_deg << "deg_coordinate = " << deg_coordinate <<  endl;
-        cout << "작업 실행 시간: " << duration.count() << " ms" << endl;        // 시간 출력
+        cout << "작업 실행 시간: " << loopDuration << " ms" << endl;        // 시간 출력
  
         delta_vL = kp_L * (errorL - error_prev_L) + ki_L * errorL + kd_L * (errorL - 2 * error_prev_L + error_prev_prev_L);
         controlL += delta_vL;
