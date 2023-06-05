@@ -133,9 +133,13 @@ int main(){
         cout << "delta_deg = " << delta_deg << ", deg_coordinate = " << deg_coordinate <<  endl;
 
         if (delta_deg >= trun_deg){
-            softPwmWrite(pwmPinA, 0); 
             digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);      
+            digitalWrite(AIN2, LOW); 
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, LOW);
+
+            softPwmWrite(pwmPinA, 0); 
+            softPwmWrite(pwmPinB, 0);       
 
             // 시간 측정 종료
             auto end = high_resolution_clock::now();
