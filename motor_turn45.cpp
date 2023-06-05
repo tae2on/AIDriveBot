@@ -119,8 +119,9 @@ int main(){
         // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
+        
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(controltL), 50.));           // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
         softPwmWrite(pwmPinB, min(abs(controltL), 50.));     
