@@ -143,8 +143,8 @@ int main(){
             auto end = high_resolution_clock::now();
             auto duration = duration_cast<milliseconds>(end - start);
             auto loopDuration = duration.count();
-        
-            cout << "작업 실행 시간: " << duration_cast << "ms = " << endl;        // 시간 출력
+
+            cout << "작업 실행 시간: " << duration_cast<std::chrono::milliseconds>(duration).count() << "ms" << endl;        // 시간 출력
 
             break;
         }    
