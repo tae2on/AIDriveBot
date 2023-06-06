@@ -55,6 +55,7 @@ void doEncoderD() {
   encoderPosRight  += (digitalRead(encPinC) == digitalRead(encPinD)) ? 1 : -1;
 }
 
+
 class MotorControl{
 public:
     void call(int x);
@@ -64,9 +65,13 @@ public:
 // 원하는 방향 입력
 int MotorControl::getInput() {
     int x;
+    int distance;
     cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
     cout << "원하는 방향을 입력하시오 : ";
-    cin >> x;
+
+    cout << "원하는 경로를 입력하시오 : ";
+    cin >> distance;
+    
     return x; 
 }
 
@@ -96,7 +101,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 70);        // 만약에 동작 안 할 경우 255. -> 100. 으로 수정    
+        softPwmWrite(pwmPinA, 70);        
         softPwmWrite(pwmPinB, 70);          
 
         // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
@@ -131,7 +136,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN4, LOW);
         // 속도 설정 
         softPwmWrite(pwmPinA, 70);
-        softPwmWrite(pwmPinB, 10);  
+        softPwmWrite(pwmPinB, 40);  
        
         // x(방향)의 값이 3(오른쪽)이 아닐 경우 x(방향)을 다시 입력 받음 
         if(x != 3){
@@ -139,7 +144,6 @@ void MotorControl::call(int x){
         }         
     }
             
-    
     // 왼쪽
     else if (x == 4){
         // 방향 조절 
@@ -148,7 +152,7 @@ void MotorControl::call(int x){
         digitalWrite(BIN3, HIGH);
         digitalWrite(BIN4, LOW);
         // 속도 설정 
-        softPwmWrite(pwmPinA, 10);
+        softPwmWrite(pwmPinA, 40);
         softPwmWrite(pwmPinB, 70);  
 
         // x(방향)의 값이 4(왼쪽)이 아닐 경우 x(방향)을 다시 입력 받음        
