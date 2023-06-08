@@ -159,7 +159,7 @@ int main(){
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
-        delta_setha = (11.5 / 29.2) * (motorDegR - motorDegL);
+        delta_setha += (11.5 / 29.2) * (motorDegR - motorDegL);
 
         /* 로봇의 위치와 방향각 계산식 */
         bar_setha = setha_prev_coordinate + delta_setha / 2;
