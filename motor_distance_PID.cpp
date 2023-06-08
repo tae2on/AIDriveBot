@@ -165,10 +165,10 @@ int main(){
         bar_setha = setha_prev_coordinate + delta_setha / 2;
         
         // DC모터 x좌표 
-        x_coordinate = x_prev_coordinate + cos(bar_setha) * delta_s;
+        x_coordinate = cos(bar_setha) * delta_s;
 
         // DC모터 y좌표
-        y_coordinate = y_prev_coordinate + sin(bar_setha) * delta_s;
+        y_coordinate = sin(bar_setha) * delta_s;
         
         // DC모터 방향각
         setha_coordinate = setha_prev_coordinate + delta_setha;
@@ -195,10 +195,10 @@ int main(){
         delta_vR = kp_dR * (error_d - error_prev_d) + ki_dR * error_d + kd_dR * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sR * (error_s - error_prev_s) + ki_sR * error_s + kd_sR * (error_s - 2 * error_prev_s + error_prev_prev_s);
         control_R += delta_vR;
 
-        x_prev_coordinate = x_coordinate;
+        /*x_prev_coordinate = x_coordinate;
         y_prev_coordinate = y_coordinate;
         setha_prev_coordinate = setha_coordinate;
-
+        */
         error_prev_prev_d = error_prev_d;
         error_prev_d = error_d;
 
