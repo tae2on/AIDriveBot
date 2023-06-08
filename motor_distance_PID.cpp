@@ -154,8 +154,8 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while (true){
-        motorDegL = encoderPosLeft * proportion * rad;
-        motorDegR = encoderPosRight * proportion * rad;
+        motorDegL = encoderPosLeft * proportion;
+        motorDegR = encoderPosRight * proportion;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = 11.5 / 2 * (motorDegL + motorDegR);
@@ -181,7 +181,7 @@ int main(){
         error_s = setha_target - setha_coordinate;
 
         cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "거리 = " << distance_robot * deg << endl;
+        cout << "거리 = " << distance_robot << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
