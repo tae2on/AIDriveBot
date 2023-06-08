@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <algorithm>
 #include <math.h>
+#include <cmath>
 
 #define M_PI 3.14159265358979323846
 using namespace std;
@@ -173,8 +174,8 @@ int main(){
         setha_coordinate = setha_prev_coordinate + delta_setha;
 
         /* 거리값, 각도값 PID 계산식*/
-        distance_target = sqrt((x_target_coordinate)^2 + (y_target_coordinate)^2);
-        distance = sqrt((x_coordinate)^2 + (y_coordinate)^2);
+        distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
+        distance = sqrt(piecewise_construct_t(x_coordinate, 2) + pow(y_coordinate, 2));
         
         error_d = distance_target - distance;
         error_s = setha_target - setha_coordinate;
