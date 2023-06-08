@@ -194,16 +194,6 @@ int main(){
         delta_vR = kp_dR * (error_d - error_prev_d) + ki_dR * error_d + kd_dR * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sR * (error_s - error_prev_s) + ki_sR * error_s + kd_sR * (error_s - 2 * error_prev_s + error_prev_prev_s);
         control_R += delta_vR;
 
-        x_prev_coordinate = x_coordinate;
-        y_prev_coordinate = y_coordinate;
-        setha_prev_coordinate = setha_coordinate;
-
-        error_prev_prev_d = error_prev_d;
-        error_prev_d = error_d;
-
-        error_prev_prev_s = error_prev_s;
-        error_prev_s = error_s;
-
         // 방향 설정 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
@@ -225,6 +215,16 @@ int main(){
           break;
         }
       
+        x_prev_coordinate = x_coordinate;
+        y_prev_coordinate = y_coordinate;
+        setha_prev_coordinate = setha_coordinate;
+
+        error_prev_prev_d = error_prev_d;
+        error_prev_d = error_d;
+
+        error_prev_prev_s = error_prev_s;
+        error_prev_s = error_s;
+
         auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
         std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
