@@ -41,7 +41,7 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 1000; // 0.5
+float kp_dL = 500; // 0.5
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
@@ -196,9 +196,9 @@ int main(){
         control_R += delta_vR;
 
         /*x_prev_coordinate = x_coordinate;
-        y_prev_coordinate = y_coordinate;
+        y_prev_coordinate = y_coordinate; */
         setha_prev_coordinate = setha_coordinate;
-        */
+        
         error_prev_prev_d = error_prev_d;
         error_prev_d = error_d;
 
