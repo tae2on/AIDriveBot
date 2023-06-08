@@ -154,12 +154,12 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while (true){
-        motorDegL = encoderPosLeft * proportion;
-        motorDegR = encoderPosRight * proportion;
+        motorDegL = encoderPosLeft * proportion * rad;
+        motorDegR = encoderPosRight * proportion * rad;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
-        delta_s = 11.5 / 2 * (motorDegL + motorDegR);
-        delta_setha = 11.5 / 29.2 * (motorDegR - motorDegL);
+        delta_s = (11.5 / 2) * (motorDegL + motorDegR);
+        delta_setha = (11.5 / 29.2) * (motorDegR - motorDegL);
 
         /* 로봇의 위치와 방향각 계산식 */
         bar_setha = setha_prev_coordinate + delta_setha / 2;
@@ -183,9 +183,9 @@ int main(){
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
-        cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
+        cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
-   
+  
         // 왼쪽 DC모터 
         delta_vL = kp_dL * (error_d - error_prev_d) + ki_dL * error_d + kd_dL * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sL * (error_s - error_prev_s) + ki_sL * error_s + kd_sL * (error_s - 2 * error_prev_s + error_prev_prev_s);
         control_L += delta_vL;
