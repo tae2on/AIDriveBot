@@ -88,7 +88,7 @@ double setha_coordinate = 0;
 double setha_prev_coordinate = 0;
 
 /* 거리값, 각도값 계산식 */
-double distance = 0; 
+double distance; 
 double distance_target = 0;
 
 double error_d = 0;
