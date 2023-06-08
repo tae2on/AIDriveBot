@@ -175,7 +175,7 @@ int main(){
 
         /* 거리값, 각도값 PID 계산식*/
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
-        distance = sqrt(piecewise_construct_t(x_coordinate, 2) + pow(y_coordinate, 2));
+        distance = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
         
         error_d = distance_target - distance;
         error_s = setha_target - setha_coordinate;
