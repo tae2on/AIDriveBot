@@ -88,7 +88,7 @@ double setha_coordinate = 0;
 double setha_prev_coordinate = 0;
 
 /* 거리값, 각도값 계산식 */
-double distance; 
+double distance_robot; 
 double distance_target = 0;
 
 double error_d = 0;
@@ -175,13 +175,13 @@ int main(){
 
         /* 거리값, 각도값 PID 계산식*/
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
-        distance = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
+        distance_robot = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
         
-        error_d = distance_target - distance;
+        error_d = distance_target - distance_robot;
         error_s = setha_target - setha_coordinate;
 
         cout << "--------------------------------------------------------------------------------" << endl;
-        cout << "거리 = " << distance << endl;
+        cout << "거리 = " << distance_robot << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
@@ -215,7 +215,7 @@ int main(){
 
         auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
      
-        if (distance >= distance_target){
+        if (distance_robot >= distance_target){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
