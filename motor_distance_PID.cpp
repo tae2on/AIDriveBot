@@ -185,7 +185,7 @@ int main(){
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
-  
+   
         // 왼쪽 DC모터 
         delta_vL = kp_dL * (error_d - error_prev_d) + ki_dL * error_d + kd_dL * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sL * (error_s - error_prev_s) + ki_sL * error_s + kd_sL * (error_s - 2 * error_prev_s + error_prev_prev_s);
         control_L += delta_vL;
