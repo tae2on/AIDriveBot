@@ -51,7 +51,7 @@ float kp_sL = 0.5;
 float kd_sL = 0;        
 float ki_sL = 0; 
  
-float kp_sR = 0.5; 
+float kp_sR = 0.5;  
 float kd_sR = 0;        
 float ki_sR = 0; 
 
