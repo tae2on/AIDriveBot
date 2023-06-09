@@ -236,7 +236,8 @@ int main(){
         auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
         std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
-    
+
+        std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
       }    
   return 0; 
 }  
