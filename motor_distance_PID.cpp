@@ -227,7 +227,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (error_d >= difference){
+        if (difference >= error_d){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
