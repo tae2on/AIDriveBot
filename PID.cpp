@@ -191,10 +191,10 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
+        cout << "L = " << motorDegL << ", R =  " << motorDegR << endl;
         cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
-        cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
         // 왼쪽 DC모터 
