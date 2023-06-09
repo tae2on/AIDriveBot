@@ -167,8 +167,8 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-        motorDegL = encoderPosLeft * proportion * rad;
-        motorDegR = encoderPosRight * proportion * rad;
+        motorDegL = encoderPosLeft * proportion;
+        motorDegR = encoderPosRight * proportion;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
@@ -228,7 +228,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (distance_target >= distance_target){
+        if (distance_robot >= distance_target){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
