@@ -43,7 +43,7 @@ float kp_dL = 3.0; // 0.5
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 0.3; // 0.5 
+float kp_dR = 3.0; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
