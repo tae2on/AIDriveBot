@@ -15,6 +15,7 @@
 #define M_PI 3.14159265358979323846
 using namespace std;
 using namespace std::chrono;
+auto previousTimeValue = std::chrono::time_point_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now()).time_since_epoch().count();
 
 std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
@@ -104,6 +105,8 @@ double error_s = 0;
 double error_prev_s = 0;
 double error_prev_prev_s = 0;
 
+double total_error_s = 0;
+
 double control_L = 0;
 double delta_vL = 0;
 double control_R = 0;
@@ -159,6 +162,10 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while (true){
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        auto currentTimeMs = std::chrono::time_point_cast<std::chrono::milliseconds>(currentTime);
+        auto currentTimeValue = currentTimeMs.time_since_epoch().count();
+        
         motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
         motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
 
@@ -183,9 +190,11 @@ int main(){
         /* 거리값, 각도값 PID 계산식*/
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
         distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
-        
+
         error_d = distance_target - distance_robot;
         error_s = setha_target - combine_delta_setha;
+
+        total_error_s = total_error_s + error_s; 
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
@@ -194,8 +203,12 @@ int main(){
         cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
+        /*auto currentTime = std::chrono::high_resolution_clock::now();
+        auto currentTimeMs = std::chrono::time_point_cast<std::chrono::milliseconds>(currentTime);
+        auto currentTimeValue = currentTimeMs.time_since_epoch().count();*/
+
         // 왼쪽 DC모터 
-        delta_vL =  - kp_dL * (error_d - error_prev_d) - ki_dL * error_d - kd_dL * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sL * (error_s - error_prev_s) + ki_sL * error_s + kd_sL * (error_s - 2 * error_prev_s + error_prev_prev_s);
+        delta_vL = kp_dL * (error_d) + /*ki_dL * error_d*/ kd_dL * ((error_d - error_prev_d)/(currentTimeValue - previousTimeValue)) - kp_sL * (error_s) - ki_sL * total_error_s - kd_sL * (error_d - error_prev_d)/(currentTimeValue - previousTimeValue);
         control_L += delta_vL;
 
         // 오른쪽 DC모터 
@@ -211,6 +224,8 @@ int main(){
 
         error_prev_prev_s = error_prev_s;
         error_prev_s = error_s;
+
+         previousTimeValue = currentTimeValue;
 
         // 방향 설정 
         digitalWrite(AIN1, HIGH);
@@ -239,12 +254,8 @@ int main(){
           break;
         }
         
-        // auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
         std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
-        /*auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-        std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
-        std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
-        */
+  
     }    
   return 0; 
 }  
