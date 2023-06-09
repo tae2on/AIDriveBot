@@ -36,7 +36,7 @@ using namespace std::chrono;
 
 /* PID 제어 */
 const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
-float proportionr;
+float proportion_r;
 
 /* PID 상수*/
 // 각도 PID
