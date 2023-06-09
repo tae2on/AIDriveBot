@@ -200,6 +200,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
+        cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
         cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
