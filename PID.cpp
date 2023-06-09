@@ -185,11 +185,11 @@ int main(){
         setha_coordinate = setha_prev_coordinate + delta_setha;
 
         /* 거리값, 각도값 PID 계산식 */
-        distance_target = sqrt(pow(x_coordinate, 2)+ pow(y_coordinate, 2));
-        distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(setha_coordinate, 2));
+        distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
+        distance_robot = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
         
         error_d = distance_target - distance_robot;
-        error_s = setha_target - combine_delta_setha;
+        error_s = setha_target - setha_coordinate;
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
