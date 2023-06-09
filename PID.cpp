@@ -36,15 +36,14 @@ using namespace std::chrono;
 
 /* PID 제어 */
 const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
-float proportion_r;
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 50; // 0.5 
+float kp_dL = 5000; // 0.5 
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 50; // 0.5 
+float kp_dR = 5000; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
@@ -166,9 +165,8 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-        proportion_r = proportion * rad;
-        motorDegL = encoderPosLeft * proportion_r;
-        motorDegR = encoderPosRight * proportion_r;
+        motorDegL = encoderPosLeft * proportion;
+        motorDegR = encoderPosRight * proportion;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
@@ -194,7 +192,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "L = " << motorDegL * deg << ", R =  " << motorDegR * deg << endl;
+        cout << "L = " << motorDegL << ", R =  " << motorDegR << endl;
         cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
