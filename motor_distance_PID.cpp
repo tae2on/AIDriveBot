@@ -39,7 +39,7 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 0.8; // 0.5 
+float kp_dL = 1.5; // 0.5 
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
@@ -233,7 +233,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (difference >= error_d >= -difference){
+        if (difference >= error_d){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
