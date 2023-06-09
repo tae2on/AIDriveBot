@@ -193,7 +193,7 @@ int main(){
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
-        cout << "지난 시간: " << duration.count() << "밀리초" << endl;
+        cout << "지난 시간: " << time.count() << "밀리초" << endl;
  
         // 왼쪽 DC모터 
         delta_vL =  - kp_dL * (error_d - error_prev_d) - ki_dL * error_d - kd_dL * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sL * (error_s - error_prev_s) + ki_sL * error_s + kd_sL * (error_s - 2 * error_prev_s + error_prev_prev_s);
@@ -235,8 +235,8 @@ int main(){
         }
 
       auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-      auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
-      std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
+      auto time = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
+      std::this_thread::sleep_for(std::chrono::milliseconds(10) - time);  // 루프 실행 시간이 10ms가 되도록 대기
  
     }    
   return 0; 
