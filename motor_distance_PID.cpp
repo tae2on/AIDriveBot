@@ -109,6 +109,8 @@ double delta_vL = 0;
 double control_R = 0;
 double delta_vR = 0;
 
+auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
+
 // 인터럽트 
 void doEncoderA() {
   encoderPosLeft  += (digitalRead(encPinA) == digitalRead(encPinB)) ? 1 : -1;
@@ -220,8 +222,6 @@ int main(){
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
-
-        auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
      
         if (distance_robot >= distance_target){
           softPwmWrite(pwmPinA, 0); 
