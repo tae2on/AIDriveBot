@@ -171,9 +171,10 @@ int main(){
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
         delta_setha = (11.5 / 29.2) * (motorDegR - motorDegL);
+        combine_delta_setha += delta_setha;
 
         /* 로봇의 위치와 방향각 계산식 */
-        bar_setha = setha_prev_coordinate + (delta_setha / 2);
+        bar_setha = (combine_delta_setha - delta_setha) + (delta_setha / 2);
         
         // DC모터 x좌표, y좌표
         x_coordinate = x_prev_coordinate + cos(bar_setha) * delta_s;
@@ -191,7 +192,6 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "거리 = " << delta_s << endl;
         cout << "L = " << motorDegL << ", R =  " << motorDegR << endl;
         cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
@@ -241,7 +241,7 @@ int main(){
           break;
         }
         
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));  // 일정 시간 대기
         
     }    
   return 0; 
