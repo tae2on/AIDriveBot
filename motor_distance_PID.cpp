@@ -66,6 +66,9 @@ int encoderPosRight_prev = 0;
 double motorDegL = 0;
 double motorDegR = 0;
 
+double motor_sethaL =0;
+double motor_sethaR =0;
+
 double rad = M_PI / 180;
 double deg = 180 / M_PI;
 
@@ -164,6 +167,9 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
+        motor_sethaL = encoderPosLeft * proportion;
+        motor_sethaR = doEncoderRight * proportion;
+
         motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
         motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
 
@@ -194,7 +200,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "degR = " << motorDegR <<endl;
+        cout << "degL = " << motor_sethaL << "degR = " << motor_sethaR <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
