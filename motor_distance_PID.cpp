@@ -168,7 +168,7 @@ int main(){
 
     while (true){
         motor_sethaL = encoderPosLeft * proportion;
-        motor_sethaR = doEncoderRight * proportion;
+        motor_sethaR = encoderPosRight * proportion;
 
         motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
         motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
