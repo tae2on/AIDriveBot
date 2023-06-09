@@ -234,7 +234,7 @@ int main(){
           auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
           auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);  // 루프 실행 시간 계산
         
-          cout << "지난 시간: " << duration.count() / 1000.0 << "밀리초" << endl;
+          cout << "지난 시간: " << duration.count() << "초" << endl;
 
           break;
         }
