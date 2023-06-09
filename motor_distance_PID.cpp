@@ -59,6 +59,8 @@ float ki_sR = 0;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
+int encoderPosLeft_prev = 0;
+int encoderPosRight_prev = 0;
 
 double motorDegL = 0;
 double motorDegR = 0;
@@ -74,15 +76,18 @@ double setha_target = 0;
 /* 로봇의 선형 변위와 각변위 계산식 */
 double delta_s = 0;
 double delta_setha = 0;
+double combine_delta_setha = 0;
 
 /* 로봇의 위치, 방향각을 좌표로 계산식 */
 double bar_setha = 0 ;
  
 double x_coordinate = 0;
 double x_prev_coordinate = 0;
+double combine_x_coordinate = 0;
 
 double y_coordinate = 0;
 double y_prev_coordinate = 0;
+double combine_y_coordinate = 0;
 
 double setha_coordinate = 0;
 double setha_prev_coordinate = 0;
@@ -154,31 +159,33 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while (true){
-        motorDegL = encoderPosLeft * proportion * rad;
-        motorDegR = encoderPosRight * proportion * rad;
+        motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
+        motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
-        delta_setha += (11.5 / 29.2) * (motorDegR - motorDegL);
+        delta_setha = (11.5 / 29.2) * (motorDegR - motorDegL);
+        combine_delta_setha += delta_setha;
 
         /* 로봇의 위치와 방향각 계산식 */
-        bar_setha = setha_prev_coordinate + delta_setha / 2;
+        bar_setha = (combine_delta_setha - delta_setha) + (delta_setha / 2);
         
-        // DC모터 x좌표 
+        // DC모터 x좌표, y좌표
         x_coordinate = cos(bar_setha) * delta_s;
-
-        // DC모터 y좌표
         y_coordinate = sin(bar_setha) * delta_s;
         
+        combine_x_coordinate += x_coordinate; 
+        combine_y_coordinate += y_coordinate;
+
         // DC모터 방향각
         setha_coordinate = setha_prev_coordinate + delta_setha;
 
         /* 거리값, 각도값 PID 계산식*/
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
-        distance_robot = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
+        distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
         
         error_d = distance_target - distance_robot;
-        error_s = setha_target - setha_coordinate;
+        error_s = setha_target - combine_delta_setha;
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
@@ -195,9 +202,9 @@ int main(){
         delta_vR = kp_dR * (error_d - error_prev_d) + ki_dR * error_d + kd_dR * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sR * (error_s - error_prev_s) + ki_sR * error_s + kd_sR * (error_s - 2 * error_prev_s + error_prev_prev_s);
         control_R += delta_vR;
 
-        /*x_prev_coordinate = x_coordinate;
-        y_prev_coordinate = y_coordinate; */
-        setha_prev_coordinate = setha_coordinate;
+        // 이전값
+        encoderPosLeft_prev = encoderPosLeft;
+        encoderPosRight_prev = encoderPosRight; 
         
         error_prev_prev_d = error_prev_d;
         error_prev_d = error_d;
