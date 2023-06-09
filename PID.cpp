@@ -74,7 +74,7 @@ double deg = 180 / M_PI;
 
 /* 원하는 x,y 좌표값, 각도값 */
 double x_target_coordinate = 0;
-double _target_coordinate_deg;
+double x_target_coordinate_deg;
 double y_target_coordinate = 72.26;
 double y_target_coordinate_deg;
 double setha_target = 0;
@@ -167,7 +167,7 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-
+        y_target_coordinate_deg = y_target_coordinate * deg;
 
         motorDegL = encoderPosLeft * proportion;
         motorDegR = encoderPosRight * proportion;
@@ -177,7 +177,7 @@ int main(){
         delta_setha = (11.5 / 29.2) * (motorDegR - motorDegL);
 
         /* 로봇의 위치와 방향각 계산식 */
-        bar_setha = (combine_delta_setha - delta_setha) + (delta_setha / 2);
+        bar_setha = setha_prev_coordinate + (delta_setha / 2);
         
         // DC모터 x좌표, y좌표
         x_coordinate = x_prev_coordinate + cos(bar_setha) * delta_s;
