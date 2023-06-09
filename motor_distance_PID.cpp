@@ -16,8 +16,6 @@
 using namespace std;
 using namespace std::chrono;
 
-std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
-
 /* 핀 번호가 아니라 wiringPi 번호 ! */
 /* gpio readall -> GPIO핀 / wiringPi핀 번호 확인법 */
 /* ex) 핀 번호 8번, GPIO 14번, wiringPi 15번 */
@@ -160,6 +158,8 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
+    std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
+
     while (true){
         motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
         motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
@@ -232,7 +232,7 @@ int main(){
           digitalWrite(BIN4, LOW);     
 
           auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-          auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+          auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();;
           cout << "지난 시간: " << duration.count() << "밀리초" << endl;
           
           //auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);  // 루프 실행 시간 계산
