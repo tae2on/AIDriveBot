@@ -55,8 +55,11 @@ float kp_sR = 0.5;
 float kd_sR = 0;        
 float ki_sR = 0; 
 
+double difference = 1;
+
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
+
 int encoderPosLeft_prev = 0;
 int encoderPosRight_prev = 0;
 
@@ -224,7 +227,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (distance_robot >= distance_target){
+        if (error_d >= difference){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
