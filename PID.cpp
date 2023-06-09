@@ -220,10 +220,10 @@ int main(){
         error_prev_s = error_s; */
 
         // 방향 설정 
-        digitalWrite(AIN1, HIGH);
-        digitalWrite(AIN2, LOW);
-        digitalWrite(BIN3, LOW);
-        digitalWrite(BIN4, HIGH);
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
