@@ -184,7 +184,7 @@ int main(){
         // DC모터 방향각
         setha_coordinate = setha_prev_coordinate + delta_setha;
 
-        /* 거리값, 각도값 PID 계산식*/
+        /* 거리값, 각도값 PID 계산식 */
         distance_target = sqrt(pow(x_coordinate, 2)+ pow(y_coordinate, 2));
         distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(setha_coordinate, 2));
         
