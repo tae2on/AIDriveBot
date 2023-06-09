@@ -71,7 +71,7 @@ double deg = 180 / M_PI;
 
 /* 원하는 x,y 좌표값, 각도값 */
 double x_target_coordinate = 0;
-double y_target_coordinate = 72;
+double y_target_coordinate = 360;
 double setha_target = 0;
 
 /* 로봇의 선형 변위와 각변위 계산식 */
