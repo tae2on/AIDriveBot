@@ -174,14 +174,14 @@ int main(){
         combine_delta_setha += delta_setha;
 
         /* 로봇의 위치와 방향각 계산식 */
-        bar_setha = setha_prev_coordinate + (delta_setha/2);
+        bar_setha = setha_prev_coordinate + (combine_delta_setha/2);
         
         // DC모터 x좌표, y좌표
         x_coordinate = x_prev_coordinate + (cos(bar_setha) * delta_s);
         y_coordinate = y_prev_coordinate + (sin(bar_setha) * delta_s);
 
         // DC모터 방향각
-        setha_coordinate = setha_prev_coordinate + delta_setha;
+        setha_coordinate = setha_prev_coordinate + combine_delta_setha;
 
         /* 거리값, 각도값 PID 계산식 */
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
