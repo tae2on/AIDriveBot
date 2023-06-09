@@ -230,6 +230,9 @@ int main(){
           digitalWrite(AIN2, LOW);    
           digitalWrite(BIN3, LOW);
           digitalWrite(BIN4, LOW);     
+          
+          cout << "지난 시간: " << duration.count() << "밀리초" << endl;
+
           break;
         }
 
@@ -237,9 +240,6 @@ int main(){
       std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);// 루프 실행 시간 계산
       std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
  
-      cout << "지난 시간: " << duration.count() << "밀리초" << endl;
- 
-
     }    
   return 0; 
 }  
