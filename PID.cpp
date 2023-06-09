@@ -35,7 +35,8 @@ using namespace std::chrono;
 #define encPinD 0            // 파랑색 (D) - GPIO핀 번호 : 17
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 4 * 10) * rad;       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+float proportionr;
 
 /* PID 상수*/
 // 각도 PID
@@ -165,8 +166,9 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-        motorDegL = encoderPosLeft * proportion;
-        motorDegR = encoderPosRight * proportion;
+        proportion_r = proportion * rad;
+        motorDegL = encoderPosLeft * proportion_r;
+        motorDegR = encoderPosRight * proportion_r;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
