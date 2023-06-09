@@ -167,8 +167,8 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-        motorDegL = encoderPosLeft * proportion;
-        motorDegR = encoderPosRight * proportion;
+        motorDegL = encoderPosLeft * proportion * rad;
+        motorDegR = encoderPosRight * proportion * rad;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
