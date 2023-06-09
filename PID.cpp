@@ -35,7 +35,7 @@ using namespace std::chrono;
 #define encPinD 0            // 파랑색 (D) - GPIO핀 번호 : 17
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 4 * 10) * rad;       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수*/
 // 각도 PID
@@ -192,7 +192,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "L = " << motorDegL << ", R =  " << motorDegR << endl;
+        cout << "L = " << motorDegL * deg << ", R =  " << motorDegR * deg << endl;
         cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
