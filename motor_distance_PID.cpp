@@ -239,7 +239,7 @@ int main(){
           digitalWrite(AIN1, LOW);
           digitalWrite(AIN2, LOW);    
           digitalWrite(BIN3, LOW);
-          digitalWrite(BIN4, LOW);     
+          digitalWrite(BIN4, LOW);      
  
           auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
           auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
