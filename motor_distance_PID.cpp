@@ -55,7 +55,7 @@ float kp_sR = 0.5;
 float kd_sR = 0;        
 float ki_sR = 0; 
 
-double difference = 1;
+double difference = 2;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
@@ -233,7 +233,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (difference >= error_d){
+        if (difference >= error_d >= -difference){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
