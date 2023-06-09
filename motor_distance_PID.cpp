@@ -43,7 +43,7 @@ float kp_dL = 1.05; // 0.5
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 0.75; // 0.5 
+float kp_dR = 0.5; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
@@ -200,7 +200,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "degL = " << motor_sethaL << "degR = " << motor_sethaR <<endl;
+        cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
