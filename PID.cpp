@@ -39,19 +39,19 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 50; // 0.5 
+float kp_dL = 1; // 0.5 
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 50; // 0.5 
+float kp_dR = 0.5; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
-float kp_sL = 0; 
+float kp_sL = 0.5; 
 float kd_sL = 0;        
 float ki_sL = 0; 
  
-float kp_sR = 0;  
+float kp_sR = 0.5;  
 float kd_sR = 0;        
 float ki_sR = 0; 
 
@@ -87,9 +87,11 @@ double bar_setha = 0 ;
  
 double x_coordinate = 0;
 double x_prev_coordinate = 0;
+double combine_x_coordinate = 0;
 
 double y_coordinate = 0;
 double y_prev_coordinate = 0;
+double combine_y_coordinate = 0;
 
 double setha_coordinate = 0;
 double setha_prev_coordinate = 0;
@@ -110,6 +112,13 @@ double control_L = 0;
 double delta_vL = 0;
 double control_R = 0;
 double delta_vR = 0;
+
+/* 삭제 */
+double del_ts = 0.01;
+double e_setha_dot = 0;
+double e_setha_total = 0;
+double e_distance_dot = 0;
+double e_distance_total = 0;
 
 auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
@@ -165,8 +174,11 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-        motorDegL = encoderPosLeft * proportion * rad;
-        motorDegR = encoderPosRight * proportion * rad;
+        motor_sethaL = encoderPosLeft * proportion;
+        motor_sethaR = encoderPosRight * proportion;
+
+        motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
+        motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
@@ -174,61 +186,70 @@ int main(){
         combine_delta_setha += delta_setha;
 
         /* 로봇의 위치와 방향각 계산식 */
-        bar_setha = setha_prev_coordinate + (combine_delta_setha/2);
+        bar_setha = ((combine_delta_setha - delta_setha) + (delta_setha / 2));
         
         // DC모터 x좌표, y좌표
-        x_coordinate = x_prev_coordinate + (cos(bar_setha) * delta_s);
-        y_coordinate = y_prev_coordinate + (sin(bar_setha) * delta_s);
+        x_coordinate = cos(bar_setha) * delta_s;
+        y_coordinate = sin(bar_setha) * delta_s;
+        
+        combine_x_coordinate += x_coordinate; 
+        combine_y_coordinate += y_coordinate;
 
         // DC모터 방향각
-        setha_coordinate = setha_prev_coordinate + combine_delta_setha;
+        setha_coordinate = setha_prev_coordinate + delta_setha;
 
-        /* 거리값, 각도값 PID 계산식 */
+        /* 거리값, 각도값 PID 계산식*/
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
-        distance_robot = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
+        distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
         
         error_d = distance_target - distance_robot;
-        error_s = setha_target - setha_coordinate;
+        error_s = setha_target - combine_delta_setha;
+
+        e_setha_dot = (error_s - error_prev_s) / del_ts;
+        e_setha_total = e_setha_total + error_s;
+        e_distance_dot = (error_d - error_prev_d) / del_ts;
+        e_distance_total = e_distance_total + error_d;
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "L = " << motorDegL << ", R =  " << motorDegR << endl;
-        cout << "목표 거리 = " << distance_target << endl;
-        cout << "tar_x = " << x_target_coordinate << ", tar_y = " << y_target_coordinate << endl;
-        cout << "x = " << x_coordinate << ", y = " << y_coordinate << endl;
+        cout << "방향각 = "  << setha_coordinate << endl;
+        cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
+        cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
+        cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
         // 왼쪽 DC모터 
-        delta_vL = kp_dL * (error_d - error_prev_d) + ki_dL * error_d + kd_dL * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sL * (error_s - error_prev_s) + ki_sL * error_s + kd_sL * (error_s - 2 * error_prev_s + error_prev_prev_s);
-        control_L += delta_vL;
+        delta_vL = (kp_dL * error_d) + (kd_dL * e_distance_dot) + (kp_sL * error_s) + (ki_sL * e_setha_total) + (kd_sL * e_setha_dot);
+        control_L = delta_vL;
 
         // 오른쪽 DC모터 
-        delta_vR = kp_dR * (error_d - error_prev_d) + ki_dR * error_d + kd_dR * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sR * (error_s - error_prev_s) + ki_sR * error_s + kd_sR * (error_s - 2 * error_prev_s + error_prev_prev_s);
-        control_R += delta_vR;
+        delta_vR = (kp_dR * error_d) + (kd_dR * e_distance_dot) + (kp_sR * error_s) + (ki_sR * e_setha_total) + (kd_sR * e_setha_dot);
+        control_R = delta_vR;
 
-        /* // 이전값
-        x_prev_coordinate = x_coordinate;
-        y_prev_coordinate = y_coordinate;
-        setha_prev_coordinate = setha_coordinate;
+        // 이전값
+        setha_prev_coordinate =setha_coordinate;
+
+        encoderPosLeft_prev = encoderPosLeft;
+        encoderPosRight_prev = encoderPosRight; 
         
         error_prev_prev_d = error_prev_d;
         error_prev_d = error_d;
 
         error_prev_prev_s = error_prev_s;
-        error_prev_s = error_s; */
+        error_prev_s = error_s;
 
         // 방향 설정 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, HIGH);
         // 속도 설정 
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (distance_robot >= distance_target){
+        if (difference >= error_d){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
@@ -239,22 +260,12 @@ int main(){
           auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
           auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
           std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+          del_ts = duration.count();
 
           break;
         }
-
-        // 이전값
-        x_prev_coordinate = x_coordinate;
-        y_prev_coordinate = y_coordinate;
-        setha_prev_coordinate = setha_coordinate;
         
-        error_prev_prev_d = error_prev_d;
-        error_prev_d = error_d;
-
-        error_prev_prev_s = error_prev_s;
-        error_prev_s = error_s;
-        
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));  // 일정 시간 대기
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
         
     }    
   return 0; 
