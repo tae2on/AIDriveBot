@@ -39,11 +39,11 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 5000; // 0.5 
+float kp_dL = 50; // 0.5 
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 5000; // 0.5 
+float kp_dR = 50; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
@@ -193,7 +193,9 @@ int main(){
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
         cout << "L = " << motorDegL << ", R =  " << motorDegR << endl;
-        cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
+        cout << "목표 거리 = " << distance_target << endl;
+        cout << "tar_x = " << x_target_coordinate << ", tar_y = " << y_target_coordinate << endl;
+        cout << "x = " << x_coordinate << ", y = " << y_coordinate << endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
