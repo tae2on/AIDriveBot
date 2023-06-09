@@ -232,7 +232,8 @@ int main(){
           digitalWrite(BIN4, LOW);     
 
           auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-          std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
+          auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start);  // 루프 실행 시간 계산
+
         
           // 모터 회전 멈춤 후 값을 출력
           cout << "모터 회전 멈춤. 거리: " << distance_robot << endl;
