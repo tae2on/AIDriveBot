@@ -39,11 +39,11 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 1.05; // 0.5 
+float kp_dL = 0.8; // 0.5 
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 0.5; // 0.5 
+float kp_dR = 0.8; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
@@ -74,7 +74,7 @@ double deg = 180 / M_PI;
 
 /* 원하는 x,y 좌표값, 각도값 */
 double x_target_coordinate = 0;
-double y_target_coordinate = 144;
+double y_target_coordinate = 72.26;
 double setha_target = 0;
 
 /* 로봇의 선형 변위와 각변위 계산식 */
@@ -233,7 +233,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if ((difference >= error_d) && (control_R < 0)){
+        if (difference >= error_d){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
