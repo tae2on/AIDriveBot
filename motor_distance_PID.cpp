@@ -237,15 +237,16 @@ int main(){
           // 모터 회전 멈춤 후 값을 출력
           cout << "모터 회전 멈춤. 거리: " << distance_robot << endl;
           cout << "지난 시간: " << duration.count() << "밀리초" << endl;
-          cout << "지난 시간: " << duration.count() << "밀리초" << endl;
 
           break;
         }
         
         auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
+        /*auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
         std::chrono::milliseconds duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);  // 루프 실행 시간 계산
         std::this_thread::sleep_for(std::chrono::milliseconds(10) - duration);  // 루프 실행 시간이 10ms가 되도록 대기
-    
+        */
     }    
   return 0; 
 }  
