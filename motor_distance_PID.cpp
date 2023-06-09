@@ -232,8 +232,8 @@ int main(){
           digitalWrite(BIN4, LOW);     
 
           auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-          auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();;
-          cout << "지난 시간: " << duration.count() << "밀리초" << endl;
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+            std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
           
           //auto duration = std::chrono::duration_cast<std::chrono::duration<double>>(end - start);  // 루프 실행 시간 계산
           // auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
