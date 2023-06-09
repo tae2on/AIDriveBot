@@ -87,11 +87,9 @@ double bar_setha = 0 ;
  
 double x_coordinate = 0;
 double x_prev_coordinate = 0;
-double combine_x_coordinate = 0;
 
 double y_coordinate = 0;
 double y_prev_coordinate = 0;
-double combine_y_coordinate = 0;
 
 double setha_coordinate = 0;
 double setha_prev_coordinate = 0;
@@ -193,8 +191,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
-        cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
+        cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
         cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
