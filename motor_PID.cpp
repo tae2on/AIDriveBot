@@ -39,11 +39,11 @@ const float proportion = 360. / (84 * 2 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 50; // 0.5 
+float kp_dL = 0.5; // 0.5 
 float kd_dL = 0; // 0        
 float ki_dL = 0; // 0 
 
-float kp_dR = 50; // 0.5 
+float kp_dR = 0.5; // 0.5 
 float kd_dR = 0; // 0        
 float ki_dR = 0; // 0
 
@@ -112,6 +112,12 @@ double control_L = 0;
 double delta_vL = 0;
 double control_R = 0;
 double delta_vR = 0;
+
+double del_ts = 0.01;
+double e_setha_dot = 0;
+double e_setha_total = 0;
+double e_distance_dot = 0;
+double e_distance_total = 0;
 
 auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
@@ -195,6 +201,11 @@ int main(){
         error_d = distance_target - distance_robot;
         error_s = setha_target - setha_coordinate;
 
+        e_setha_dot = (error_s - error_prev_s) / del_ts;
+        e_setha_total = e_setha_total + error_s;
+        e_distance_dot = (error_d - error_prev_d) / del_ts;
+        e_distance_total = e_distance_total + error_d;
+
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
 
@@ -205,12 +216,12 @@ int main(){
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
         // 왼쪽 DC모터 
-        delta_vL = kp_dL * (error_d - error_prev_d) + ki_dL * error_d + kd_dL * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sL * (error_s - error_prev_s) + ki_sL * error_s + kd_sL * (error_s - 2 * error_prev_s + error_prev_prev_s);
-        control_L += delta_vL;
+        delta_vL = (kp_dL * error_d) + (kd_dL * e_distance_dot) + (kp_sL * error_s) + (ki_sL * e_setha_total) + (kd_sL * e_setha_dot);
+        control_L = delta_vL;
 
         // 오른쪽 DC모터 
-        delta_vR = kp_dR * (error_d - error_prev_d) + ki_dR * error_d + kd_dR * (error_d - 2 * error_prev_d + error_prev_prev_d) + kp_sR * (error_s - error_prev_s) + ki_sR * error_s + kd_sR * (error_s - 2 * error_prev_s + error_prev_prev_s);
-        control_R += delta_vR;
+        delta_vR = (kp_dR * error_d) + (kd_dR * e_distance_dot) + (kp_sR * error_s) + (ki_sR * e_setha_total) + (kd_sR * e_setha_dot);
+        control_R = delta_vR;
 
         // 이전값
         encoderPosRight_prev = encoderPosRight;
