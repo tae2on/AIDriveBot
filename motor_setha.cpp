@@ -263,7 +263,7 @@ void MotorControl::call(InputData input){
   softPwmWrite(pwmPinA, 0);
   softPwmWrite(pwmPinB, 0);    
         
-  Calculation(InputData input);
+  Calculation(input);
 
     // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
     if (input.x_target_coordinate != 0 || input.y_target_coordinate != 0 || input.setha_target != 0 || input.distance_target != 0) {
@@ -283,7 +283,7 @@ void MotorControl::call(InputData input){
     softPwmWrite(pwmPinA, min(abs(control_L), 70.));     
     softPwmWrite(pwmPinB, min(abs(control_R), 70.));         
 
-    Calculation(InputData input);       
+    Calculation(input);       
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if (!(input.y_target_coordinate && input.distance_target >= 0) && (input.setha_target == 0)){
@@ -302,7 +302,7 @@ void MotorControl::call(InputData input){
       softPwmWrite(pwmPinA, min(abs(control_L), 70.));    
       softPwmWrite(pwmPinB, min(abs(control_R), 70.));          
 
-      Calculation(InputData input);
+      Calculation(input);
 
       // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if(!(input.y_target_coordinate <= 0) && (input.distance_target >= 0) && (input.setha_target == 0)){
@@ -323,7 +323,7 @@ void MotorControl::call(InputData input){
         softPwmWrite(pwmPinA, min(abs(control_L), 70.));        
         softPwmWrite(pwmPinB, min(abs(control_R), 10.));     
 
-        Calculation(InputData input);
+        Calculation(input);
       }
       // 2사분면
       else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate > 0)){
@@ -336,7 +336,7 @@ void MotorControl::call(InputData input){
         softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
         softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
 
-        Calculation(InputData input);
+        Calculation(input);
       }
       // 3사분면
       else if (input.x_target_coordinate && input.y_target_coordinate < 0){
@@ -349,7 +349,7 @@ void MotorControl::call(InputData input){
         softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
         softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
 
-        Calculation(InputData input);
+        Calculation(input);
       }
       // 4사분면
       else if ((input.x_target_coordinate > 0) && (input.y_target_coordinate < 0)){
@@ -362,7 +362,7 @@ void MotorControl::call(InputData input){
         softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
         softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
 
-        Calculation(InputData input);
+        Calculation(input);
       }     
       
       // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
