@@ -141,10 +141,10 @@ void doEncoderD() {
   encoderPosRight += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
-class MotorControl{
+class MotorControl {
 public:
-    void call(int x);
-    int getInput();
+  void call();
+  InputData getInput();
 };
  
 void Calculation() {
@@ -232,9 +232,7 @@ struct InputData {
   int distance_target;
 };
 
-class MotorControl {
-public:
-  InputData getInput() {
+int MotorControl::getInput() {
     InputData input;
 
     std::cout << "정지: 0 / 직진: 1 / 후진: 2 / 오른쪽: 3 / 왼쪽: 4" << std::endl;
@@ -251,10 +249,11 @@ public:
     std::cin >> input.distance_target;
       
     return input; 
-  }
 }
 
-void MotorControl::call(int x){
+void MotorControl::call(){
+  InputData input = getInput();
+
   // 정지
   if (setha_target && distance_target == 0){
   // 방향 설정 
