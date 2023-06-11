@@ -235,19 +235,8 @@ void Calculation(InputData input) {
 InputData MotorControl::getInput() {
   InputData input;
 
-  std::cout << "정지: 0 / 직진: 1 / 후진: 2 / 오른쪽: 3 / 왼쪽: 4" << std::endl;
-  std::cout << "x 좌표를 입력하시오: ";
-  std::cin >> input.x_target_coordinate;
-
-  std::cout << "y 좌표를 입력하시오: ";
-  std::cin >> input.y_target_coordinate;
-
-  std::cout << "setha를 입력하시오: ";
-  std::cin >> input.setha_target;
-
-  std::cout << "거리를 입력하시오: ";
-  std::cin >> input.distance_target;
-
+  std::cout << "x, y, setha, distance 값을 입력하시오: ";
+  std::cin >> input.x_target_coordinate >> input.y_target_coordinate >> input.setha_target >> input.distance_target;
   return input;
 }
 
