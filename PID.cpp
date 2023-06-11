@@ -228,7 +228,7 @@ int main(){
         delta_vR = (kp_dR * error_d) + (kd_dR * e_distance_dot) + (kp_sR * error_s) + (ki_sR * e_setha_total) + (kd_sR * e_setha_dot);
         control_R = delta_vR;
 
-        // 이전값
+        /* // 이전값
         setha_prev_coordinate =setha_coordinate;
 
         encoderPosLeft_prev = encoderPosLeft;
@@ -238,7 +238,7 @@ int main(){
         error_prev_d = error_d;
 
         error_prev_prev_s = error_prev_s;
-        error_prev_s = error_s;
+        error_prev_s = error_s; */
 
         // 방향 설정 
         digitalWrite(AIN1, HIGH);
@@ -264,6 +264,18 @@ int main(){
 
           break;
         }
+        
+        // 이전값
+        setha_prev_coordinate =setha_coordinate;
+
+        encoderPosLeft_prev = encoderPosLeft;
+        encoderPosRight_prev = encoderPosRight; 
+        
+        error_prev_prev_d = error_prev_d;
+        error_prev_d = error_d;
+
+        error_prev_prev_s = error_prev_s;
+        error_prev_s = error_s;
         
         std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
         
