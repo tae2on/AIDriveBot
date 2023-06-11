@@ -185,7 +185,7 @@ int main(){
         setha_coordinate = setha_prev_coordinate + delta_setha;
 
         /* 거리값, 각도값 PID 계산식 */
-        distance_target = sqrt(pow(y_target_coordinate), 2)+ pow(y_target_coordinate, 2));
+        distance_target = sqrt(pow(x_target_coordinate), 2)+ pow(y_target_coordinate, 2));
         distance_robot = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
         
         error_d = distance_target - distance_robot;
