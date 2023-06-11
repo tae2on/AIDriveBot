@@ -418,12 +418,15 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while(true) {
-        int x_target_coordinate = control.getInput();
-        int y_target_coordinate = control.getInput();
-        int setha_target = control.getInput();
-        int distance_target = control.getInput();
-        control.call(x);
-        delay(1000);
+      int x_target_coordinate = control.getInput();
+      int y_target_coordinate = control.getInput();
+      int setha_target = control.getInput();
+      int distance_target = control.getInput();
+      control.call(x_target_coordinate);
+      control.call(y_target_coordinate);
+      control.call(setha_target);
+      control.call(distance_target);
+      delay(1000);
     }
     return 0;
 }    
