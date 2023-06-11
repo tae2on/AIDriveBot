@@ -225,26 +225,30 @@ void Calculation() {
 }
 
 // 원하는 방향 입력
-int MotorControl::getInput() {
+struct InputData {
   int x_target_coordinate;
   int y_target_coordinate;
   int setha_target;
   int distance_target;
+};
 
-  cout << "정지 : 0 / 직진 : 1 / 후진 : 2 / 오른쪽 : 3 / 왼쪽 : 4" << endl;
-  cout << "x 좌표를 입력하시오: ";
-  cin >> x_target_coordinate;
+InputData getInput() {
+  InputData input;
 
-  cout << "y 좌표를 입력하시오: ";
-  cin >> y_target_coordinate;
+  std::cout << "정지: 0 / 직진: 1 / 후진: 2 / 오른쪽: 3 / 왼쪽: 4" << std::endl;
+  std::cout << "x 좌표를 입력하시오: ";
+  std::cin >> input.x_target_coordinate;
+
+  std::cout << "y 좌표를 입력하시오: ";
+  std::cin >> input.y_target_coordinate;
   
-  cout << "setha를 입력하시오: ";
-  cin >> setha_target;
+  std::cout << "setha를 입력하시오: ";
+  std::cin >> input.setha_target;
 
-  cout << "거리를 입력하시오: ";
-  cin >> distance_target;
+  std::cout << "거리를 입력하시오: ";
+  std::cin >> input.distance_target;
     
-  return x_target_coordinate, y_target_coordinate, setha_target, distance_target; 
+  return input; 
 }
 
 void MotorControl::call(int x){
