@@ -143,7 +143,7 @@ void doEncoderD() {
 
 class MotorControl {
 public:
-  void call();
+  void call(Data input);
   InputData getInput();
 };
  
@@ -232,7 +232,7 @@ struct InputData {
   int distance_target;
 };
 
-int MotorControl::getInput() {
+InputData MotorControl::getInput() {
     InputData input;
 
     std::cout << "정지: 0 / 직진: 1 / 후진: 2 / 오른쪽: 3 / 왼쪽: 4" << std::endl;
@@ -251,7 +251,7 @@ int MotorControl::getInput() {
     return input; 
 }
 
-void MotorControl::call(){
+void MotorControl::call(Data input){
   InputData input = getInput();
 
   // 정지
@@ -424,15 +424,8 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while(true) {
-      int x_target_coordinate = control.getInput();
-      int y_target_coordinate = control.getInput();
-      int setha_target = control.getInput();
-      int distance_target = control.getInput();
-
-      control.call(x_target_coordinate);
-      control.call(y_target_coordinate);
-      control.call(setha_target);
-      control.call(distance_target);
+      InputData input = control.getInput();
+      control.call(input);
       delay(1000);
     }
     return 0;
