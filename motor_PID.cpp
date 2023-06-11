@@ -167,8 +167,8 @@ int main(){
     std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while (true){
-        motorDegL = encoderPosLeft * proportion * rad;
-        motorDegR = encoderPosRight * proportion * rad;
+        motorDegL = (encoderPosLeft - encoderPosLeft_prev) * proportion * rad;
+        motorDegR = (encoderPosRight - encoderPosRight_prev) * proportion * rad;
 
         /* 로봇의 선형 변위와 각변위 계산식 */
         delta_s = (11.5 / 2) * (motorDegL + motorDegR);
@@ -194,11 +194,11 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
+
         cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "degL = " << motorDegL << ", degR = " << motorDegR <<endl;
-        cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
+        cout << "encL = " << encoderPosLeft << ", encR = " << encoderPosRight << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
-        cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
         cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
         // 왼쪽 DC모터 
@@ -210,8 +210,8 @@ int main(){
         control_R += delta_vR;
 
         // 이전값
-        // encoderPosRight_prev = encoderPosRight;
-        // encoderPosLeft_prev = encoderPosLeft;
+        encoderPosRight_prev = encoderPosRight;
+        encoderPosLeft_prev = encoderPosLeft;
 
         x_prev_coordinate = x_coordinate;
         y_prev_coordinate = y_coordinate;
