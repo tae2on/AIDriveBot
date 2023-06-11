@@ -193,7 +193,7 @@ int main(){
 
         cout << "--------------------------------------------------------------------------------" << endl;
         cout << "거리 = " << distance_robot << endl;
-        cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
+        cout << "x = " << x_coordinate << ", y = " << y_coordinate <<endl;
         cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
         cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
         cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
@@ -228,7 +228,7 @@ int main(){
         softPwmWrite(pwmPinA, min(abs(control_L), 45.));     
         softPwmWrite(pwmPinB, min(abs(control_R), 50.)); 
      
-        if (distance_target >= distance_target){
+        if (distance_robot >= distance_target){
           softPwmWrite(pwmPinA, 0); 
           softPwmWrite(pwmPinB, 0); 
           digitalWrite(AIN1, LOW);
