@@ -143,7 +143,7 @@ void doEncoderD() {
 
 class MotorControl {
 public:
-  void call(Data input);
+  void call(InputData input);
   InputData getInput();
 };
  
@@ -233,27 +233,25 @@ struct InputData {
 };
 
 InputData MotorControl::getInput() {
-    InputData input;
+  InputData input;
 
-    std::cout << "정지: 0 / 직진: 1 / 후진: 2 / 오른쪽: 3 / 왼쪽: 4" << std::endl;
-    std::cout << "x 좌표를 입력하시오: ";
-    std::cin >> input.x_target_coordinate;
+  std::cout << "정지: 0 / 직진: 1 / 후진: 2 / 오른쪽: 3 / 왼쪽: 4" << std::endl;
+  std::cout << "x 좌표를 입력하시오: ";
+  std::cin >> input.x_target_coordinate;
 
-    std::cout << "y 좌표를 입력하시오: ";
-    std::cin >> input.y_target_coordinate;
-    
-    std::cout << "setha를 입력하시오: ";
-    std::cin >> input.setha_target;
+  std::cout << "y 좌표를 입력하시오: ";
+  std::cin >> input.y_target_coordinate;
 
-    std::cout << "거리를 입력하시오: ";
-    std::cin >> input.distance_target;
-      
-    return input; 
+  std::cout << "setha를 입력하시오: ";
+  std::cin >> input.setha_target;
+
+  std::cout << "거리를 입력하시오: ";
+  std::cin >> input.distance_target;
+
+  return input;
 }
 
-void MotorControl::call(Data input){
-  InputData input = getInput();
-
+void MotorControl::call(InputData input){
   // 정지
   if (setha_target && distance_target == 0){
   // 방향 설정 
@@ -268,11 +266,8 @@ void MotorControl::call(Data input){
   Calculation();
 
     // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
-    if(x_target_coordinate && y_target_coordinate && setha_target && distance_target != 0){
-      x_target_coordinate = getInput();
-      y_target_coordinate =  getInput();
-      setha_target = getInput();
-      distance_target = getInput();
+    if (input.x_target_coordinate != 0 || input.y_target_coordinate != 0 || input.setha_target != 0 || input.distance_target != 0) {
+      input = getInput();
     }
   }
 
@@ -292,10 +287,7 @@ void MotorControl::call(Data input){
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if (!(y_target_coordinate && distance_target >= 0 && setha_target == 0)){
-        x_target_coordinate = getInput();
-        y_target_coordinate =  getInput();
-        setha_target = getInput();
-        distance_target = getInput();
+        input = getInput();
       }
     }
 
@@ -314,10 +306,7 @@ void MotorControl::call(Data input){
 
       // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if(!(y_target_coordinate <= 0) && (distance_target >= 0) && (setha_target == 0)){
-        x_target_coordinate = getInput();
-        y_target_coordinate =  getInput();
-        setha_target = getInput();
-        distance_target = getInput();
+        input = getInput();      
       }   
     }
 
@@ -378,10 +367,7 @@ void MotorControl::call(Data input){
       
       // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
       else if((setha_target != 0) && (distance_target >= 0)){
-        x_target_coordinate = getInput();
-        y_target_coordinate = getInput();       
-        setha_target = getInput();
-        distance_target = getInput();
+        input = getInput();
       }   
     }
 }
