@@ -373,7 +373,7 @@ void MotorControl::call(int x){
       // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
       else if((setha_target != 0) && (distance_target >= 0)){
         x_target_coordinate = getInput();
-        y_target_coordinate = getlnput();
+        y_target_coordinate = getInput();       
         setha_target = getlnput();
         distance_target = getlnput();
       }   
@@ -422,6 +422,7 @@ int main(){
       int y_target_coordinate = control.getInput();
       int setha_target = control.getInput();
       int distance_target = control.getInput();
+
       control.call(x_target_coordinate);
       control.call(y_target_coordinate);
       control.call(setha_target);
