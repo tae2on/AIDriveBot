@@ -143,6 +143,7 @@ void doEncoderD() {
 
 class MotorControl{
 public:
+    struct InputData;
     void call(int x);
     int getInput();
 };
