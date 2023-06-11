@@ -143,10 +143,10 @@ void doEncoderD() {
 
 // 원하는 값 입력
 struct InputData {
-  int x_target_coordinate;
-  int y_target_coordinate;
-  int setha_target;
-  int distance_target;
+  double x_target_coordinate;
+  double y_target_coordinate;
+  double setha_target;
+  double distance_target;
 };
 
 class MotorControl {
@@ -237,6 +237,7 @@ InputData MotorControl::getInput() {
 
   std::cout << "x, y, setha, distance 값을 입력하시오: ";
   std::cin >> input.x_target_coordinate >> input.y_target_coordinate >> input.setha_target >> input.distance_target;
+
   return input;
 }
 
