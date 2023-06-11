@@ -35,7 +35,7 @@ using namespace std::chrono;
 #define encPinD 0            // 파랑색 (D) - GPIO핀 번호 : 17
 
 /* PID 제어 */
-const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+const float proportion = 360. / (84 * 2 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
 
 /* PID 상수*/
 // 각도 PID
@@ -179,15 +179,18 @@ int main(){
         bar_setha =  ((combine_delta_setha - delta_setha) + (delta_setha / 2));
 
         // DC모터 x좌표, y좌표
-        x_coordinate = x_prev_coordinate + cos(bar_setha) * delta_s;
-        y_coordinate = y_prev_coordinate + sin(bar_setha) * delta_s;
+        x_coordinate = cos(bar_setha) * delta_s;
+        y_coordinate = sin(bar_setha) * delta_s;
+
+        combine_x_coordinate += x_coordinate;
+        combine_y_coordinate += y_coordinate;
 
         // DC모터 방향각
         setha_coordinate = setha_prev_coordinate + delta_setha;
 
         /* 거리값, 각도값 PID 계산식 */
         distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
-        distance_robot = sqrt(pow(x_coordinate, 2) + pow(y_coordinate, 2));
+        distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
         
         error_d = distance_target - distance_robot;
         error_s = setha_target - setha_coordinate;
