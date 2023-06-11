@@ -264,9 +264,9 @@ void MotorControl::call(int x){
     // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
     if(x_target_coordinate && y_target_coordinate && setha_target && distance_target != 0){
       x_target_coordinate = getInput();
-      y_target_coordinate = getlnput();
-      setha_target = getlnput();
-      distance_target = getlnput();
+      y_target_coordinate =  getInput();
+      setha_target = getInput();
+      distance_target = getInput();
     }
   }
 
@@ -287,9 +287,9 @@ void MotorControl::call(int x){
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if (!(y_target_coordinate && distance_target >= 0 && setha_target == 0)){
         x_target_coordinate = getInput();
-        y_target_coordinate = getlnput();
-        setha_target = getlnput();
-        distance_target = getlnput();
+        y_target_coordinate =  getInput();
+        setha_target = getInput();
+        distance_target = getInput();
       }
     }
 
@@ -309,9 +309,9 @@ void MotorControl::call(int x){
       // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if(!(y_target_coordinate <= 0) && (distance_target >= 0) && (setha_target == 0)){
         x_target_coordinate = getInput();
-        y_target_coordinate = getlnput();
-        setha_target = getlnput();
-        distance_target = getlnput();
+        y_target_coordinate =  getInput();
+        setha_target = getInput();
+        distance_target = getInput();
       }   
     }
 
@@ -374,8 +374,8 @@ void MotorControl::call(int x){
       else if((setha_target != 0) && (distance_target >= 0)){
         x_target_coordinate = getInput();
         y_target_coordinate = getInput();       
-        setha_target = getlnput();
-        distance_target = getlnput();
+        setha_target = getInput();
+        distance_target = getInput();
       }   
     }
 }
