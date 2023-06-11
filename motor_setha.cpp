@@ -141,6 +141,14 @@ void doEncoderD() {
   encoderPosRight += (digitalRead(encPinC) == digitalRead(encPinD)) ? -1 : 1;
 }
 
+// 원하는 값 입력
+struct InputData {
+  int x_target_coordinate;
+  int y_target_coordinate;
+  int setha_target;
+  int distance_target;
+};
+
 class MotorControl {
 public:
   void call(InputData input);
@@ -224,14 +232,6 @@ void Calculation() {
   std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
 }
 
-// 원하는 방향 입력
-struct InputData {
-  int x_target_coordinate;
-  int y_target_coordinate;
-  int setha_target;
-  int distance_target;
-};
-
 InputData MotorControl::getInput() {
   InputData input;
 
@@ -253,7 +253,7 @@ InputData MotorControl::getInput() {
 
 void MotorControl::call(InputData input){
   // 정지
-  if (setha_target && distance_target == 0){
+  if (input.setha_target == 0 && input.distance_target == 0) {
   // 방향 설정 
   digitalWrite(AIN1, LOW);
   digitalWrite(AIN2, LOW);
