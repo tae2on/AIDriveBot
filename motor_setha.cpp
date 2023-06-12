@@ -165,7 +165,7 @@ void Calculation(InputData input) {
   /* 로봇의 선형 변위와 각변위 계산식 */
   delta_s = (11.5 / 2) * (motorDegL + motorDegR);
   delta_setha = (11.5 / 74) * (motorDegR - motorDegL);
-  combine_delta_setha += delta_setha;ㅍㅊ 
+  combine_delta_setha += delta_setha;
 
   /* 로봇의 위치와 방향각 계산식 */
   bar_setha = ((combine_delta_setha - delta_setha) + (delta_setha / 2));
