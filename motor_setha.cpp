@@ -244,27 +244,9 @@ InputData MotorControl::getInput() {
 }
 
 void MotorControl::call(InputData input){
-  // 정지
-  if ((input.setha_target == 0) && (input.distance_target == 0) && (input.x_target_coordinate == 0) && (input.y_target_coordinate == 0)) {
-  // 방향 설정 
-  digitalWrite(AIN1, LOW);
-  digitalWrite(AIN2, LOW);
-  digitalWrite(BIN3, LOW);
-  digitalWrite(BIN4, LOW);
-  // 속도 설정 
-  softPwmWrite(pwmPinA, 0);
-  softPwmWrite(pwmPinB, 0);    
-        
-  Calculation(input);
-
-    // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
-    if (input.x_target_coordinate != 0 || input.y_target_coordinate != 0 || input.setha_target != 0 || input.distance_target != 0) {
-      input = getInput();
-    }
-  }
 
   // 전진
-  else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+  if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
@@ -283,85 +265,104 @@ void MotorControl::call(InputData input){
       }
     }
 
-    // 후진
-    else if ((input.y_target_coordinate <= 0) && (input.distance_target >= 0) && (input.setha_target == 0)) {
-      // 방향 설정 
-      digitalWrite(AIN1, HIGH);
-      digitalWrite(AIN2, LOW);
-      digitalWrite(BIN3, LOW);
-      digitalWrite(BIN4, HIGH);
+  // 후진
+  else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+    // 방향 설정 
+    digitalWrite(AIN1, HIGH);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, LOW);
+    digitalWrite(BIN4, HIGH);
+    // 속도 설정 
+    softPwmWrite(pwmPinA, min(abs(control_L), 70.));    
+    softPwmWrite(pwmPinB, min(abs(control_R), 70.));          
+
+    Calculation(input);
+
+    // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
+    if(!(input.y_target_coordinate <= 0) && (input.distance_target >= 0) && (input.setha_target == 0)){
+      input = getInput();      
+    }   
+  }
+
+  // 회전 
+    else if ((input.setha_target != 0) && (input.distance_target >= 0)){
+    // 1사분면 
+    if (input.x_target_coordinate > 0 && input.y_target_coordinate > 0){
+      // 방향 조절 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      digitalWrite(BIN3, HIGH);
+      digitalWrite(BIN4, LOW);
       // 속도 설정 
-      softPwmWrite(pwmPinA, min(abs(control_L), 70.));    
-      softPwmWrite(pwmPinB, min(abs(control_R), 70.));          
+      softPwmWrite(pwmPinA, min(abs(control_L), 70.));        
+      softPwmWrite(pwmPinB, min(abs(control_R), 10.));     
 
       Calculation(input);
-
-      // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      if(!(input.y_target_coordinate <= 0) && (input.distance_target >= 0) && (input.setha_target == 0)){
-        input = getInput();      
-      }   
     }
+    // 2사분면
+    else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate > 0)){
+      // 방향 조절 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      digitalWrite(BIN3, HIGH);   
+      digitalWrite(BIN4, LOW);
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
+      softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
 
-    // 회전 
-    else if ((input.setha_target != 0) && (input.distance_target >= 0)){
-      // 1사분면 
-      if (input.x_target_coordinate > 0 && input.y_target_coordinate > 0){
-        // 방향 조절 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, HIGH);
-        digitalWrite(BIN4, LOW);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(control_L), 70.));        
-        softPwmWrite(pwmPinB, min(abs(control_R), 10.));     
+      Calculation(input);
+    }
+    // 3사분면
+    else if (input.x_target_coordinate < 0 && input.y_target_coordinate < 0){
+      // 방향 조절 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      digitalWrite(BIN3, HIGH);   
+      digitalWrite(BIN4, LOW);
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
+      softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
 
-        Calculation(input);
-      }
-      // 2사분면
-      else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate > 0)){
-        // 방향 조절 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, HIGH);   
-        digitalWrite(BIN4, LOW);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
-        softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
+      Calculation(input);
+    }
+    // 4사분면
+    else if ((input.x_target_coordinate > 0) && (input.y_target_coordinate < 0)){
+      // 방향 조절 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      digitalWrite(BIN3, HIGH);   
+      digitalWrite(BIN4, LOW);
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
+      softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
 
-        Calculation(input);
-      }
-      // 3사분면
-      else if (input.x_target_coordinate < 0 && input.y_target_coordinate < 0){
-        // 방향 조절 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, HIGH);   
-        digitalWrite(BIN4, LOW);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
-        softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
-
-        Calculation(input);
-      }
-      // 4사분면
-      else if ((input.x_target_coordinate > 0) && (input.y_target_coordinate < 0)){
-        // 방향 조절 
-        digitalWrite(AIN1, LOW);
-        digitalWrite(AIN2, HIGH);
-        digitalWrite(BIN3, HIGH);   
-        digitalWrite(BIN4, LOW);
-        // 속도 설정 
-        softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
-        softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
-
-        Calculation(input);
-      }     
+      Calculation(input);
+    }     
       
-      // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      else if((input.setha_target != 0) && (input.distance_target >= 0)){
-        input = getInput();
-      }   
+    // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
+    else if((input.setha_target != 0) && (input.distance_target >= 0)){
+      input = getInput();
+    }   
+  }
+
+  // 정지
+  if ((input.setha_target == 0) && (input.distance_target == 0) && (input.x_target_coordinate == 0) && (input.y_target_coordinate == 0)) {
+  // 방향 설정 
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, LOW);
+  digitalWrite(BIN3, LOW);
+  digitalWrite(BIN4, LOW);
+  // 속도 설정 
+  softPwmWrite(pwmPinA, 0);
+  softPwmWrite(pwmPinB, 0);    
+        
+  Calculation(input);
+
+    // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
+    if (input.x_target_coordinate != 0 || input.y_target_coordinate != 0 || input.setha_target != 0 || input.distance_target != 0) {
+      input = getInput();
     }
+  }
 }
 
 int main(){
