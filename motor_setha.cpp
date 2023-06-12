@@ -199,8 +199,8 @@ void Calculation(InputData input) {
   e_distance_total = e_distance_total + error_d;
 
   cout << "--------------------------------------------------------------------------------" << endl;
-  cout << "입력 x = " << input.x_target_coordinate << ", 입력 y = " << input.y_target_coordinate << endl;
-  cout << "입력 setha = " << input.setha_target_coordinate << ", 입력 거리 = " << input.distance_target << endl;
+  cout << "입력 x = " << x_target_coordinate << ", 입력 y = " << y_target_coordinate << endl;
+  cout << "입력 setha = " << setha_target << ", 입력 거리 = " << distance_target << endl;
   cout << "거리 = " << distance_robot << endl;
   cout << "방향각 = "  << setha_coordinate << endl;
   //cout << "bar_setha = "  << bar_setha << "bar_setha1 = " << bar_setha1 << endl;
