@@ -245,7 +245,7 @@ InputData MotorControl::getInput() {
 
 void MotorControl::call(InputData input){
   // 정지
-  if (input.setha_target == 0 && input.distance_target == 0) {
+  if ((input.setha_target == 0) && (input.distance_target == 0) && (input.x_target_coordinate == 0) && (input.y_target_coordinate == 0)) {
   // 방향 설정 
   digitalWrite(AIN1, LOW);
   digitalWrite(AIN2, LOW);
