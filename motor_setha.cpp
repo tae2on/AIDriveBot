@@ -199,15 +199,17 @@ void Calculation(InputData input) {
   e_distance_total = e_distance_total + error_d;
 
   cout << "--------------------------------------------------------------------------------" << endl;
+  cout << "입력 x = " << input.x_target_coordinate << ", 입력 y = " << input.y_target_coordinate << endl;
+  cout << "입력 setha = " << input.setha_target_coordinate << ", 입력 거리 = " << input.distance_target << endl;
   cout << "거리 = " << distance_robot << endl;
   cout << "방향각 = "  << setha_coordinate << endl;
-  cout << "bar_setha = "  << bar_setha << "bar_setha1 = " << bar_setha1 << endl;
-  cout << "반올림 bar_setha = " << round_bar_setha << endl;
+  //cout << "bar_setha = "  << bar_setha << "bar_setha1 = " << bar_setha1 << endl;
+  //cout << "반올림 bar_setha = " << round_bar_setha << endl;
   cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
   cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
   cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
-  cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
+  //cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
   cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
   // 왼쪽 DC모터 
