@@ -152,6 +152,7 @@ struct InputData {
 class MotorControl {
 public:
   void call(InputData input);
+  InputData getInput();
 };
  
 void Calculation(InputData input) {
@@ -400,12 +401,9 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     while(true) {
-      std::cout << "x, y, setha, distance 값을 입력하시오: ";
-      std::cin >> input.x_target_coordinate >> input.y_target_coordinate >> input.setha_target >> input.distance_target;
-
+      InputData input = control.getInput();
       control.call(input);
- 
       delay(1000);
     }
-    return 0;
+  return 0;
 }    
