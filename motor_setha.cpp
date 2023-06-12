@@ -165,7 +165,7 @@ void Calculation(InputData input) {
   /* 로봇의 선형 변위와 각변위 계산식 */
   delta_s = (11.5 / 2) * (motorDegL + motorDegR);
   delta_setha = (11.5 / 74) * (motorDegR - motorDegL);
-  combine_delta_setha += delta_setha;
+  combine_delta_setha += delta_setha;ㅍㅊ 
 
   /* 로봇의 위치와 방향각 계산식 */
   bar_setha = ((combine_delta_setha - delta_setha) + (delta_setha / 2));
@@ -262,7 +262,7 @@ void MotorControl::call(InputData input){
   }
 
   // 전진
-  else if ((input.y_target_coordinate && input.distance_target >= 0) && (input.setha_target == 0)) {
+  else if (input.y_target_coordinate >= 0 && input.distance_target >= 0 && input.setha_target == 0) {
     // 방향 설정 
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
@@ -276,7 +276,7 @@ void MotorControl::call(InputData input){
     Calculation(input);       
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      if (!(input.y_target_coordinate && input.distance_target >= 0) && (input.setha_target == 0)){
+      if (!(input.y_target_coordinate >= 0 && input.distance_target >= 0 && input.setha_target == 0)) {
         input = getInput();
       }
     }
@@ -303,7 +303,7 @@ void MotorControl::call(InputData input){
     // 회전 
     else if ((input.setha_target != 0) && (input.distance_target >= 0)){
       // 1사분면 
-      if (input.x_target_coordinate && input.y_target_coordinate > 0){
+      if (input.x_target_coordinate > 0 && input.y_target_coordinate > 0){
         // 방향 조절 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
@@ -329,7 +329,7 @@ void MotorControl::call(InputData input){
         Calculation(input);
       }
       // 3사분면
-      else if (input.x_target_coordinate && input.y_target_coordinate < 0){
+      else if (input.x_target_coordinate < 0 && input.y_target_coordinate < 0){
         // 방향 조절 
         digitalWrite(AIN1, LOW);
         digitalWrite(AIN2, HIGH);
