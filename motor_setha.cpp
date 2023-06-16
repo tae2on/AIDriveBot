@@ -284,6 +284,25 @@ void MotorControl::call(InputData input){
     }   
   }
 
+  // 제자리 회전
+  else if((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target > 0) && (input.distance_target == 0)){
+    // 방향 설정 
+    digitalWrite(AIN1, HIGH);
+    digitalWrite(AIN2, LOW);
+    digitalWrite(BIN3, HIGH);
+    digitalWrite(BIN4, LOW);
+    // 속도 설정 
+    softPwmWrite(pwmPinA, min(abs(control_L), 70.));    
+    softPwmWrite(pwmPinB, min(abs(control_R), 70.));          
+
+    Calculation(input);
+
+    // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
+    if(!(input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target > 0) && (input.distance_target == 0)){
+      input = getInput();      
+    }   
+  } 
+
   // 회전 
   else if ((input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)){
     // 1사분면 
