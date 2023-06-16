@@ -73,8 +73,8 @@ double rad = M_PI / 180;
 double deg = 180 / M_PI;
 
 /* 원하는 x,y 좌표값, 각도값 */
-double x_target_coordinate;
-double y_target_coordinate;
+double x_target_coordinate;     // 수평
+double y_target_coordinate;     // 수직
 double setha_target;
 
 /* 로봇의 선형 변위와 각변위 계산식 */
@@ -246,7 +246,7 @@ InputData MotorControl::getInput() {
 void MotorControl::call(InputData input){
 
   // 전진
-  if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+  if ((input.x_target_coordinate == 0) && (input.y_target_coordinate > 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
@@ -260,13 +260,13 @@ void MotorControl::call(InputData input){
     Calculation(input);       
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      if (!(input.y_target_coordinate >= 0 && input.distance_target >= 0 && input.setha_target == 0)) {
+      if (!(input.x_target_coordinate == 0) && (input.y_target_coordinate > 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
         input = getInput();
       }
     }
 
   // 후진
-  else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target < 0)) {
+  else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate < 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, HIGH);
     digitalWrite(AIN2, LOW);
@@ -279,13 +279,13 @@ void MotorControl::call(InputData input){
     Calculation(input);
 
     // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
-    if(!(input.y_target_coordinate <= 0) && (input.distance_target >= 0) && (input.setha_target == 0)){
+    if(!(input.x_target_coordinate == 0) && (input.y_target_coordinate < 0) && (input.setha_target == 0) && (input.distance_target > 0)){
       input = getInput();      
     }   
   }
 
   // 회전 
-    else if ((input.setha_target != 0) && (input.distance_target >= 0)){
+  else if ((input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)){
     // 1사분면 
     if (input.x_target_coordinate > 0 && input.y_target_coordinate > 0){
       // 방향 조절 
