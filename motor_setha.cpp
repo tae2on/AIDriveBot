@@ -47,11 +47,11 @@ float kp_dR = 6; // 거리 : 5
 float kd_dR = 0.4; // 거리 : 0.4
 float ki_dR = 0; // 0 
 
-float kp_sL = 0.1; 
+float kp_sL = 0; 
 float kd_sL = 0;        
 float ki_sL = 0; 
  
-float kp_sR = 0.1;  
+float kp_sR = 0;  
 float kd_sR = 0;        
 float ki_sR = 0; 
 
@@ -281,8 +281,8 @@ void MotorControl::call(InputData input){
     digitalWrite(BIN4, LOW);
     
     // 속도 설정 
-    softPwmWrite(pwmPinA, min(abs(control_L), 52.));     
-    softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
+    softPwmWrite(pwmPinA, min(abs(control_L), 52));     
+    softPwmWrite(pwmPinB, min(abs(control_R), 55));         
 
     Calculation(input);       
 
@@ -313,8 +313,8 @@ void MotorControl::call(InputData input){
     digitalWrite(BIN3, LOW);
     digitalWrite(BIN4, HIGH);
     // 속도 설정 
-    softPwmWrite(pwmPinA, min(abs(control_L), 70.));    
-    softPwmWrite(pwmPinB, min(abs(control_R), 70.));          
+    softPwmWrite(pwmPinA, min(abs(control_L), 70));    
+    softPwmWrite(pwmPinB, min(abs(control_R), 70));          
 
     Calculation(input);
 
