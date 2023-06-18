@@ -56,6 +56,7 @@ float kd_sR = 0;
 float ki_sR = 0; 
 
 double difference = 1;
+double tolerance = 0.2;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
@@ -215,7 +216,7 @@ void Calculation(InputData input) {
   if (input.setha_target > 180.0) {
   calculate_setha_target = calculate_setha_target - ((2.0 * M_PI) - (input.setha_target * M_PI / 180.0));
   error_s = calculate_setha_target - combine_delta_setha;
-}
+  }
   else {
     error_s = input.setha_target - combine_delta_setha;
   }
@@ -284,6 +285,19 @@ void MotorControl::call(InputData input){
     softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
 
     Calculation(input);       
+
+    while (true){
+      if (distance <= tolerance) {
+      // 방향 설정 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, LOW);
+      digitalWrite(BIN3, LOW);
+      digitalWrite(BIN4, LOW);
+      // 속도 설정 
+      softPwmWrite(pwmPinA, 0);
+      softPwmWrite(pwmPinB, 0);    
+      }
+    }
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
       if (!(input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
