@@ -225,7 +225,7 @@ void Calculation(InputData input) {
   e_distance_dot = (error_d - error_prev_d) / del_ts;
   e_distance_total = e_distance_total + error_d;
 
-/*
+
   cout << "--------------------------------------------------------------------------------" << endl;
   cout << "입력 x = " << input.x_target_coordinate << ", 입력 y = " << input.y_target_coordinate << endl;
   cout << "입력 setha = " << input.setha_target << ", 입력 거리 = " << input.distance_target << endl;
@@ -236,7 +236,7 @@ void Calculation(InputData input) {
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
   cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
   cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
-  */      
+        
 
   // 왼쪽 DC모터 
   delta_distanceL = kp_dL * error_d + kd_dL * e_distance_dot;
