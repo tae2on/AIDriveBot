@@ -228,9 +228,6 @@ void Calculation(InputData input) {
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
 
-  error_prev_prev_s = error_prev_s;
-  error_prev_s = error_s;
-        
   std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
 }
 
@@ -274,7 +271,7 @@ void MotorControl::call(InputData input){
       }
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      else if (!(input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+      else if (!(input.x_target_coordinate > 0) || (input.y_target_coordinate != 0) || (input.setha_target != 0) || (input.distance_target <= 0)) {
         input = getInput();
       }
     }
