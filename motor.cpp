@@ -300,14 +300,14 @@ void MotorControl::call(InputData input){
       
       break;
       }
-    }
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      if (!(input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+      else if (!(input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
         input = getInput();
       }
     }
-
+  }
+  
   // 후진
   else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
