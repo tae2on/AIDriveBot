@@ -287,7 +287,7 @@ void MotorControl::call(InputData input){
     Calculation(input);       
 
     while (true){
-      if (distance <= tolerance) {
+      if (input.distance_target <= tolerance) {
       // 방향 설정 
       digitalWrite(AIN1, LOW);
       digitalWrite(AIN2, LOW);
