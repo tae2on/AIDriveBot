@@ -40,10 +40,10 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 /* PID 상수*/
 // 각도 PID
 float kp_dL = 8; // 8
-float kd_dL = 0.1; // 0.1
+float kd_dL = 0.4; // 0.1
 float ki_dL = 0; // 0 
 
-float kp_dR = 5; // 거리 : 5
+float kp_dR = 6; // 거리 : 5
 float kd_dR = 0.4; // 거리 : 0.4
 float ki_dR = 0; // 0 
 
@@ -81,6 +81,7 @@ double setha_target;
 double delta_s = 0;
 double delta_setha = 0;
 double combine_delta_setha = 0;
+double calculate_setha_target = 0;
 
 /* 로봇의 위치, 방향각을 좌표로 계산식 */
 double bar_setha = 0 ;
@@ -184,34 +185,59 @@ void Calculation(InputData input) {
   //setha_coordinate = setha_prev_coordinate + delta_setha;
 
   /* 거리값, 각도값 PID 계산식*/
-  //distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
+  distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
   distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
 
   encoderPosLeft_prev = encoderPosLeft;
   encoderPosRight_prev = encoderPosRight;
-        
+
+  // 입력으로 받은 각도를 사용하여 모터 회전 계산 -> SETHA_TARGET이 0이 아닐 경우로 코드 수정 
+  if ((input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)) {
+    if ((input.x_target_coordinate < 0) && (input.y_target_coordinate < 0)) {
+      calculate_setha_target = -M_PI + atan2(input.x_target_coordinate, input.y_target_coordinate);
+    }
+    else if ((input.x_target_coordinate > 0) && (input.y_target_coordinate < 0)) {
+      calculate_setha_target = M_PI + atan2(input.x_target_coordinate, input.y_target_coordinate);
+    }
+    else {
+      calculate_setha_target = atan2(input.x_target_coordinate, input.y_target_coordinate);
+    }
+  }
+
+  // 3사분면과 4사분면일 경우, 360도에서 각도를 뺀 값을 사용하여 회전
+  if (calculate_setha_target > M_PI_2) {
+    calculate_setha_target = 2 * M_PI - calculate_setha_target;
+  }
+
+
   error_d = input.distance_target - distance_robot;
-  error_s = input.setha_target - combine_delta_setha;
+  
+  if (input.setha_target > 180.0) {
+  calculate_setha_target = calculate_setha_target - ((2.0 * M_PI) - (input.setha_target * M_PI / 180.0));
+  error_s = calculate_setha_target - combine_delta_setha;
+}
+  else {
+    error_s = input.setha_target - combine_delta_setha;
+  }
 
   e_setha_dot = (error_s - error_prev_s) / del_ts;
   e_setha_total = e_setha_total + error_s;
   e_distance_dot = (error_d - error_prev_d) / del_ts;
   e_distance_total = e_distance_total + error_d;
 
+/*
   cout << "--------------------------------------------------------------------------------" << endl;
   cout << "입력 x = " << input.x_target_coordinate << ", 입력 y = " << input.y_target_coordinate << endl;
   cout << "입력 setha = " << input.setha_target << ", 입력 거리 = " << input.distance_target << endl;
   cout << "거리 = " << distance_robot << endl;
   cout << "방향각 = "  << setha_coordinate << endl;
-  //cout << "bar_setha = "  << bar_setha << "bar_setha1 = " << bar_setha1 << endl;
-  //cout << "반올림 bar_setha = " << round_bar_setha << endl;
   cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
   cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
   cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
-  //cout << "y = " << y_coordinate << ", y_prev = " << y_prev_coordinate << endl;
   cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
-        
+  */      
+
   // 왼쪽 DC모터 
   delta_distanceL = kp_dL * error_d + kd_dL * e_distance_dot;
   delta_vL = delta_distanceL + (kp_sL * error_s) + (ki_sL * e_setha_total) + (kd_sL * e_setha_dot);
@@ -246,7 +272,7 @@ InputData MotorControl::getInput() {
 void MotorControl::call(InputData input){
 
   // 전진
-  if ((input.x_target_coordinate == 0) && (input.y_target_coordinate > 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+  if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
@@ -254,19 +280,19 @@ void MotorControl::call(InputData input){
     digitalWrite(BIN4, LOW);
     
     // 속도 설정 
-    softPwmWrite(pwmPinA, min(abs(control_L), 70.));     
-    softPwmWrite(pwmPinB, min(abs(control_R), 70.));         
+    softPwmWrite(pwmPinA, min(abs(control_L), 52.));     
+    softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
 
     Calculation(input);       
 
       // x(방향)의 값이 1(전진)이 아닐 경우 x(방향)을 다시 입력 받음 
-      if (!(input.x_target_coordinate == 0) && (input.y_target_coordinate > 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+      if (!(input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
         input = getInput();
       }
     }
 
   // 후진
-  else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate < 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+  else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, HIGH);
     digitalWrite(AIN2, LOW);
@@ -279,12 +305,12 @@ void MotorControl::call(InputData input){
     Calculation(input);
 
     // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
-    if(!(input.x_target_coordinate == 0) && (input.y_target_coordinate < 0) && (input.setha_target == 0) && (input.distance_target > 0)){
+    if(!(input.x_target_coordinate < 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)){
       input = getInput();      
     }   
   }
 
-  // 제자리 회전
+  // 제자리 회전 (왼쪽 기준 회전) 
   else if((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target > 0) && (input.distance_target == 0)){
     // 방향 설정 
     digitalWrite(AIN1, HIGH);
@@ -306,7 +332,7 @@ void MotorControl::call(InputData input){
   // 회전 
   else if ((input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)){
     // 1사분면 
-    if (input.x_target_coordinate > 0 && input.y_target_coordinate > 0){
+    if ((input.x_target_coordinate > 0) && (input.y_target_coordinate > 0)){
       // 방향 조절 
       digitalWrite(AIN1, LOW);
       digitalWrite(AIN2, HIGH);
@@ -332,12 +358,12 @@ void MotorControl::call(InputData input){
       Calculation(input);
     }
     // 3사분면
-    else if (input.x_target_coordinate < 0 && input.y_target_coordinate < 0){
+    else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate < 0)){
       // 방향 조절 
-      digitalWrite(AIN1, LOW);
-      digitalWrite(AIN2, HIGH);
-      digitalWrite(BIN3, HIGH);   
-      digitalWrite(BIN4, LOW);
+      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN2, LOW);
+      digitalWrite(BIN3, LOW);   
+      digitalWrite(BIN4, HIGH);
       // 속도 설정 
       softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
       softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
@@ -347,10 +373,10 @@ void MotorControl::call(InputData input){
     // 4사분면
     else if ((input.x_target_coordinate > 0) && (input.y_target_coordinate < 0)){
       // 방향 조절 
-      digitalWrite(AIN1, LOW);
-      digitalWrite(AIN2, HIGH);
-      digitalWrite(BIN3, HIGH);   
-      digitalWrite(BIN4, LOW);
+      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN2, LOW);
+      digitalWrite(BIN3, LOW);   
+      digitalWrite(BIN4, HIGH);
       // 속도 설정 
       softPwmWrite(pwmPinA, min(abs(control_L), 10.));        
       softPwmWrite(pwmPinB, min(abs(control_R), 70.));     
@@ -359,7 +385,7 @@ void MotorControl::call(InputData input){
     }     
       
     // x(방향)의 값이 2(후진)이 아닐 경우 x(방향)을 다시 입력 받음 
-    else if((input.setha_target != 0) && (input.distance_target >= 0)){
+    else if(!(input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)){
       input = getInput();
     }   
   }
@@ -378,7 +404,7 @@ void MotorControl::call(InputData input){
   Calculation(input);
 
     // x(방향)의 값이 0(정지)이 아닐 경우 x(방향)을 다시 입력 받음 
-    if (input.x_target_coordinate != 0 || input.y_target_coordinate != 0 || input.setha_target != 0 || input.distance_target != 0) {
+    if (!(input.setha_target == 0) && (input.distance_target == 0) && (input.x_target_coordinate == 0) && (input.y_target_coordinate == 0)) {
       input = getInput();
     }
   }
