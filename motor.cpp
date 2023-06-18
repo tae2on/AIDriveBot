@@ -265,10 +265,10 @@ void MotorControl::call(InputData input){
       // 속도 설정 
       softPwmWrite(pwmPinA, 0);
       softPwmWrite(pwmPinB, 0);    
-      
-      }
-      Calculation(input);  
-     input = getInput();
+    }
+    else {  
+      input = getInput();
+    }
   }
 }
 
