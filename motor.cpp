@@ -256,8 +256,7 @@ void MotorControl::call(InputData input){
 
     Calculation(input);       
 
-    while (error_d > tolerance){
-      if (error_d <= tolerance) {
+    if (error_d <= tolerance) {
       // 방향 설정 
       digitalWrite(AIN1, LOW);
       digitalWrite(AIN2, LOW);
@@ -271,7 +270,6 @@ void MotorControl::call(InputData input){
       }
       Calculation(input);  
      input = getInput();
-    } 
   }
 }
 
