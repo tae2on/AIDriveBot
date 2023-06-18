@@ -243,7 +243,7 @@ InputData MotorControl::getInput() {
 void MotorControl::call(InputData input){
 
   // 전진
-  if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+  if ((input.x_target_coordinate > 0)&& (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
@@ -256,7 +256,7 @@ void MotorControl::call(InputData input){
 
     Calculation(input);       
 
-    while (input.distance_target > tolerance){
+    while (error_d > tolerance){
       if (error_d <= tolerance) {
       // 방향 설정 
       digitalWrite(AIN1, LOW);
