@@ -192,7 +192,7 @@ void Calculation(InputData input) {
   combine_x_coordinate += x_coordinate; 
   combine_y_coordinate += y_coordinate;
 
-  // DC모터 방향각
+  // DC모터 방향각//
   setha_coordinate = setha_prev_coordinate + delta_setha;
 
   /* 거리값, 각도값 PID 계산식*/
