@@ -1,7 +1,8 @@
 /* 좌표를 이용한 PID값 */
 /* 지금까지 찾은 오류 */
-// 1. 처음에 값을 입력해도 정지
-// 2. 원하는 거리까지 가고난 후 정지 안 함 
+// 1. 처음에 값을 입력해도 정지 -> 해결
+// 2. 원하는 거리까지 가고난 후 정지 안 함 -> 해결 
+//   2-1. 거리가 더 감 
 // 3. 거리 PID, 각도 PID 값 맞추기 
 // 4. 각도 알맞게 회전하는지 -> 코드 수정한 후 1,2번 오류로 인해 확인 못 함 
 
@@ -65,7 +66,7 @@ double tolerance = 0.2;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
-
+ 
 int encoderPosLeft_prev = 0;
 int encoderPosRight_prev = 0;
 
@@ -266,7 +267,7 @@ void MotorControl::call(InputData input){
             input = getInput();    
             }
         }
-     delay(1000);
+     //delay(1000);
     }
 }
 
