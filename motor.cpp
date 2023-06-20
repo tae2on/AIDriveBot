@@ -289,7 +289,7 @@ void MotorControl::call(InputData input){
         if ((input.x_target_coordinate < 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
             // 방향 설정 
             digitalWrite(AIN1, HIGH);
-            digitalWrite(AIN2, LOE);
+            digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
             digitalWrite(BIN4, HIGH);
             
