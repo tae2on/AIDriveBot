@@ -39,6 +39,99 @@ using namespace std::chrono;
 #define encPinC 3            // 보라색 (C) - GPIO핀 번호 : 22
 #define encPinD 0            // 파랑색 (D) - GPIO핀 번호 : 17
 
+/* PID 제어 */
+const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350펄스 (정확하지 않음 - 계산값)
+
+/* PID 상수*/
+// 각도 PID
+float kp_dL = 8; // 8
+float kd_dL = 0.4; // 0.1
+float ki_dL = 0; // 0 
+
+float kp_dR = 6; // 거리 : 5
+float kd_dR = 0.4; // 거리 : 0.4
+float ki_dR = 0; // 0 
+
+float kp_sL = 0; 
+float kd_sL = 0;        
+float ki_sL = 0; 
+ 
+float kp_sR = 0;  
+float kd_sR = 0;        
+float ki_sR = 0; 
+
+double difference = 1;
+double tolerance = 0.2;
+
+volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
+volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
+
+int encoderPosLeft_prev = 0;
+int encoderPosRight_prev = 0;
+
+double motorDegL = 0;
+double motorDegR = 0;
+
+double motor_sethaL = 0;
+double motor_sethaR = 0;
+
+double rad = M_PI / 180;
+double deg = 180 / M_PI;
+
+/* 원하는 x,y 좌표값, 각도값 */
+double x_target_coordinate;     // 수평
+double y_target_coordinate;     // 수직
+double setha_target;
+
+/* 로봇의 선형 변위와 각변위 계산식 */
+double delta_s = 0;
+double delta_setha = 0;
+double combine_delta_setha = 0;
+double calculate_setha_target = 0;
+
+/* 로봇의 위치, 방향각을 좌표로 계산식 */
+double bar_setha = 0 ;
+double bar_setha1 = 0 ; 
+double round_bar_setha;
+
+double x_coordinate = 0;
+double x_prev_coordinate = 0;
+double combine_x_coordinate = 0;
+
+double y_coordinate = 0;
+double y_prev_coordinate = 0;
+double combine_y_coordinate = 0;
+
+double setha_coordinate = 0;
+double setha_prev_coordinate = 0;
+
+/* 거리값, 각도값 계산식 */
+double distance_robot; 
+double distance_target;
+
+double error_d = 0;
+double error_prev_d = 0;
+double error_prev_prev_d = 0;
+
+double error_s = 0;
+double error_prev_s = 0;
+double error_prev_prev_s = 0;
+
+double control_L = 0;
+double delta_vL = 0;
+double control_R = 0;
+double delta_vR = 0;
+
+/* 삭제 */
+double del_ts = 0.01;
+double e_setha_dot = 0;
+double e_setha_total = 0;
+double e_distance_dot = 0;
+double e_distance_total = 0;
+
+double delta_distanceL = 0;
+double delta_distanceR = 0;
+
 // 원하는 값 입력
 struct InputData {
   double x_target_coordinate;
