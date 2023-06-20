@@ -256,19 +256,7 @@ void MotorControl::call(InputData input){
     softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
 
     Calculation(input);       
-    }
-
-    /*if (error_d <= tolerance) {
-      // 방향 설정 
-      digitalWrite(AIN1, LOW);
-      digitalWrite(AIN2, LOW);
-      digitalWrite(BIN3, LOW);
-      digitalWrite(BIN4, LOW);
-      // 속도 설정 
-      softPwmWrite(pwmPinA, 0);
-      softPwmWrite(pwmPinB, 0);    
-    }*/
-
+    
     // 목표값 도달 여부 체크
     if (fabs(error_d) <= tolerance) {
         reachedTarget = true;
@@ -285,6 +273,18 @@ void MotorControl::call(InputData input){
         control_L = 0;
         control_R = 0;
     }
+    }
+
+    /*if (error_d <= tolerance) {
+      // 방향 설정 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, LOW);
+      digitalWrite(BIN3, LOW);
+      digitalWrite(BIN4, LOW);
+      // 속도 설정 
+      softPwmWrite(pwmPinA, 0);
+      softPwmWrite(pwmPinB, 0);    
+    }*/
   }
 }
 
