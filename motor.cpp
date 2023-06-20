@@ -244,7 +244,7 @@ void MotorControl::call(InputData input){
   bool reachedTarget = false;  // 목표값 도달 여부 플래그
 
   // 전진
-  if ((input.x_target_coordinate > 0)&& (input.distance_target > 0)) {
+  if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
     digitalWrite(AIN1, LOW);
     digitalWrite(AIN2, HIGH);
