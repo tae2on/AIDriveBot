@@ -228,7 +228,7 @@ void Calculation(InputData input) {
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
+  //std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
 }
 
 InputData MotorControl::getInput() {
