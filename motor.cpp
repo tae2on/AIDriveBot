@@ -328,8 +328,8 @@ void MotorControl::call(InputData input){
             digitalWrite(BIN4, HIGH);
             
             // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 54));     
-            softPwmWrite(pwmPinB, min(pwmR, 61));         
+            softPwmWrite(pwmPinA, min(pwmL, 58));     
+            softPwmWrite(pwmPinB, min(pwmR, 55));         
 
             Calculation(input);       
             
