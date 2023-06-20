@@ -47,7 +47,7 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 5; // 8     //4.7
+float kp_dL = 3; // 8     //4.7
 float ki_dL = 0; // 0.1   //0.4
 float kd_dL = 0.5; // 0     //0.1 
 
