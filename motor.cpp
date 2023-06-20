@@ -266,10 +266,6 @@ void MotorControl::call(InputData input){
       softPwmWrite(pwmPinA, 0);
       softPwmWrite(pwmPinB, 0);    
     }
-    else {  
-      input = getInput();
-      call(input);
-    }
   }
 }
 
