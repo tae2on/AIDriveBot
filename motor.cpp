@@ -188,7 +188,7 @@ void Calculation(InputData input) {
   combine_y_coordinate += y_coordinate;
 
   // DC모터 방향각
-  //setha_coordinate = setha_prev_coordinate + delta_setha;
+  setha_coordinate = setha_prev_coordinate + delta_setha;
 
   /* 거리값, 각도값 PID 계산식*/
   distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
@@ -228,7 +228,7 @@ void Calculation(InputData input) {
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
 
-  //std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
+  std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
 }
 
 InputData MotorControl::getInput() {
@@ -326,8 +326,11 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
+    input = control.getInput();  // 초기 입력값 받기
+    control.call(input);         // 초기 입력값으로 모터 동작 및 계산 수행
+
     while(true) {
-      InputData input = control.getInput();
+      input = control.getInput();
       control.call(input);
       delay(1000);
     }
