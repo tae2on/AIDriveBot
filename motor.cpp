@@ -132,6 +132,7 @@ double e_distance_total = 0;
 
 double delta_distanceL = 0;
 double delta_distanceR = 0;
+double prev_distance_robot = 0;
 
 int pwmR;
 int pwmL;
@@ -195,13 +196,13 @@ void Calculation(InputData input) {
   setha_coordinate = setha_prev_coordinate + delta_setha;
 
   /* 거리값, 각도값 PID 계산식*/
-  distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2));
+  distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2)) + prev_distance_robot;
   distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
 
   encoderPosLeft_prev = encoderPosLeft;
   encoderPosRight_prev = encoderPosRight;
 
-  error_d = input.distance_target - distance_robot;  
+  error_d = distance_target - distance_robot;  
   e_distance_dot = (error_d - error_prev_d) / del_ts;
   e_distance_total = e_distance_total + error_d;
 
@@ -272,6 +273,7 @@ void MotorControl::call(InputData input){
                 softPwmWrite(pwmPinA, 0);
                 softPwmWrite(pwmPinB, 0);
 
+                prev_distance_robot = distance_robot;
                 auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
                 std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
