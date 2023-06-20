@@ -196,7 +196,7 @@ void Calculation(InputData input) {
   setha_coordinate = setha_prev_coordinate + delta_setha;
 
   /* 거리값, 각도값 PID 계산식*/
-  distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2)) + prev_distance_robot;
+  distance_target = sqrt(pow(x_target_coordinate, 2)+ pow(y_target_coordinate, 2)) + //prev_distance_robot;
   distance_robot = sqrt(pow(combine_x_coordinate, 2) + pow(combine_y_coordinate, 2));
 
   encoderPosLeft_prev = encoderPosLeft;
@@ -236,7 +236,7 @@ void Calculation(InputData input) {
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
 
-  prev_distance_robot = distance_robot;
+  //prev_distance_robot = distance_robot;
 
 }
 
