@@ -45,19 +45,19 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 10; // 8
-float kd_dL = 0.1; // 0.1
+float kp_dL = 8; // 8
+float kd_dL = 0.4; // 0.1
 float ki_dL = 0; // 0 
 
-float kp_dR = 10; // 거리 : 5
-float kd_dR = 0.1; // 거리 : 0.4
+float kp_dR = 6; // 거리 : 5
+float kd_dR = 0.4; // 거리 : 0.4
 float ki_dR = 0; // 0 
 
-float kp_sL = 0; 
+float kp_sL = 0.1; 
 float kd_sL = 0;        
 float ki_sL = 0; 
  
-float kp_sR = 0;  
+float kp_sR = 0.1;  
 float kd_sR = 0;        
 float ki_sR = 0; 
 
@@ -149,6 +149,8 @@ public:
   void call(InputData input);
   InputData getInput();
 };
+
+auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
 // 인터럽트 
 void doEncoderA() {
@@ -256,21 +258,26 @@ void MotorControl::call(InputData input){
             
             // 속도 설정 
             softPwmWrite(pwmPinA, min(pwmL, 52));     
-            softPwmWrite(pwmPinB, min(pwmR, 52));         
+            softPwmWrite(pwmPinB, min(pwmR, 59));         
 
             Calculation(input);       
             
             if (error_d <= tolerance) {
-            // 방향 설정 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, LOW);
-            // 속도 설정 
-            softPwmWrite(pwmPinA, 0);
-            softPwmWrite(pwmPinB, 0);
+                // 방향 설정 
+                digitalWrite(AIN1, LOW);
+                digitalWrite(AIN2, LOW);
+                digitalWrite(BIN3, LOW);
+                digitalWrite(BIN4, LOW);
+                // 속도 설정 
+                softPwmWrite(pwmPinA, 0);
+                softPwmWrite(pwmPinB, 0);
 
-            input = getInput();    
+                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+                del_ts = duration.count();
+
+                input = getInput();    
             }
         }
      //delay(1000);
@@ -317,6 +324,8 @@ int main(){
 
     input = control.getInput();  // 초기 입력값 받기
     control.call(input);         // 초기 입력값으로 모터 동작 및 계산 수행
+
+    std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
 
     while(true) {
       input = control.getInput();
