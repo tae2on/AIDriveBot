@@ -193,7 +193,7 @@ void Calculation(InputData input) {
   combine_y_coordinate += y_coordinate;
 
   // DC모터 방향각//
-  setha_coordinate = setha_prev_coordinate + delta_setha;
+  //setha_coordinate = setha_prev_coordinate + delta_setha;
 
   /* 거리값, 각도값 PID 계산식*/
   distance_target = sqrt(pow(input.x_target_coordinate, 2)+ pow(input.y_target_coordinate, 2)) + prev_distance_robot;
@@ -238,7 +238,7 @@ void Calculation(InputData input) {
   cout << "입력 x = " << input.x_target_coordinate << ", 입력 y = " << input.y_target_coordinate << endl;
   cout << "입력 setha = " << input.setha_target << ", 입력 거리 = " << input.distance_target << endl;
   cout << "거리 = " << distance_robot << endl;
-  cout << "방향각 = "  << setha_coordinate << endl;
+  cout << "방향각 = "  << combine_delta_setha << endl;
   cout << "로봇 x = " << combine_x_coordinate << ", 로봇 y = " << combine_y_coordinate <<endl;
   cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
