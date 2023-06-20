@@ -241,6 +241,7 @@ InputData MotorControl::getInput() {
 }
 
 void MotorControl::call(InputData input){
+  bool reachedTarget = false;  // 목표값 도달 여부 플래그
 
   // 전진
   if ((input.x_target_coordinate > 0)&& (input.distance_target > 0)) {
@@ -255,6 +256,7 @@ void MotorControl::call(InputData input){
     softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
 
     Calculation(input);       
+    }
 
     if (error_d <= tolerance) {
       // 방향 설정 
@@ -265,6 +267,23 @@ void MotorControl::call(InputData input){
       // 속도 설정 
       softPwmWrite(pwmPinA, 0);
       softPwmWrite(pwmPinB, 0);    
+    }
+
+    // 목표값 도달 여부 체크
+    if (fabs(error_d) <= tolerance) {
+        reachedTarget = true;
+        control_L = 0;
+        control_R = 0;
+    }
+
+    // 모터가 목표값에 도달할 때까지 입력을 다시 받음
+    while (!reachedTarget) {
+        Calculation(input);
+        // 목표값 도달 여부 체크
+        if (fabs(error_d) <= tolerance) {
+        reachedTarget = true;
+        control_L = 0;
+        control_R = 0;
     }
   }
 }
