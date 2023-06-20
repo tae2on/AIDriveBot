@@ -53,12 +53,12 @@ float kp_dR = 6; // 거리 : 5
 float kd_dR = 0.4; // 거리 : 0.4
 float ki_dR = 0; // 0 
 
-float kp_sL = 0.1; 
-float kd_sL = 0;        
+float kp_sL = 8; 
+float kd_sL = 0.4;        
 float ki_sL = 0; 
  
-float kp_sR = 0.1;  
-float kd_sR = 0;        
+float kp_sR = 6;  
+float kd_sR = 0.4;        
 float ki_sR = 0; 
 
 double difference = 1;
