@@ -258,7 +258,7 @@ void MotorControl::call(InputData input){
     Calculation(input);       
     }
 
-    if (error_d <= tolerance) {
+    /*if (error_d <= tolerance) {
       // 방향 설정 
       digitalWrite(AIN1, LOW);
       digitalWrite(AIN2, LOW);
@@ -267,7 +267,7 @@ void MotorControl::call(InputData input){
       // 속도 설정 
       softPwmWrite(pwmPinA, 0);
       softPwmWrite(pwmPinB, 0);    
-    }
+    }*/
 
     // 목표값 도달 여부 체크
     if (fabs(error_d) <= tolerance) {
