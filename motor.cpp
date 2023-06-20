@@ -261,9 +261,12 @@ void MotorControl::call(InputData input){
             digitalWrite(BIN4, LOW);
             // 속도 설정 
             softPwmWrite(pwmPinA, 0);
-            softPwmWrite(pwmPinB, 0);    
+            softPwmWrite(pwmPinB, 0);
+
+            input = control.getInput();    
             }
         }
+     delay(1000);
     }
 }
 
