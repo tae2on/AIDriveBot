@@ -1,6 +1,6 @@
 /* 라이다 센서 연동 */
 /* 모터 제어 없음 */
-
+/* 거리 알 수 있으면 -> 9.py 확인하기 (errorL) */
 #include "wiringPi.h"                   // analogRead(), pinMode(), delay() 함수 등 사용 
 #include <softPwm.h>
 #include <iostream>                    // C++ 입출력 라이브러리
@@ -89,7 +89,7 @@ double deg_coordinate = 0;
 double deg_prev_coordinate = 0;
 
 /* 회전반경 구하기 */
-double resolution = 3360;
+double resolution = 3360; // 분해능 
 double motorL_turning_radius = 0;
 double motorR_turning_radius = 0;
 
@@ -157,7 +157,7 @@ void Calculation() {
     x_prev_coordinate = x_coordinate;
 
     y_coordinate = y_prev_coordinate + sin(setha) * delta_s;
-    y_prev_coordinate = y_coordinate;
+    y_prev_coordinate = y_coordinate; 
 
     deg_coordinate = deg_prev_coordinate + delta_deg;
     deg_prev_coordinate = deg_coordinate;
