@@ -144,9 +144,6 @@ class MotorControl {
 public:
   void call(InputData input);
   InputData getInput();
-
-private:
-  InputData input; // 입력값을 저장하기 위한 멤버 변수
 };
 
 // 인터럽트 
@@ -241,8 +238,6 @@ InputData MotorControl::getInput() {
 }
 
 void MotorControl::call(InputData input){
-  // bool reachedTarget = false;  // 목표값 도달 여부 플래그
-
   // 전진
   if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
     // 방향 설정 
@@ -256,26 +251,8 @@ void MotorControl::call(InputData input){
     softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
 
     Calculation(input);       
-    /*
-    // 목표값 도달 여부 체크
-    if (fabs(error_d) <= tolerance) {
-        reachedTarget = true;
-        control_L = 0;
-        control_R = 0;
-    }
-
-    // 모터가 목표값에 도달할 때까지 입력을 다시 받음
-    while (!reachedTarget) {
-        Calculation(input);
-        // 목표값 도달 여부 체크
-        if (fabs(error_d) <= tolerance) {
-        reachedTarget = true;
-        control_L = 0;
-        control_R = 0;
-    }*/
     
-
-    /*if (error_d <= tolerance) {
+    if (error_d <= tolerance) {
       // 방향 설정 
       digitalWrite(AIN1, LOW);
       digitalWrite(AIN2, LOW);
@@ -284,7 +261,7 @@ void MotorControl::call(InputData input){
       // 속도 설정 
       softPwmWrite(pwmPinA, 0);
       softPwmWrite(pwmPinB, 0);    
-    }*/
+    }
   }
 }
 
@@ -327,7 +304,6 @@ int main(){
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
     input = control.getInput();  // 초기 입력값 받기
-    control.call(input);         // 초기 입력값으로 모터 동작 및 계산 수행
 
     while(true) {
       input = control.getInput();
