@@ -144,6 +144,9 @@ class MotorControl {
 public:
   void call(InputData input);
   InputData getInput();
+
+private:
+  InputData input; // 입력값을 저장하기 위한 멤버 변수
 };
 
 // 인터럽트 
