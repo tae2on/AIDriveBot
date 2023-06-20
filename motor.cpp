@@ -323,10 +323,9 @@ int main(){
     wiringPiISR(encPinC, INT_EDGE_BOTH, &doEncoderC);
     wiringPiISR(encPinD, INT_EDGE_BOTH, &doEncoderD);   
 
-    input = control.getInput();  // 초기 입력값 받기
+    /*input = control.getInput();  // 초기 입력값 받기
     control.call(input);         // 초기 입력값으로 모터 동작 및 계산 수행
-    delay(1000);
-
+*/
     while(true) {
       input = control.getInput();
       control.call(input);
