@@ -211,7 +211,7 @@ void Calculation(InputData input) {
   cout << "입력 setha = " << input.setha_target << ", 입력 거리 = " << input.distance_target << endl;
   cout << "거리 = " << distance_robot << endl;
   cout << "방향각 = "  << setha_coordinate << endl;
-  cout << "x = " << combine_x_coordinate << ", y = " << combine_y_coordinate <<endl;
+  cout << "로봇 x = " << combine_x_coordinate << ", 로봇 y = " << combine_y_coordinate <<endl;
   cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
   cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
@@ -236,7 +236,6 @@ void Calculation(InputData input) {
         
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
-  prev_distance_robot = distance_robot;
 
 }
 
@@ -274,6 +273,8 @@ void MotorControl::call(InputData input){
                 // 속도 설정 
                 softPwmWrite(pwmPinA, 0);
                 softPwmWrite(pwmPinB, 0);
+
+                prev_distance_robot = distance_robot;
 
                 auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
