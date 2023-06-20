@@ -263,7 +263,7 @@ void MotorControl::call(InputData input){
             softPwmWrite(pwmPinA, 0);
             softPwmWrite(pwmPinB, 0);
 
-            input = control.getInput();    
+            input = getInput();    
             }
         }
      delay(1000);
