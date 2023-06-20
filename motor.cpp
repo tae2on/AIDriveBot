@@ -216,6 +216,7 @@ void Calculation(InputData input) {
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
   cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
   cout << "pwmL = " << pwmL << ", pwmR = " << pwmR << endl;
+  cout << "과거 로봇 거리 = " << prev_distance_robot << ", distance_target = " << distance_robot << endl;
   cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
   // 왼쪽 DC모터 
