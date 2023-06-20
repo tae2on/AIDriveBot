@@ -132,8 +132,6 @@ double e_distance_total = 0;
 double delta_distanceL = 0;
 double delta_distanceR = 0;
 
-auto start = std::chrono::high_resolution_clock::now();  // 루프 시작 시간 기록
-
 // 원하는 값 입력
 struct InputData {
   double x_target_coordinate;
@@ -228,7 +226,6 @@ void Calculation(InputData input) {
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
 
-  std::this_thread::sleep_for(std::chrono::milliseconds(10));  // 일정 시간 대기
 }
 
 InputData MotorControl::getInput() {
@@ -332,7 +329,7 @@ int main(){
     while(true) {
       input = control.getInput();
       control.call(input);
-      delay(1000);
+      // delay(1000);
     }
   return 0;
 }    
