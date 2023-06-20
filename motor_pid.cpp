@@ -46,13 +46,13 @@ const float proportion = 360. / (84 * 4 * 10);       // 한 바퀴에 약 1350�
 
 /* PID 상수*/
 // 각도 PID
-float kp_dL = 5.3; // 8
+float kp_dL = 5; // 8
 float ki_dL = 0; // 0.1
-float kd_dL = 0; // 0 
+float kd_dL = 0.5; // 0 
 
-float kp_dR = 5.3; // 거리 : 5
+float kp_dR = 5; // 거리 : 5
 float ki_dR = 0; // 거리 : 0.4
-float kd_dR = 0; // 0 
+float kd_dR = 0.5; // 0 
 
 float kp_sL = 0; 
 float kd_sL = 0;        
@@ -261,7 +261,7 @@ void MotorControl::call(InputData input){
             digitalWrite(BIN4, LOW);
             
             // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 59));     
+            softPwmWrite(pwmPinA, min(pwmL, 58));     
             softPwmWrite(pwmPinB, min(pwmR, 53));         
 
             Calculation(input);       
