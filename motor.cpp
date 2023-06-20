@@ -268,6 +268,7 @@ void MotorControl::call(InputData input){
     }
     else {  
       input = getInput();
+      call(input);
     }
   }
 }
