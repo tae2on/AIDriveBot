@@ -236,6 +236,7 @@ void Calculation(InputData input) {
         
   error_prev_prev_d = error_prev_d;
   error_prev_d = error_d;
+  prev_distance_robot = distance_robot;
 
 }
 
@@ -273,8 +274,6 @@ void MotorControl::call(InputData input){
                 // 속도 설정 
                 softPwmWrite(pwmPinA, 0);
                 softPwmWrite(pwmPinB, 0);
-
-                prev_distance_robot = distance_robot;
 
                 auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
