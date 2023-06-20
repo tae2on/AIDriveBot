@@ -133,6 +133,9 @@ double e_distance_total = 0;
 double delta_distanceL = 0;
 double delta_distanceR = 0;
 
+int pwmR;
+int pwmL;
+
 // 원하는 값 입력
 struct InputData {
   double x_target_coordinate;
@@ -209,17 +212,20 @@ void Calculation(InputData input) {
   cout << "degL = " << motor_sethaL << ", degR = " << motor_sethaR <<endl;
   cout << "encR = " << encoderPosRight << ", encL = " << encoderPosLeft << endl;
   cout << "ctrlL = " << control_L << ", ctrlR = " << control_R << endl;
+  cout << "pwmL = " << pwmL << ", pwmR = " << pwmR << endl;
   cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
         
   // 왼쪽 DC모터 
   delta_distanceL = kp_dL * error_d + kd_dL * e_distance_dot;
   delta_vL = delta_distanceL;
   control_L = delta_vL;
+  pwmL = abs(control_L);
 
   // 오른쪽 DC모터 
   delta_distanceR = kp_dR * error_d + kd_dR * e_distance_dot;
   delta_vR = delta_distanceR;
   control_R = delta_vR;
+  pwmR = abs(control_R);
 
   // 이전값
   setha_prev_coordinate = setha_coordinate;
@@ -249,8 +255,8 @@ void MotorControl::call(InputData input){
             digitalWrite(BIN4, LOW);
             
             // 속도 설정 
-            softPwmWrite(pwmPinA, min(abs(control_L), 52.));     
-            softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
+            softPwmWrite(pwmPinA, min(abs(pwmL, 52)));     
+            softPwmWrite(pwmPinB, min(abs(pwmR, 52)));         
 
             Calculation(input);       
             
