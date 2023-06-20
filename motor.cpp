@@ -63,6 +63,7 @@ float ki_sR = 0;
 
 double difference = 1;
 double tolerance = 0.2;
+double sss = 0.0001;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
 volatile int encoderPosRight = 0;              // 엔코더 값 - 왼쪽 
@@ -365,7 +366,7 @@ void MotorControl::call(InputData input){
 
             Calculation(input);       
             
-            if (error_s <= tolerance) {
+            if (error_s <= sss) {
                 // 방향 설정 
                 digitalWrite(AIN1, LOW);
                 digitalWrite(AIN2, LOW);
@@ -399,7 +400,7 @@ void MotorControl::call(InputData input){
 
             Calculation(input);       
             
-            if (error_s <= tolerance) {
+            if (error_s <= sss) {
                 // 방향 설정 
                 digitalWrite(AIN1, LOW);
                 digitalWrite(AIN2, LOW);
@@ -435,7 +436,7 @@ void MotorControl::call(InputData input){
 
             Calculation(input);       
             
-            if (error_s <= tolerance) {
+            if (error_s <= sss) {
                 // 방향 설정 
                 digitalWrite(AIN1, LOW);
                 digitalWrite(AIN2, LOW);
@@ -445,16 +446,39 @@ void MotorControl::call(InputData input){
                 softPwmWrite(pwmPinA, 0);
                 softPwmWrite(pwmPinB, 0);
 
-                prev_distance_robot = distance_robot;
+                if (error_d > tolerance) {
+                  // 방향 설정 
+                  digitalWrite(AIN1, LOW);
+                  digitalWrite(AIN2, HIGH);
+                  digitalWrite(BIN3, HIGH);
+                  digitalWrite(BIN4, LOW);
+            
+                  // 속도 설정 
+                  softPwmWrite(pwmPinA, min(pwmL, 52));     
+                  softPwmWrite(pwmPinB, min(pwmR, 59));                
+            
+                    if (error_d <= tolerance) {
+                      // 방향 설정 
+                      digitalWrite(AIN1, LOW);
+                      digitalWrite(AIN2, LOW);
+                      digitalWrite(BIN3, LOW);
+                      digitalWrite(BIN4, LOW);
+                      // 속도 설정 
+                      softPwmWrite(pwmPinA, 0);
+                      softPwmWrite(pwmPinB, 0);
 
-                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                del_ts = duration.count();
+                      prev_distance_robot = distance_robot;
 
-                input = getInput();    
+                      auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+                      auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+                      std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+                      del_ts = duration.count();
+
+                      input = getInput();
+                    }
+                }       
             }
-        }
+          }
         // 2사분면 
           if ((input.x_target_coordinate < 0) && (input.y_target_coordinate > 0)){
             // 방향 조절 
@@ -469,7 +493,7 @@ void MotorControl::call(InputData input){
 
             Calculation(input);       
             
-            if (error_s <= tolerance) {
+            if (error_s <= sss) {
                 // 방향 설정 
                 digitalWrite(AIN1, LOW);
                 digitalWrite(AIN2, LOW);
@@ -503,7 +527,7 @@ void MotorControl::call(InputData input){
 
             Calculation(input);       
             
-            if (error_s <= tolerance) {
+            if (error_s <= sss) {
                 // 방향 설정 
                 digitalWrite(AIN1, LOW);
                 digitalWrite(AIN2, LOW);
@@ -537,7 +561,7 @@ void MotorControl::call(InputData input){
 
             Calculation(input);       
             
-            if (error_s <= tolerance) {
+            if (error_s <= sss) {
                 // 방향 설정 
                 digitalWrite(AIN1, LOW);
                 digitalWrite(AIN2, LOW);
