@@ -256,7 +256,7 @@ void MotorControl::call(InputData input){
     softPwmWrite(pwmPinB, min(abs(control_R), 55.));         
 
     Calculation(input);       
-    
+    /*
     // 목표값 도달 여부 체크
     if (fabs(error_d) <= tolerance) {
         reachedTarget = true;
@@ -272,8 +272,8 @@ void MotorControl::call(InputData input){
         reachedTarget = true;
         control_L = 0;
         control_R = 0;
-    }
-    }
+    }*/
+    
 
     /*if (error_d <= tolerance) {
       // 방향 설정 
