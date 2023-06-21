@@ -518,26 +518,25 @@ void MotorControl::call(InputData input){
             // 속도 설정 
             softPwmWrite(pwmPinA, min(pwmL, 52));     
             softPwmWrite(pwmPinB, min(pwmR, 59));  
-          }              
-            
-          else if (error_d <= tolerance) {
-            // 방향 설정 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, LOW);
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, LOW);
-            // 속도 설정 
-            softPwmWrite(pwmPinA, 0);
-            softPwmWrite(pwmPinB, 0);
+            if (error_d <= tolerance) {
+              // 방향 설정 
+              digitalWrite(AIN1, LOW);
+              digitalWrite(AIN2, LOW);
+              digitalWrite(BIN3, LOW);
+              digitalWrite(BIN4, LOW);
+              // 속도 설정 
+              softPwmWrite(pwmPinA, 0);
+              softPwmWrite(pwmPinB, 0);
 
-            prev_distance_robot = distance_robot;
+              prev_distance_robot = distance_robot;
 
-            auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-            std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-            del_ts = duration.count();
+              auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+              auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+              std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+              del_ts = duration.count();
 
-            input = getInput();
+              input = getInput();
+            }
           }          
         }
       }
