@@ -278,10 +278,10 @@ void MotorControl::call(InputData input){
         // 전진
         if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
             // 방향 설정 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
-            digitalWrite(BIN3, HIGH);
-            digitalWrite(BIN4, LOW);
+            digitalWrite(AIN1, HIGH);
+            digitalWrite(AIN2, LOW);
+            digitalWrite(BIN3, LOW);
+            digitalWrite(BIN4, HIGH);
             
             // 속도 설정 
             softPwmWrite(pwmPinA, min(pwmL, 58));     
