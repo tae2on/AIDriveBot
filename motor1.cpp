@@ -458,7 +458,9 @@ void MotorControl::call(InputData input){
             
                   // 속도 설정 
                   softPwmWrite(pwmPinA, min(pwmL, 52));     
-                  softPwmWrite(pwmPinB, min(pwmR, 59));                
+                  softPwmWrite(pwmPinB, min(pwmR, 59));      
+                  
+                  std::cout << "회전 후 정지 ";          
                     
                   if (error_d <= tolerance) {
                     // 방향 설정 
