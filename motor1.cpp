@@ -55,11 +55,11 @@ float kp_dR = 5; // 거리 : 5
 float ki_dR = 0; // 거리 : 0.4
 float kd_dR = 10; // 0 
 
-float kp_sL = 0; 
+float kp_sL = 2; 
 float kd_sL = 0;        
 float ki_sL = 0; 
  
-float kp_sR = 0;  
+float kp_sR = 2;  
 float kd_sR = 0;        
 float ki_sR = 0; 
 
