@@ -463,8 +463,8 @@ void MotorControl::call(InputData input){
                   softPwmWrite(pwmPinB, min(pwmR, 59));      
                   
                   std::cout << "회전 후 전진 ";          
-                    
-                  if (error_d <= tolerance) {
+                }    
+                  else if (error_d <= tolerance) {
                     // 방향 설정 
                     digitalWrite(AIN1, LOW);
                     digitalWrite(AIN2, LOW);
@@ -484,9 +484,8 @@ void MotorControl::call(InputData input){
                     del_ts = duration.count();
 
                     input = getInput();
-                  }               
-                }
-            }       
+                  }
+            }        
         }
 
         // 2사분면 
