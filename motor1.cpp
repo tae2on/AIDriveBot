@@ -460,7 +460,7 @@ void MotorControl::call(InputData input){
                   softPwmWrite(pwmPinA, min(pwmL, 52));     
                   softPwmWrite(pwmPinB, min(pwmR, 59));                
             
-                    if (error_d <= tolerance) {
+                    if (abs(error_d) <= tolerance) {
                       // 방향 설정 
                       digitalWrite(AIN1, LOW);
                       digitalWrite(AIN2, LOW);
