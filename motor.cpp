@@ -250,7 +250,7 @@ void Calculation(InputData input) {
   cout << "과거 로봇 거리 = " << prev_distance_robot << ", distance_target = " << distance_robot << endl;
   cout << "error_d = " << error_d << ", error_prev_d = " << error_prev_d << ", error_prev_prev_d = " << error_prev_prev_d << endl;        
   cout << "error_s = " << error_s << endl;
-  
+
   // 왼쪽 DC모터 
   delta_distanceL = kp_dL * error_d + kd_dL * e_distance_dot;
   delta_vL = delta_distanceL + (kp_sL * error_s) + (ki_sL * e_setha_total) + (kd_sL * e_setha_dot);
@@ -440,7 +440,7 @@ void MotorControl::call(InputData input){
 
         Calculation(input);       
             
-        if (error_s <= sss) {
+        if (error_s < sss) {
           // 방향 설정 
           digitalWrite(AIN1, LOW);
           digitalWrite(AIN2, LOW);
