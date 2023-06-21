@@ -462,15 +462,6 @@ void MotorControl::call(InputData input){
                 }
                     
                 else if (error_d <= tolerance) {
-                  // 방향 설정 
-                  digitalWrite(AIN1, LOW);
-                  digitalWrite(AIN2, LOW);
-                  digitalWrite(BIN3, LOW);
-                  digitalWrite(BIN4, LOW);
-                  // 속도 설정 
-                  softPwmWrite(pwmPinA, 0);
-                  softPwmWrite(pwmPinB, 0);
-
                   prev_distance_robot = distance_robot;
 
                   auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
