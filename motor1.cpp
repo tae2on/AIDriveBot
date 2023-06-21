@@ -437,7 +437,9 @@ void MotorControl::call(InputData input){
             softPwmWrite(pwmPinA, min(pwmL, 70));     
             softPwmWrite(pwmPinB, min(pwmR, 10));         
 
-            Calculation(input);       
+            Calculation(input);      
+            
+            std::cout << "회전 ";     
             
             if (error_s <= sss) {
                 // 방향 설정 
