@@ -422,8 +422,8 @@ void MotorControl::call(InputData input){
           // 1사분면 
           if ((input.x_target_coordinate > 0) && (input.y_target_coordinate > 0)){
             // 방향 조절 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
+            digitalWrite(AIN1, HIGH);
+            digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
             digitalWrite(BIN4, HIGH);
             
@@ -447,10 +447,10 @@ void MotorControl::call(InputData input){
 
                 if (error_d > tolerance) {
                   // 방향 설정 
-                  digitalWrite(AIN1, LOW);
-                  digitalWrite(AIN2, HIGH);
+                  digitalWrite(AIN1, HIGH);
+                  digitalWrite(AIN2, LOW);
                   digitalWrite(BIN3, LOW);
-                  digitalWrite(BIN4, HIGH);
+                  digitalWrite(BIN4, HIGH);   
             
                   // 속도 설정 
                   softPwmWrite(pwmPinA, min(pwmL, 52));     
@@ -513,10 +513,10 @@ void MotorControl::call(InputData input){
 
                 if (error_d > tolerance) {
                   // 방향 설정 
-                  digitalWrite(AIN1, LOW);
-                  digitalWrite(AIN2, HIGH);
+                  digitalWrite(AIN1, HIGH);
+                  digitalWrite(AIN2, LOW);
                   digitalWrite(BIN3, LOW);
-                  digitalWrite(BIN4, HIGH);
+                  digitalWrite(BIN4, HIGH);   
             
                   // 속도 설정 
                   softPwmWrite(pwmPinA, min(pwmL, 52));     
@@ -573,11 +573,11 @@ void MotorControl::call(InputData input){
                 softPwmWrite(pwmPinB, 0);
 
                 if (error_d > tolerance) {
-                  // 방향 설정 
-                  digitalWrite(AIN1, LOW);
-                  digitalWrite(AIN2, HIGH);
+                  // 방향 설정
+                  digitalWrite(AIN1, HIGH);
+                  digitalWrite(AIN2, LOW);
                   digitalWrite(BIN3, LOW);
-                  digitalWrite(BIN4, HIGH);
+                  digitalWrite(BIN4, HIGH);   
             
                   // 속도 설정 
                   softPwmWrite(pwmPinA, min(pwmL, 52));     
@@ -634,16 +634,16 @@ void MotorControl::call(InputData input){
 
                     if (error_d > tolerance) {
                     // 방향 설정 
-                    digitalWrite(AIN1, LOW);
-                    digitalWrite(AIN2, HIGH);
-                    digitalWrite(BIN3, LOW);
-                    digitalWrite(BIN4, HIGH);
+                        digitalWrite(AIN1, HIGH);
+                        digitalWrite(AIN2, LOW);
+                        digitalWrite(BIN3, LOW);
+                        digitalWrite(BIN4, HIGH);   
                 
-                    // 속도 설정 
-                    softPwmWrite(pwmPinA, min(pwmL, 52));     
-                    softPwmWrite(pwmPinB, min(pwmR, 59));      
+                        // 속도 설정 
+                        softPwmWrite(pwmPinA, min(pwmL, 52));     
+                        softPwmWrite(pwmPinB, min(pwmR, 59));      
                     
-                    std::cout << "회전 후 전진 ";          
+                        std::cout << "회전 후 전진 ";          
                     }    
                     else if (error_d <= tolerance) {
                         // 방향 설정 
