@@ -462,7 +462,7 @@ void MotorControl::call(InputData input){
                   softPwmWrite(pwmPinA, min(pwmL, 52));     
                   softPwmWrite(pwmPinB, min(pwmR, 59));      
                   
-                  std::cout << "회전 후 정지 ";          
+                  std::cout << "회전 후 전진 ";          
                     
                   if (error_d <= tolerance) {
                     // 방향 설정 
@@ -475,6 +475,8 @@ void MotorControl::call(InputData input){
                     softPwmWrite(pwmPinB, 0);  
 
                     prev_distance_robot = distance_robot;
+
+                    std::cout << "회전 후 정지 ";                  
 
                     auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
