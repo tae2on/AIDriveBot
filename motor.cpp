@@ -480,9 +480,8 @@ void MotorControl::call(InputData input){
             del_ts = duration.count();
 
             input = getInput();
-            }
-          }       
-        }
+          }
+        }       
       }
 
       // 2사분면 
