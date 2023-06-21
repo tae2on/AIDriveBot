@@ -3,7 +3,7 @@
 // 1. 처음에 값을 입력해도 정지 -> 해결
 // 2. 원하는 거리까지 가고난 후 정지 안 함 -> 해결 
 //   2-1. 거리가 더 감 -> 해결  
-//   2-2. 전진*후진 PID 값 수정(거리)
+//   2-2. 전진*후진 PID 값 수정(거리) -> 전류 높이기
 // 3. 초기 입력값 동작 확인 후 다음 입력값 동작 확인 -> 해결
 // 4. 각도 동작할 때 멈추는 코드 확인 
 // 5. 거리 PID, 각도 PID 값 맞추기 
@@ -270,7 +270,6 @@ void Calculation(InputData input) {
 
   error_prev_prev_s = error_prev_s;
   error_prev_s = error_s;
-
 }
 
 InputData MotorControl::getInput() {
@@ -283,263 +282,267 @@ InputData MotorControl::getInput() {
 }
 
 void MotorControl::call(InputData input){
-    while (true){
-        // 전진
-        if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+  while (true){
+    // 전진
+    if ((input.x_target_coordinate > 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+      // 방향 설정 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      digitalWrite(BIN3, HIGH);
+      digitalWrite(BIN4, LOW);
+            
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(pwmL, 58));     
+      softPwmWrite(pwmPinB, min(pwmR, 55));         
+
+      Calculation(input);       
+            
+      if (error_d <= tolerance) {
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, LOW);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 0);
+        softPwmWrite(pwmPinB, 0);
+
+        prev_distance_robot = distance_robot;
+
+        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+        del_ts = duration.count();
+
+        input = getInput();    
+      }
+    }
+
+    // 후진
+    else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
+      // 방향 설정 
+      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN2, LOW);
+      digitalWrite(BIN3, LOW);
+      digitalWrite(BIN4, HIGH);
+            
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(pwmL, 58));     
+      softPwmWrite(pwmPinB, min(pwmR, 55));         
+
+      Calculation(input);       
+            
+      if (error_d <= tolerance) {
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, LOW);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 0);
+        softPwmWrite(pwmPinB, 0);
+
+        prev_distance_robot = distance_robot;
+
+        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+        del_ts = duration.count();
+
+        input = getInput();    
+      }
+    }        
+
+    // 제자리 회전 (왼쪽 방향으로 회전)
+    else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target > 0) && (input.distance_target == 0)) {
+      // 방향 설정 
+      digitalWrite(AIN1, HIGH);
+      digitalWrite(AIN2, LOW);
+      digitalWrite(BIN3, HIGH);
+      digitalWrite(BIN4, LOW);
+      
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(pwmL, 52));     
+      softPwmWrite(pwmPinB, min(pwmR, 59));         
+
+      Calculation(input);       
+            
+      if (error_s <= sss) {
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, LOW);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 0);
+        softPwmWrite(pwmPinB, 0);
+
+        prev_distance_robot = distance_robot;
+
+        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+        del_ts = duration.count();
+
+        input = getInput();    
+      }
+    }
+
+    // 제자리 회전 (오른쪽 방향으로 회전)
+    else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target < 0) && (input.distance_target == 0)) {
+      // 방향 설정 
+      digitalWrite(AIN1, LOW);
+      digitalWrite(AIN2, HIGH);
+      digitalWrite(BIN3, LOW);
+      digitalWrite(BIN4, HIGH);
+            
+      // 속도 설정 
+      softPwmWrite(pwmPinA, min(pwmL, 52));     
+      softPwmWrite(pwmPinB, min(pwmR, 59));         
+
+      Calculation(input);       
+            
+      if (error_s <= sss) {
+        // 방향 설정 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);
+        digitalWrite(BIN4, LOW);
+        // 속도 설정 
+        softPwmWrite(pwmPinA, 0);
+        softPwmWrite(pwmPinB, 0);
+
+        prev_distance_robot = distance_robot;
+
+        auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+        std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+        del_ts = duration.count();
+
+        input = getInput();    
+      }
+    }
+        
+    // 회전
+    else if ((input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)){
+      // 1사분면 
+      if ((input.x_target_coordinate > 0) && (input.y_target_coordinate > 0)){
+        // 방향 조절 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
+            
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(pwmL, 70));     
+        softPwmWrite(pwmPinB, min(pwmR, 10));         
+
+        Calculation(input);       
+            
+        if (error_s <= sss) {
+          // 방향 설정 
+          digitalWrite(AIN1, LOW);
+          digitalWrite(AIN2, LOW);
+          digitalWrite(BIN3, LOW);
+          digitalWrite(BIN4, LOW);
+          // 속도 설정 
+          softPwmWrite(pwmPinA, 0);
+          softPwmWrite(pwmPinB, 0);
+
+          if (error_d > tolerance) {
             // 방향 설정 
             digitalWrite(AIN1, LOW);
             digitalWrite(AIN2, HIGH);
-            digitalWrite(BIN3, HIGH);
-            digitalWrite(BIN4, LOW);
-            
-            // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 58));     
-            softPwmWrite(pwmPinB, min(pwmR, 55));         
-
-            Calculation(input);       
-            
-            if (error_d <= tolerance) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
-
-                prev_distance_robot = distance_robot;
-
-                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                del_ts = duration.count();
-
-                input = getInput();    
-            }
-        }
-
-        // 후진
-        else if ((input.x_target_coordinate < 0) && (input.y_target_coordinate == 0) && (input.setha_target == 0) && (input.distance_target > 0)) {
-            // 방향 설정 
-            digitalWrite(AIN1, HIGH);
-            digitalWrite(AIN2, LOW);
             digitalWrite(BIN3, LOW);
             digitalWrite(BIN4, HIGH);
             
             // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 58));     
-            softPwmWrite(pwmPinB, min(pwmR, 55));         
-
-            Calculation(input);       
+            softPwmWrite(pwmPinA, min(pwmL, 52));     
+            softPwmWrite(pwmPinB, min(pwmR, 59));                
             
             if (error_d <= tolerance) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
+              // 방향 설정 
+              digitalWrite(AIN1, LOW);
+              digitalWrite(AIN2, LOW);
+              digitalWrite(BIN3, LOW);
+              digitalWrite(BIN4, LOW);
+              // 속도 설정 
+              softPwmWrite(pwmPinA, 0);
+              softPwmWrite(pwmPinB, 0);
 
-                prev_distance_robot = distance_robot;
+              prev_distance_robot = distance_robot;
 
-                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                del_ts = duration.count();
+              auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+              auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+              std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+              del_ts = duration.count();
 
-                input = getInput();    
+              input = getInput();
             }
+          }       
         }
+      }
 
-        // 제자리 회전 (왼쪽 방향으로 회전)
-        else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target > 0) && (input.distance_target == 0)) {
-            // 방향 설정 
-            digitalWrite(AIN1, HIGH);
-            digitalWrite(AIN2, LOW);
-            digitalWrite(BIN3, HIGH);
-            digitalWrite(BIN4, LOW);
+      // 2사분면 
+      if ((input.x_target_coordinate < 0) && (input.y_target_coordinate > 0)){
+        // 방향 조절 
+        digitalWrite(AIN1, LOW);
+        digitalWrite(AIN2, HIGH);
+        digitalWrite(BIN3, HIGH);
+        digitalWrite(BIN4, LOW);
+          
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(pwmL, 10));     
+        softPwmWrite(pwmPinB, min(pwmR, 70));         
+
+        Calculation(input);       
             
-            // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 52));     
-            softPwmWrite(pwmPinB, min(pwmR, 59));         
+        if (error_s <= sss) {
+          // 방향 설정 
+          digitalWrite(AIN1, LOW);
+          digitalWrite(AIN2, LOW);
+          digitalWrite(BIN3, LOW);
+          digitalWrite(BIN4, LOW);
+          // 속도 설정 
+          softPwmWrite(pwmPinA, 0);
+          softPwmWrite(pwmPinB, 0);
 
-            Calculation(input);       
-            
-            if (error_s <= sss) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
+          prev_distance_robot = distance_robot;
 
-                prev_distance_robot = distance_robot;
+          auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
+          auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+          std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
+          del_ts = duration.count();
 
-                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                del_ts = duration.count();
-
-                input = getInput();    
-            }
+          input = getInput();    
         }
-        // 제자리 회전 (오른쪽 방향으로 회전)
-        else if ((input.x_target_coordinate == 0) && (input.y_target_coordinate == 0) && (input.setha_target < 0) && (input.distance_target == 0)) {
-            // 방향 설정 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
-            digitalWrite(BIN3, LOW);
-            digitalWrite(BIN4, HIGH);
+      }
+
+      // 3사분면 
+      if ((input.x_target_coordinate < 0) && (input.y_target_coordinate < 0)){
+        // 방향 조절 
+        digitalWrite(AIN1, HIGH);
+        digitalWrite(AIN2, LOW);
+        digitalWrite(BIN3, LOW);   
+        digitalWrite(BIN4, HIGH);
             
-            // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 52));     
-            softPwmWrite(pwmPinB, min(pwmR, 59));         
+        // 속도 설정 
+        softPwmWrite(pwmPinA, min(pwmL, 10));     
+        softPwmWrite(pwmPinB, min(pwmR, 70));         
 
-            Calculation(input);       
+        Calculation(input);       
             
-            if (error_s <= sss) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
+        if (error_s <= sss) {
+          // 방향 설정 
+          digitalWrite(AIN1, LOW);
+          digitalWrite(AIN2, LOW);
+          digitalWrite(BIN3, LOW);
+          digitalWrite(BIN4, LOW);
+          // 속도 설정 
+          softPwmWrite(pwmPinA, 0);
+          softPwmWrite(pwmPinB, 0);
 
-                prev_distance_robot = distance_robot;
-
-                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                del_ts = duration.count();
-
-                input = getInput();    
-            }
-        }
-        // 회전
-        else if ((input.x_target_coordinate != 0) && (input.y_target_coordinate != 0) && (input.setha_target != 0) && (input.distance_target >= 0)){
-          // 1사분면 
-          if ((input.x_target_coordinate > 0) && (input.y_target_coordinate > 0)){
-            // 방향 조절 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
-            digitalWrite(BIN3, HIGH);
-            digitalWrite(BIN4, LOW);
-            
-            // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 70));     
-            softPwmWrite(pwmPinB, min(pwmR, 10));         
-
-            Calculation(input);       
-            
-            if (error_s <= sss) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
-
-                if (error_d > tolerance) {
-                  // 방향 설정 
-                  digitalWrite(AIN1, LOW);
-                  digitalWrite(AIN2, HIGH);
-                  digitalWrite(BIN3, HIGH);
-                  digitalWrite(BIN4, LOW);
-            
-                  // 속도 설정 
-                  softPwmWrite(pwmPinA, min(pwmL, 52));     
-                  softPwmWrite(pwmPinB, min(pwmR, 59));                
-            
-                    if (error_d <= tolerance) {
-                      // 방향 설정 
-                      digitalWrite(AIN1, LOW);
-                      digitalWrite(AIN2, LOW);
-                      digitalWrite(BIN3, LOW);
-                      digitalWrite(BIN4, LOW);
-                      // 속도 설정 
-                      softPwmWrite(pwmPinA, 0);
-                      softPwmWrite(pwmPinB, 0);
-
-                      prev_distance_robot = distance_robot;
-
-                      auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                      auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                      std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                      del_ts = duration.count();
-
-                      input = getInput();
-                    }
-                }       
-            }
-          }
-        // 2사분면 
-          if ((input.x_target_coordinate < 0) && (input.y_target_coordinate > 0)){
-            // 방향 조절 
-            digitalWrite(AIN1, LOW);
-            digitalWrite(AIN2, HIGH);
-            digitalWrite(BIN3, HIGH);
-            digitalWrite(BIN4, LOW);
-            
-            // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 10));     
-            softPwmWrite(pwmPinB, min(pwmR, 70));         
-
-            Calculation(input);       
-            
-            if (error_s <= sss) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
-
-                prev_distance_robot = distance_robot;
-
-                auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-                std::cout << "지난 시간: " << duration.count() << "밀리초" << std::endl;
-                del_ts = duration.count();
-
-                input = getInput();    
-            }
-        }
-        // 3사분면 
-          if ((input.x_target_coordinate < 0) && (input.y_target_coordinate < 0)){
-            // 방향 조절 
-            digitalWrite(AIN1, HIGH);
-            digitalWrite(AIN2, LOW);
-            digitalWrite(BIN3, LOW);   
-            digitalWrite(BIN4, HIGH);
-            
-            // 속도 설정 
-            softPwmWrite(pwmPinA, min(pwmL, 10));     
-            softPwmWrite(pwmPinB, min(pwmR, 70));         
-
-            Calculation(input);       
-            
-            if (error_s <= sss) {
-                // 방향 설정 
-                digitalWrite(AIN1, LOW);
-                digitalWrite(AIN2, LOW);
-                digitalWrite(BIN3, LOW);
-                digitalWrite(BIN4, LOW);
-                // 속도 설정 
-                softPwmWrite(pwmPinA, 0);
-                softPwmWrite(pwmPinB, 0);
-
-                prev_distance_robot = distance_robot;
+          prev_distance_robot = distance_robot;
 
                 auto end = std::chrono::high_resolution_clock::now();  // 루프 종료 시간 기록
                 auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
