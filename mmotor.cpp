@@ -64,7 +64,7 @@ float kd_sR = 0;
 float ki_sR = 0; 
 
 double difference = 1;
-double tolerance = 0.2;
+double tolerance = 1.5;
 double sss = 0.0001;
 
 volatile int encoderPosLeft = 0;              // 엔코더 값 - 왼쪽
