@@ -1,0 +1,63 @@
+#include <iostream>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <string.h>
+#include "ros/ros.h"
+#include "std_msgs/String.h"
+
+#define SERVER_IP "192.168.0.25"
+#define SERVER_PORT 12346
+
+int main(int argc, char *argv[]) {
+    // Create a ROS node
+    ros::init(argc, argv, "tcpip_topic_publisher");
+    ros::NodeHandle nh;
+    ros::Publisher pub = nh.advertise<std_msgs::String>("/client_messages", 10);
+
+    int sock = 0;
+    struct sockadder_in serv_addr;
+
+    // Create a socket
+    if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+        printf("\n Socket creation error \n");
+        return -1;
+    }
+
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(SERVER_PORT);
+
+    // Convert IPv4 and IPv6 addresses from text to binary form
+    if (inet_pton(AF_INET, IP_ADDRESS, &serv_addr.sin_addr) <= 0) {
+        printf("\nInvalid address/ Address not supported \n");
+        return -1;
+    }
+
+    // Connect to the server
+    if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0) {
+        printf("\nConnection Failed \n");
+        return -1;
+    }
+
+    while (ros::ok()) {
+        std::string message;
+        std_msgs::String msg;
+
+        std::cout << "Enter a message to send: ";
+        std::getline(std::cin, message);
+
+        msg.date = message;
+
+        if(send(sock, msg.data.c_str(), msg.data.size(), 0) < 0) {
+           perror("Send failed");
+           return -1;
+        }
+
+        pub.publish(msg);
+
+        ros::spinOnce();
+    }
+
+    close(sock);
+    return 0;
+}
